@@ -1,0 +1,176 @@
+# =============================================================================
+# tests/fixtures/fealib.yaml
+# 集成测试用的特征配置（与 fealib-cpp/test/testdata/fealib.yaml 保持同步）
+# =============================================================================
+
+user_features:
+  - name: user_id
+    op: identity
+    input:
+      - !var_int64 user.uid
+    hash:
+      mask: 1048575       # 2^20 - 1
+      prefix: "uid_"
+    export:
+      slot: 0
+
+  - name: user_country
+    op: identity
+    input:
+      - !var_string user.country
+    hash:
+      mask: 65535
+      prefix: "co_"
+    export:
+      slot: 1
+
+  - name: user_install_count
+    op: identity
+    input:
+      - !var_float user.install_cnt
+    export:
+      slot: 2
+      len: 1
+      padding: 0.0
+
+item_features:
+  - name: item_packagename
+    op: identity
+    input:
+      - !var_string item.packagename
+    hash:
+      mask: 1048575
+      prefix: "pkg_"
+    export:
+      slot: 10
+
+  - name: item_category
+    op: identity
+    input:
+      - !var_string item.category
+    hash:
+      mask: 65535
+      prefix: "cat_"
+    export:
+      slot: 11
+
+  - name: item_categoryname
+    op: identity
+    input:
+      - !var_string item.categoryname
+    hash:
+      mask: 65535
+      prefix: "catn_"
+    export:
+      slot: 12
+
+  - name: item_lan
+    op: identity
+    input:
+      - !var_string item.lan
+    hash:
+      mask: 65535
+      prefix: "lan_"
+    export:
+      slot: 13
+
+  - name: item_status
+    op: identity
+    input:
+      - !var_string item.status
+    hash:
+      mask: 255
+      prefix: "st_"
+    export:
+      slot: 14
+
+  - name: item_tokens_hash
+    op: identity
+    input:
+      - !var_string_array item.item_tokens
+    hash:
+      mask: 1048575
+      prefix: "tok_"
+    export:
+      slot: 20
+      len: 8
+      padding: 0
+
+  - name: item_star
+    op: identity
+    input:
+      - !var_float item.star
+    export:
+      slot: 30
+      len: 1
+      padding: 0.0
+
+  - name: item_score
+    op: identity
+    input:
+      - !var_float item.score
+    export:
+      slot: 31
+      len: 1
+      padding: 0.0
+
+  - name: item_downloadcount
+    op: identity
+    input:
+      - !var_int32 item.downloadcount
+    hash:
+      prefix: "i_dlc_"
+    export:
+      slot: 40
+
+  - name: item_expose_uv_7d
+    op: identity
+    input:
+      - !var_int32 item.expose_uv_7d
+    hash:
+      prefix: "i_euv7d_"
+    export:
+      slot: 41
+
+  - name: item_click_uv_7d
+    op: identity
+    input:
+      - !var_int32 item.click_uv_7d
+    hash:
+      prefix: "i_cuv7d_"
+    export:
+      slot: 42
+
+  - name: item_country_expose_uv_7d
+    op: identity
+    input:
+      - !var_int32 item.country_expose_uv_7d
+    hash:
+      prefix: "i_euv7d_co_"
+    export:
+      slot: 50
+
+cross_features:
+  - name: cross_user_country_item_category
+    op: concat_ws
+    input:
+      - !const_string "@"
+      - !var_string user.country
+      - !var_string item.categoryname
+    hash:
+      mask: 131071        # 2^17 - 1
+      prefix: "co_cat_"
+    export:
+      slot: 60
+
+  - name: cross_user_country_item_lan
+    op: concat_ws
+    input:
+      - !const_string "@"
+      - !var_string user.country
+      - !var_string item.lan
+    hash:
+      mask: 65535
+      prefix: "co_lan_"
+    export:
+      slot: 61
