@@ -1,0 +1,1306 @@
+# =============================================================================
+# tests/fixtures/ops_builtin.yaml
+# 单元测试用的 ops 表达式配置
+#
+# 每个 feature 定义对应 OP单元测试用例.csv 中的一个测试子用例。
+# 通过 pyfealib.Fealib.run(user_feats, {}, []) 执行，不需要加载 collection 数据。
+#
+# 输出规则：
+#   - float 结果 → export.slot 为 dense (slot < 100)
+#   - int32/int64 结果（无 hash）→ export.slot 为 dense 整型（slot 200~）
+#   - string 结果 → export.slot 为 sparse + hash (slot 300~)
+#   - 数组结果 → export.slot 为 sparse (slot 400~)
+# =============================================================================
+
+user_features:
+
+  # ============================================================================
+  # TC-UNIT-ARITH-001: add / sub / mul / div
+  # ============================================================================
+
+  # 001-01: add(3.5f, 2.0f) = 5.5
+  - name: arith_001_01
+    op: add
+    input:
+      - !var_float user.a_f32
+      - !var_float user.b_f32
+    export:
+      slot: 0
+      len: 1
+      padding: 0.0
+
+  # 001-02: add(10, 3) int32 = 13
+  - name: arith_001_02
+    op: add
+    input:
+      - !var_int32 user.a_i32
+      - !var_int32 user.b_i32
+    export:
+      slot: 1
+      len: 1
+      padding: 0.0
+
+  # 001-03: add(1000000000LL, 2000000000LL) = 3000000000
+  - name: arith_001_03
+    op: add
+    input:
+      - !var_int64 user.a_i64
+      - !var_int64 user.b_i64
+    export:
+      slot: 2
+      len: 1
+      padding: 0.0
+
+  # 001-04: sub(10.0f, 3.5f) = 6.5
+  - name: arith_001_04
+    op: sub
+    input:
+      - !var_float user.c_f32
+      - !var_float user.d_f32
+    export:
+      slot: 3
+      len: 1
+      padding: 0.0
+
+  # 001-05: sub(10, 3) int32 = 7
+  - name: arith_001_05
+    op: sub
+    input:
+      - !var_int32 user.c_i32
+      - !var_int32 user.d_i32
+    export:
+      slot: 4
+      len: 1
+      padding: 0.0
+
+  # 001-06: sub(5000000000LL, 1LL) = 4999999999
+  - name: arith_001_06
+    op: sub
+    input:
+      - !var_int64 user.c_i64
+      - !var_int64 user.d_i64
+    export:
+      slot: 5
+      len: 1
+      padding: 0.0
+
+  # 001-07: mul(2.0f, 4.0f) = 8.0
+  - name: arith_001_07
+    op: mul
+    input:
+      - !var_float user.e_f32
+      - !var_float user.f_f32
+    export:
+      slot: 6
+      len: 1
+      padding: 0.0
+
+  # 001-08: mul(3, 4) int32 = 12
+  - name: arith_001_08
+    op: mul
+    input:
+      - !var_int32 user.e_i32
+      - !var_int32 user.f_i32
+    export:
+      slot: 7
+      len: 1
+      padding: 0.0
+
+  # 001-09: mul(1000000LL, 1000000LL) = 1000000000000
+  - name: arith_001_09
+    op: mul
+    input:
+      - !var_int64 user.e_i64
+      - !var_int64 user.f_i64
+    export:
+      slot: 8
+      len: 1
+      padding: 0.0
+
+  # 001-10: div(9.0f, 3.0f) = 3.0
+  - name: arith_001_10
+    op: div
+    input:
+      - !var_float user.g_f32
+      - !var_float user.h_f32
+    export:
+      slot: 9
+      len: 1
+      padding: 0.0
+
+  # 001-11: div(9, 3) int32 = 3
+  - name: arith_001_11
+    op: div
+    input:
+      - !var_int32 user.g_i32
+      - !var_int32 user.h_i32
+    export:
+      slot: 10
+      len: 1
+      padding: 0.0
+
+  # 001-12: div(9LL, 3LL) = 3
+  - name: arith_001_12
+    op: div
+    input:
+      - !var_int64 user.g_i64
+      - !var_int64 user.h_i64
+    export:
+      slot: 11
+      len: 1
+      padding: 0.0
+
+  # ============================================================================
+  # TC-UNIT-ARITH-002: mod
+  # ============================================================================
+
+  # 002-01: mod(7, 3) = 1
+  - name: arith_002_01
+    op: mod
+    input:
+      - !var_int32 user.mod_a_i32
+      - !var_int32 user.mod_b_i32
+    export:
+      slot: 12
+      len: 1
+      padding: 0.0
+
+  # 002-06: mod(1000000007LL, 1000000006LL) = 1
+  - name: arith_002_06
+    op: mod
+    input:
+      - !var_int64 user.mod_a_i64
+      - !var_int64 user.mod_b_i64
+    export:
+      slot: 13
+      len: 1
+      padding: 0.0
+
+  # ============================================================================
+  # TC-UNIT-ARITH-003: abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow
+  # ============================================================================
+
+  # 003-01: abs(-3.14f) = 3.14
+  - name: arith_003_01
+    op: abs
+    input:
+      - !var_float user.abs_f32
+    export:
+      slot: 14
+      len: 1
+      padding: 0.0
+
+  # 003-02: abs(-10) int32 = 10
+  - name: arith_003_02
+    op: abs
+    input:
+      - !var_int32 user.abs_i32
+    export:
+      slot: 15
+      len: 1
+      padding: 0.0
+
+  # 003-03: abs(-9999999LL) = 9999999
+  - name: arith_003_03
+    op: abs
+    input:
+      - !var_int64 user.abs_i64
+    export:
+      slot: 16
+      len: 1
+      padding: 0.0
+
+  # 003-05: ceil(1.2f) = 2
+  - name: arith_003_05
+    op: ceil
+    input:
+      - !var_float user.ceil_a
+    export:
+      slot: 17
+      len: 1
+      padding: 0.0
+
+  # 003-06: ceil(-1.2f) = -1
+  - name: arith_003_06
+    op: ceil
+    input:
+      - !var_float user.ceil_b
+    export:
+      slot: 18
+      len: 1
+      padding: 0.0
+
+  # 003-07: floor(1.9f) = 1
+  - name: arith_003_07
+    op: floor
+    input:
+      - !var_float user.floor_a
+    export:
+      slot: 19
+      len: 1
+      padding: 0.0
+
+  # 003-08: floor(-1.9f) = -2
+  - name: arith_003_08
+    op: floor
+    input:
+      - !var_float user.floor_b
+    export:
+      slot: 20
+      len: 1
+      padding: 0.0
+
+  # 003-09: round(1.5f) = 2
+  - name: arith_003_09
+    op: round
+    input:
+      - !var_float user.round_a
+    export:
+      slot: 21
+      len: 1
+      padding: 0.0
+
+  # 003-10: round(1.4f) = 1
+  - name: arith_003_10
+    op: round
+    input:
+      - !var_float user.round_b
+    export:
+      slot: 22
+      len: 1
+      padding: 0.0
+
+  # 003-11: round(-1.5f) = -2 or -1 (impl-defined)
+  - name: arith_003_11
+    op: round
+    input:
+      - !var_float user.round_c
+    export:
+      slot: 23
+      len: 1
+      padding: 0.0
+
+  # 003-12: exp(0.0f) = 1.0
+  - name: arith_003_12
+    op: exp
+    input:
+      - !var_float user.exp_a
+    export:
+      slot: 24
+      len: 1
+      padding: 0.0
+
+  # 003-13: exp(1.0f) ≈ 2.71828
+  - name: arith_003_13
+    op: exp
+    input:
+      - !var_float user.exp_b
+    export:
+      slot: 25
+      len: 1
+      padding: 0.0
+
+  # 003-14: log(1.0f) = 0.0
+  - name: arith_003_14
+    op: log
+    input:
+      - !var_float user.log_a
+    export:
+      slot: 26
+      len: 1
+      padding: 0.0
+
+  # 003-15: log(2.718281f) ≈ 1.0
+  - name: arith_003_15
+    op: log
+    input:
+      - !var_float user.log_b
+    export:
+      slot: 27
+      len: 1
+      padding: 0.0
+
+  # 003-16: log10(100.0f) = 2.0
+  - name: arith_003_16
+    op: log10
+    input:
+      - !var_float user.log10_a
+    export:
+      slot: 28
+      len: 1
+      padding: 0.0
+
+  # 003-17: log2(8.0f) = 3.0
+  - name: arith_003_17
+    op: log2
+    input:
+      - !var_float user.log2_a
+    export:
+      slot: 29
+      len: 1
+      padding: 0.0
+
+  # 003-18: sqrt(4.0f) = 2.0
+  - name: arith_003_18
+    op: sqrt
+    input:
+      - !var_float user.sqrt_a
+    export:
+      slot: 30
+      len: 1
+      padding: 0.0
+
+  # 003-19: sqrt(2.0f) ≈ 1.41421
+  - name: arith_003_19
+    op: sqrt
+    input:
+      - !var_float user.sqrt_b
+    export:
+      slot: 31
+      len: 1
+      padding: 0.0
+
+  # 003-20: sigmoid(0.0f) = 0.5
+  - name: arith_003_20
+    op: sigmoid
+    input:
+      - !var_float user.sigmoid_a
+    export:
+      slot: 32
+      len: 1
+      padding: 0.0
+
+  # 003-21: sigmoid(100.0f) ≈ 1.0
+  - name: arith_003_21
+    op: sigmoid
+    input:
+      - !var_float user.sigmoid_b
+    export:
+      slot: 33
+      len: 1
+      padding: 0.0
+
+  # 003-22: sigmoid(-100.0f) ≈ 0.0
+  - name: arith_003_22
+    op: sigmoid
+    input:
+      - !var_float user.sigmoid_c
+    export:
+      slot: 34
+      len: 1
+      padding: 0.0
+
+  # 003-23: pow(2.0f, 10.0f) = 1024.0
+  - name: arith_003_23
+    op: pow
+    input:
+      - !var_float user.pow_a
+      - !var_float user.pow_b
+    export:
+      slot: 35
+      len: 1
+      padding: 0.0
+
+  # 003-24: pow(3.0f, 3.0f) = 27.0
+  - name: arith_003_24
+    op: pow
+    input:
+      - !var_float user.pow_c
+      - !var_float user.pow_d
+    export:
+      slot: 36
+      len: 1
+      padding: 0.0
+
+  # ============================================================================
+  # TC-UNIT-ARITH-004: scale / wilson_score / smooth / z_score
+  # ============================================================================
+
+  # 004-01: scale(0.75f, 100.0f) = 75
+  - name: arith_004_01
+    op: scale
+    input:
+      - !var_float user.scale_v
+      - !var_float user.scale_s
+    export:
+      slot: 37
+      len: 1
+      padding: 0.0
+
+  # 004-06: wilson_score(100, 80, 95)
+  - name: arith_004_06
+    op: wilson_score
+    input:
+      - !var_int32 user.ws_n
+      - !var_int32 user.ws_k
+      - !var_int32 user.ws_t
+    export:
+      slot: 38
+      len: 1
+      padding: 0.0
+
+  # 004-11: smooth(1000.0f, 50.0f, 100.0f) ≈ 0.0464
+  - name: arith_004_11
+    op: smooth
+    input:
+      - !var_float user.sm_n
+      - !var_float user.sm_k
+      - !var_float user.sm_f
+    export:
+      slot: 39
+      len: 1
+      padding: 0.0
+
+  # 004-15: z_score(85.0f, 70.0f, 15.0f) = 1.0
+  - name: arith_004_15
+    op: z_score
+    input:
+      - !var_float user.zs_v
+      - !var_float user.zs_m
+      - !var_float user.zs_s
+    export:
+      slot: 40
+      len: 1
+      padding: 0.0
+
+  # 004-16: z_score(70.0f, 70.0f, 15.0f) = 0.0
+  - name: arith_004_16
+    op: z_score
+    input:
+      - !var_float user.zs_v2
+      - !var_float user.zs_m2
+      - !var_float user.zs_s2
+    export:
+      slot: 41
+      len: 1
+      padding: 0.0
+
+  # 004-17: z_score(55.0f, 70.0f, 15.0f) = -1.0
+  - name: arith_004_17
+    op: z_score
+    input:
+      - !var_float user.zs_v3
+      - !var_float user.zs_m3
+      - !var_float user.zs_s3
+    export:
+      slot: 42
+      len: 1
+      padding: 0.0
+
+  # ============================================================================
+  # TC-UNIT-STAT-001: min / max / avg / var / std
+  # ============================================================================
+
+  # 001-01: avg([1,2,3,4,5]) = 3.0
+  - name: stat_001_01
+    op: avg
+    input:
+      - !var_float_array user.avg_arr
+    export:
+      slot: 43
+      len: 1
+      padding: 0.0
+
+  # 001-04: var([1,2,3]) ≈ 0.667
+  - name: stat_001_04
+    op: var
+    input:
+      - !var_float_array user.var_arr
+    export:
+      slot: 44
+      len: 1
+      padding: 0.0
+
+  # 001-05: var([5,5,5]) = 0.0
+  - name: stat_001_05
+    op: var
+    input:
+      - !var_float_array user.var_uniform
+    export:
+      slot: 45
+      len: 1
+      padding: 0.0
+
+  # 001-07: std([1,2,3]) ≈ 0.816
+  - name: stat_001_07
+    op: std
+    input:
+      - !var_float_array user.std_arr
+    export:
+      slot: 46
+      len: 1
+      padding: 0.0
+
+  # 001-10: min([3,1,4,1.5]) = 1.0
+  - name: stat_001_10
+    op: min
+    input:
+      - !var_float_array user.min_arr
+    export:
+      slot: 47
+      len: 1
+      padding: 0.0
+
+  # 001-13: max([3,1,4,1.5]) = 4.0
+  - name: stat_001_13
+    op: max
+    input:
+      - !var_float_array user.max_arr
+    export:
+      slot: 48
+      len: 1
+      padding: 0.0
+
+  # ============================================================================
+  # TC-UNIT-STAT-002: topk
+  # ============================================================================
+
+  # 002-01: topk([5,3,1,4,2], k=3) = [5,3,1]
+  - name: stat_002_01
+    op: topk
+    input:
+      - !var_int32_array user.topk_arr
+      - !const_int32 3
+    export:
+      slot: 100
+      len: 3
+      padding: 0
+
+  # 002-09: topk([1,2,3], k=5) with padding to 5
+  - name: stat_002_09
+    op: topk
+    input:
+      - !var_int32_array user.topk_small
+      - !const_int32 5
+    export:
+      slot: 101
+      len: 5
+      padding: 0
+
+  # ============================================================================
+  # TC-UNIT-STAT-003: norm / count / contains / len
+  # ============================================================================
+
+  # 003-01: norm([3,4], p=2.0) = 5.0
+  - name: stat_003_01
+    op: norm
+    input:
+      - !var_float_array user.norm_arr
+      - !const_float 2.0
+    export:
+      slot: 49
+      len: 1
+      padding: 0.0
+
+  # 003-03: norm([3,4], p=1.0) = 7.0
+  - name: stat_003_03
+    op: norm
+    input:
+      - !var_float_array user.norm_l1
+      - !const_float 1.0
+    export:
+      slot: 50
+      len: 1
+      padding: 0.0
+
+  # 003-08: dot_product([1,2],[3,4]) = 11.0
+  - name: stat_003_08
+    op: dot_product
+    input:
+      - !var_float_array user.dot_a
+      - !var_float_array user.dot_b
+    export:
+      slot: 51
+      len: 1
+      padding: 0.0
+
+  # 003-11: count([1,2,2,3,2], 2) = 3
+  - name: stat_003_11
+    op: count
+    input:
+      - !var_int32_array user.count_arr
+      - !const_int32 2
+    export:
+      slot: 52
+      len: 1
+      padding: 0.0
+
+  # 003-17: len([1,2,3,4,5]) = 5
+  - name: stat_003_17
+    op: len
+    input:
+      - !var_int32_array user.len_arr
+    export:
+      slot: 53
+      len: 1
+      padding: 0.0
+
+  # ============================================================================
+  # TC-UNIT-DISC-001: binarize
+  # ============================================================================
+
+  # 001-01: binarize(5.0f, 3.0f) = 1
+  - name: disc_001_01
+    op: binarize
+    input:
+      - !var_float user.bin_v_f
+      - !var_float user.bin_t_f
+    export:
+      slot: 54
+      len: 1
+      padding: 0.0
+
+  # 001-02: binarize(2.0f, 3.0f) = 0
+  - name: disc_001_02
+    op: binarize
+    input:
+      - !var_float user.bin_v2_f
+      - !var_float user.bin_t2_f
+    export:
+      slot: 55
+      len: 1
+      padding: 0.0
+
+  # 001-06: binarize(5, 3) int32 = 1
+  - name: disc_001_06
+    op: binarize
+    input:
+      - !var_int32 user.bin_v_i32
+      - !var_int32 user.bin_t_i32
+    export:
+      slot: 56
+      len: 1
+      padding: 0.0
+
+  # 001-09: binarize(5LL, 3LL) int64 = 1
+  - name: disc_001_09
+    op: binarize
+    input:
+      - !var_int64 user.bin_v_i64
+      - !var_int64 user.bin_t_i64
+    export:
+      slot: 57
+      len: 1
+      padding: 0.0
+
+  # ============================================================================
+  # TC-UNIT-DISC-002: bucketize
+  # ============================================================================
+
+  # 002-01: bucketize(20.0f, [18,25,35,45,55,65]) = 1
+  - name: disc_002_01
+    op: bucketize
+    input:
+      - !var_float user.bucket_v
+      - !var_float_array user.bucket_bounds
+    export:
+      slot: 58
+      len: 1
+      padding: 0.0
+
+  # 002-04: bucketize(17.0f, ...) = 0 (below min)
+  - name: disc_002_04
+    op: bucketize
+    input:
+      - !var_float user.bucket_low
+      - !var_float_array user.bucket_bounds
+    export:
+      slot: 59
+      len: 1
+      padding: 0.0
+
+  # 002-06: bucketize(70.0f, ...) = 6 (above max)
+  - name: disc_002_06
+    op: bucketize
+    input:
+      - !var_float user.bucket_high
+      - !var_float_array user.bucket_bounds
+    export:
+      slot: 60
+      len: 1
+      padding: 0.0
+
+  # 002-10: bucketize(30, [18,25,35,45,55,65]) int32 = 2
+  - name: disc_002_10
+    op: bucketize
+    input:
+      - !var_int32 user.bucket_v_i32
+      - !var_int32_array user.bucket_bounds_i32
+    export:
+      slot: 61
+      len: 1
+      padding: 0.0
+
+  # ============================================================================
+  # TC-UNIT-IDENTITY-001: identity
+  # ============================================================================
+
+  # 001-01: identity(float) passthrough
+  - name: identity_001_01
+    op: identity
+    input:
+      - !var_float user.id_f32
+    export:
+      slot: 62
+      len: 1
+      padding: 0.0
+
+  # 001-03: identity(int64) passthrough (no hash)
+  - name: identity_001_03
+    op: identity
+    input:
+      - !var_int64 user.id_i64
+    export:
+      slot: 63
+      len: 1
+      padding: 0.0
+
+  # 001-09: identity(float_array)
+  - name: identity_001_09
+    op: identity
+    input:
+      - !var_float_array user.id_f32_arr
+    export:
+      slot: 64
+      len: 3
+      padding: 0.0
+
+  # 001-02: identity(int32) + hash
+  - name: identity_001_02
+    op: identity
+    input:
+      - !var_int32 user.id_i32_hash
+    hash:
+      prefix: "cnt_"
+    export:
+      slot: 200
+
+  # 001-04: identity(string) + hash
+  - name: identity_001_04
+    op: identity
+    input:
+      - !var_string user.id_str
+    hash:
+      prefix: "gen_"
+      mask: 65535
+    export:
+      slot: 201
+
+  # 001-07: identity(string_array) + hash + padding
+  - name: identity_001_07
+    op: identity
+    input:
+      - !var_string_array user.id_str_arr
+    hash:
+      prefix: "tag_"
+      mask: 65535
+    export:
+      slot: 202
+      len: 5
+      padding: 0
+
+  # 001-08: identity(int64_array) passthrough
+  - name: identity_001_08
+    op: identity
+    input:
+      - !var_int64_array user.id_i64_arr
+    export:
+      slot: 203
+      len: 3
+      padding: 0
+
+  # ============================================================================
+  # TC-UNIT-STR-001: lower / upper / reverse
+  # ============================================================================
+
+  # lower (needs hash to export as sparse)
+  - name: str_lower_001
+    op: lower
+    input:
+      - !var_string user.str_lower_in
+    hash:
+      prefix: "lower_"
+      mask: 1048575
+    export:
+      slot: 300
+
+  # upper (needs hash to export as sparse)
+  - name: str_upper_001
+    op: upper
+    input:
+      - !var_string user.str_upper_in
+    hash:
+      prefix: "upper_"
+      mask: 1048575
+    export:
+      slot: 301
+
+  # reverse (needs hash to export as sparse)
+  - name: str_reverse_001
+    op: reverse
+    input:
+      - !var_string user.str_reverse_in
+    hash:
+      prefix: "rev_"
+      mask: 1048575
+    export:
+      slot: 302
+
+  # ============================================================================
+  # TC-UNIT-STR-002: substr / match_prefix
+  # ============================================================================
+
+  # substr (needs hash to export)
+  - name: str_substr_001
+    op: substr
+    input:
+      - !var_string user.substr_in
+      - !const_int64 0
+      - !const_int64 5
+    hash:
+      prefix: "sub_"
+      mask: 1048575
+    export:
+      slot: 303
+
+  # match_prefix (needs hash to export)
+  - name: str_match_prefix_001
+    op: match_prefix
+    input:
+      - !var_string user.mp_in
+      - !var_string_array user.mp_prefixes
+    hash:
+      prefix: "mp_"
+      mask: 65535
+    export:
+      slot: 304
+
+  # ============================================================================
+  # TC-UNIT-CONCAT-001: concat / concat_ws
+  # ============================================================================
+
+  # concat(str, str) - with hash
+  - name: concat_str_str
+    op: concat
+    input:
+      - !var_string user.concat_a_str
+      - !var_string user.concat_b_str
+    hash:
+      prefix: "con_"
+      mask: 1048575
+    export:
+      slot: 305
+
+  # concat_ws("@", str, str) - with hash
+  - name: concat_ws_str
+    op: concat_ws
+    input:
+      - !const_string "@"
+      - !var_string user.cws_a_str
+      - !var_string user.cws_b_str
+    hash:
+      prefix: "cws_"
+      mask: 1048575
+    export:
+      slot: 306
+
+  # ============================================================================
+  # TC-UNIT-CONCAT-002: lower_concat_ws / trim_concat / trim_concat_ws
+  # ============================================================================
+
+  # lower_concat_ws("@", str, str)
+  - name: lower_concat_ws_001
+    op: lower_concat_ws
+    input:
+      - !const_string "@"
+      - !var_string user.lcws_a
+      - !var_string user.lcws_b
+    hash:
+      prefix: "lcws_"
+      mask: 1048575
+    export:
+      slot: 307
+
+  # trim_concat(str, str, cuts)
+  - name: trim_concat_001
+    op: trim_concat
+    input:
+      - !var_string user.tc_a
+      - !var_string user.tc_b
+      - !var_string_array user.tc_cuts
+    hash:
+      prefix: "tc_"
+      mask: 1048575
+    export:
+      slot: 308
+
+  # trim_concat_ws(sep, str, str, cuts)
+  - name: trim_concat_ws_001
+    op: trim_concat_ws
+    input:
+      - !const_string "_"
+      - !var_string user.tcws_a
+      - !var_string user.tcws_b
+      - !var_string_array user.tcws_cuts
+    hash:
+      prefix: "tcws_"
+      mask: 1048575
+    export:
+      slot: 309
+
+  # ============================================================================
+  # TC-UNIT-CONCAT-003: cartesian_concat
+  # ============================================================================
+
+  # cartesian_concat(str_arr, str_arr)
+  - name: cartesian_concat_001
+    op: cartesian_concat
+    input:
+      - !const_string ""
+      - !var_string_array user.cart_a
+      - !var_string_array user.cart_b
+    hash:
+      prefix: "cart_"
+      mask: 1048575
+    export:
+      slot: 310
+      len: 10
+      padding: 0
+
+  # ============================================================================
+  # TC-UNIT-DATE-001: year / month / day / weekday / curdate / unix_timestamp / from_unixtime
+  # ============================================================================
+
+  # year(ts) -> string -> hash
+  - name: date_year_001
+    op: year
+    input:
+      - !var_int64 user.ts_main
+    hash:
+      prefix: "yr_"
+      mask: 65535
+    export:
+      slot: 311
+
+  # month(ts) -> string -> hash
+  - name: date_month_001
+    op: month
+    input:
+      - !var_int64 user.ts_main
+    hash:
+      prefix: "mo_"
+      mask: 65535
+    export:
+      slot: 312
+
+  # day(ts) -> string -> hash
+  - name: date_day_001
+    op: day
+    input:
+      - !var_int64 user.ts_main
+    hash:
+      prefix: "dy_"
+      mask: 65535
+    export:
+      slot: 313
+
+  # weekday(ts) -> string -> hash
+  - name: date_weekday_001
+    op: weekday
+    input:
+      - !var_int64 user.ts_main
+    hash:
+      prefix: "wd_"
+      mask: 65535
+    export:
+      slot: 314
+
+  # curdate(ts) -> string -> hash
+  - name: date_curdate_001
+    op: curdate
+    input:
+      - !var_int64 user.ts_main
+    hash:
+      prefix: "cd_"
+      mask: 1048575
+    export:
+      slot: 315
+
+  # unix_timestamp(ts) passthrough -> dense
+  - name: date_unix_ts_001
+    op: unix_timestamp
+    input:
+      - !var_int64 user.ts_main
+    export:
+      slot: 65
+      len: 1
+      padding: 0.0
+
+  # from_unixtime(ts, "%Y-%m-%d") -> string -> hash
+  - name: date_from_unixtime_001
+    op: from_unixtime
+    input:
+      - !var_int64 user.ts_main
+      - !const_string "%Y-%m-%d"
+    hash:
+      prefix: "fut_"
+      mask: 1048575
+    export:
+      slot: 316
+
+  # ============================================================================
+  # TC-UNIT-DATE-002: date_add / date_sub / datediff
+  # ============================================================================
+
+  # date_add("20240322", 7) = "20240329"
+  - name: date_add_001
+    op: date_add
+    input:
+      - !var_string user.da_date
+      - !const_int64 7
+    hash:
+      prefix: "da_"
+      mask: 1048575
+    export:
+      slot: 317
+
+  # date_sub("20240322", 7) = "20240315"
+  - name: date_sub_001
+    op: date_sub
+    input:
+      - !var_string user.ds_date
+      - !const_int64 7
+    hash:
+      prefix: "ds_"
+      mask: 1048575
+    export:
+      slot: 318
+
+  # datediff("20240322", "20240101") = 81
+  - name: date_datediff_001
+    op: datediff
+    input:
+      - !var_string user.dd_date1
+      - !var_string user.dd_date2
+    export:
+      slot: 66
+      len: 1
+      padding: 0.0
+
+  # ============================================================================
+  # TC-UNIT-DIST-001: edit_distance / cosine_distance / jaccard_distance / jaro_winkler / fuzzy
+  # ============================================================================
+
+  # edit_distance("kitten", "kitten", 10) = 0.0
+  - name: dist_edit_same
+    op: edit_distance
+    input:
+      - !var_string user.dist_s1
+      - !var_string user.dist_s2
+      - !const_int32 10
+    export:
+      slot: 67
+      len: 1
+      padding: 0.0
+
+  # cosine_distance("abc", "abc", 3) = 0.0
+  - name: dist_cosine_same
+    op: cosine_distance
+    input:
+      - !var_string user.dist_cos_s1
+      - !var_string user.dist_cos_s2
+      - !const_int32 3
+    export:
+      slot: 68
+      len: 1
+      padding: 0.0
+
+  # jaccard_distance("abc", "def", 1) = 1.0
+  - name: dist_jaccard_diff
+    op: jaccard_distance
+    input:
+      - !var_string user.dist_jac_s1
+      - !var_string user.dist_jac_s2
+      - !const_int32 1
+    export:
+      slot: 69
+      len: 1
+      padding: 0.0
+
+  # jaro_winkler_distance("MARTHA","MARTHA", 6) = 0.0
+  - name: dist_jaro_same
+    op: jaro_winkler_distance
+    input:
+      - !var_string user.dist_jaro_s1
+      - !var_string user.dist_jaro_s2
+      - !const_int32 6
+    export:
+      slot: 70
+      len: 1
+      padding: 0.0
+
+  # fuzzy("hello","hello",5) = 0.0
+  - name: dist_fuzzy_same
+    op: fuzzy
+    input:
+      - !var_string user.dist_fuz_s1
+      - !var_string user.dist_fuz_s2
+      - !const_int32 5
+    export:
+      slot: 71
+      len: 1
+      padding: 0.0
+
+  # edit_distance("kitten","sitting",10) ∈ (0,1)
+  - name: dist_edit_diff
+    op: edit_distance
+    input:
+      - !var_string user.dist_ed_s1
+      - !var_string user.dist_ed_s2
+      - !const_int32 10
+    export:
+      slot: 72
+      len: 1
+      padding: 0.0
+
+  # jaccard_distance("abc","abd",1) ∈ (0,1)
+  - name: dist_jaccard_partial
+    op: jaccard_distance
+    input:
+      - !var_string user.dist_jp_s1
+      - !var_string user.dist_jp_s2
+      - !const_int32 1
+    export:
+      slot: 73
+      len: 1
+      padding: 0.0
+
+  # jaro_winkler("MARTHA","MARHTA",6) ∈ (0, 0.5)
+  - name: dist_jaro_similar
+    op: jaro_winkler_distance
+    input:
+      - !var_string user.dist_jw_s1
+      - !var_string user.dist_jw_s2
+      - !const_int32 6
+    export:
+      slot: 74
+      len: 1
+      padding: 0.0
+
+  # ============================================================================
+  # HASH VERIFICATION features for string ops (for contains/verify tests)
+  # ============================================================================
+
+  # lower same value twice (idempotent check)
+  - name: str_lower_idempotent_1
+    op: lower
+    input:
+      - !var_string user.str_idem_in
+    hash:
+      prefix: "lower_"
+      mask: 1048575
+    export:
+      slot: 319
+
+  - name: str_lower_idempotent_2
+    op: lower
+    input:
+      - !var_string user.str_idem_in
+    hash:
+      prefix: "lower_"
+      mask: 1048575
+    export:
+      slot: 320
+
+  # contains([1,2,3], 2) = "true" -> hash
+  - name: stat_contains_true
+    op: contains
+    input:
+      - !var_int32_array user.contains_arr
+      - !const_int32 2
+    hash:
+      prefix: "ct_"
+      mask: 65535
+    export:
+      slot: 321
+
+  # contains([1,2,3], 5) = "false" -> hash
+  - name: stat_contains_false
+    op: contains
+    input:
+      - !var_int32_array user.contains_arr2
+      - !const_int32 5
+    hash:
+      prefix: "ct_"
+      mask: 65535
+    export:
+      slot: 322
+
+  # normalize([3,4], p=2) -> [0.6, 0.8]
+  - name: stat_normalize
+    op: normalize
+    input:
+      - !var_float_array user.norm_vec
+      - !const_float 2.0
+    export:
+      slot: 400
+      len: 2
+      padding: 0.0
+
+  # topk([1,2,3,4,5], k=2) = [1,2]
+  - name: stat_topk_f32
+    op: topk
+    input:
+      - !var_float_array user.topk_f32
+      - !const_int32 2
+    export:
+      slot: 401
+      len: 2
+      padding: 0.0
+
+  # from_unixtime with %Y%m%d format
+  - name: date_from_unixtime_compact
+    op: from_unixtime
+    input:
+      - !var_int64 user.ts_main
+      - !const_string "%Y%m%d"
+    hash:
+      prefix: "fut2_"
+      mask: 1048575
+    export:
+      slot: 323
+
+  # date_add("20240228", 1) = "20240229" (leap year)
+  - name: date_add_leap
+    op: date_add
+    input:
+      - !var_string user.da_leap_date
+      - !const_int64 1
+    hash:
+      prefix: "da2_"
+      mask: 1048575
+    export:
+      slot: 324
+
+  # date_sub("20240301", 1) = "20240229" (leap year)
+  - name: date_sub_leap
+    op: date_sub
+    input:
+      - !var_string user.ds_leap_date
+      - !const_int64 1
+    hash:
+      prefix: "ds2_"
+      mask: 1048575
+    export:
+      slot: 325
+
+  # datediff("20250101", "20240101") = 366 (leap year)
+  - name: date_datediff_leap
+    op: datediff
+    input:
+      - !var_string user.dd_date3
+      - !var_string user.dd_date4
+    export:
+      slot: 75
+      len: 1
+      padding: 0.0
