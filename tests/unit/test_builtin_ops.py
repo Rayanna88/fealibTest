@@ -9,7 +9,7 @@ via the record_result fixture + pytest_sessionfinish hook in conftest.py.
 Run with:
   pytest tests/unit/test_builtin_ops.py -v
 
-CSV output: ~/Downloads/OP单元测试用例_结果.csv
+CSV input/output: <project_root>/OP单元测试用例.csv  (results are written back to the same file)
 """
 
 import math

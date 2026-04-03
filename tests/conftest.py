@@ -49,9 +49,10 @@ COLLECTION_DIR = next(
     (p for p in COLLECTION_CANDIDATES if os.path.isdir(p)), None
 )
 
-# CSV test case files
-CSV_INPUT_PATH = str(Path.home() / "Downloads" / "OP单元测试用例.csv")
-CSV_OUTPUT_PATH = str(Path.home() / "Downloads" / "OP单元测试用例_结果.csv")
+# CSV test case files — path is relative to project root so it works on any machine
+_PROJECT_ROOT = Path(__file__).parent.parent
+CSV_INPUT_PATH = str(_PROJECT_ROOT / "OP单元测试用例.csv")
+CSV_OUTPUT_PATH = CSV_INPUT_PATH   # write results back to the same file
 
 # ============================================================
 # CSV Result recording — shared state
