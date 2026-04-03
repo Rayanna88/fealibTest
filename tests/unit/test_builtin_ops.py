@@ -17,17 +17,28 @@ import pytest
 
 pytestmark = pytest.mark.unit
 
+import sys
+import traceback as _tb
+
+_PYFEALIB_IMPORT_ERROR: str = ""
 try:
     import pyfealib
     ops = pyfealib.ops
     AVAILABLE = True
-except (ImportError, AttributeError):
+except Exception as _e:
     ops = None
     AVAILABLE = False
+    _PYFEALIB_IMPORT_ERROR = (
+        f"pyfealib import failed: {type(_e).__name__}: {_e}\n"
+        f"sys.path = {sys.path}\n"
+        f"{_tb.format_exc()}"
+    )
 
 skip_if_unavailable = pytest.mark.skipif(
-    not AVAILABLE, reason="pyfealib not installed"
+    not AVAILABLE,
+    reason=_PYFEALIB_IMPORT_ERROR if _PYFEALIB_IMPORT_ERROR else "pyfealib not installed",
 )
+
 
 # ---------------------------------------------------------------------------
 # Helper: run a single CSV test case, record result, and assert
