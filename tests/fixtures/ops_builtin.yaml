@@ -1304,3 +1304,681 @@ user_features:
       slot: 75
       len: 1
       padding: 0.0
+
+  # ============================================================================
+  # TC-UNIT-STR-002 additional substr variants
+  # Derived from C++ builtins.cc: pos<0→"", pos>=size→"", len=0→"", overflow is clamped
+  # ============================================================================
+
+  # 002-02: substr("hello world", 6, 5) = "world"
+  - name: str_substr_002_02
+    op: substr
+    input:
+      - !var_string user.substr_in       # reuse existing "hello world" var
+      - !const_int64 6
+      - !const_int64 5
+    hash:
+      prefix: "sub_"
+      mask: 1048575
+    export:
+      slot: 500
+
+  # 002-03: substr("hello", 2, 3) = "llo"
+  - name: str_substr_002_03
+    op: substr
+    input:
+      - !var_string user.substr_s1       # "hello"
+      - !const_int64 2
+      - !const_int64 3
+    hash:
+      prefix: "sub_"
+      mask: 1048575
+    export:
+      slot: 501
+
+  # 002-04: substr("hello", 0, 100) = "hello" (length > string, clamped)
+  - name: str_substr_002_04
+    op: substr
+    input:
+      - !var_string user.substr_s1
+      - !const_int64 0
+      - !const_int64 100
+    hash:
+      prefix: "sub_"
+      mask: 1048575
+    export:
+      slot: 502
+
+  # 002-05: substr("hello", 2, 100) = "llo"
+  - name: str_substr_002_05
+    op: substr
+    input:
+      - !var_string user.substr_s1
+      - !const_int64 2
+      - !const_int64 100
+    hash:
+      prefix: "sub_"
+      mask: 1048575
+    export:
+      slot: 503
+
+  # 002-06: substr("hello", 5, 3) = "" (pos >= size → return "")
+  - name: str_substr_002_06
+    op: substr
+    input:
+      - !var_string user.substr_s1
+      - !const_int64 5
+      - !const_int64 3
+    hash:
+      prefix: "sub_"
+      mask: 1048575
+    export:
+      slot: 504
+
+  # 002-07: substr("", 0, 5) = "" (empty string, 0 >= 0)
+  - name: str_substr_002_07
+    op: substr
+    input:
+      - !var_string user.substr_empty
+      - !const_int64 0
+      - !const_int64 5
+    hash:
+      prefix: "sub_"
+      mask: 1048575
+    export:
+      slot: 505
+
+  # 002-08: substr("hello", -1, 3) = "" (pos<0 → return "")
+  - name: str_substr_002_08
+    op: substr
+    input:
+      - !var_string user.substr_s1
+      - !const_int64 -1
+      - !const_int64 3
+    hash:
+      prefix: "sub_"
+      mask: 1048575
+    export:
+      slot: 506
+
+  # 002-09: substr("hello", 0, 0) = "" (len=0 → sv.substr(0,0)="")
+  - name: str_substr_002_09
+    op: substr
+    input:
+      - !var_string user.substr_s1
+      - !const_int64 0
+      - !const_int64 0
+    hash:
+      prefix: "sub_"
+      mask: 1048575
+    export:
+      slot: 507
+
+  # ============================================================================
+  # TC-UNIT-CONCAT-001 mixed-type concat variants
+  # init_funcs.cc registers concat for all 4x4 type pairs (float/int32/int64/String)
+  # ============================================================================
+
+  # 001-02: concat(int32=25, string="male") → "25male"
+  - name: concat_i32_str
+    op: concat
+    input:
+      - !var_int32 user.con_i32_a
+      - !var_string user.con_str_a
+    hash:
+      prefix: "con_"
+      mask: 1048575
+    export:
+      slot: 508
+
+  # 001-03: concat(string="age", int32=30) → "age30"
+  - name: concat_str_i32
+    op: concat
+    input:
+      - !var_string user.con_str_b
+      - !var_int32 user.con_i32_b
+    hash:
+      prefix: "con_"
+      mask: 1048575
+    export:
+      slot: 509
+
+  # 001-05: concat(int32=100, int32=200) → "100200"
+  - name: concat_i32_i32
+    op: concat
+    input:
+      - !var_int32 user.con_ia
+      - !var_int32 user.con_ib
+    hash:
+      prefix: "con_"
+      mask: 1048575
+    export:
+      slot: 510
+
+  # 001-06: concat(int64=100, int64=200) → "100200"
+  - name: concat_i64_i64
+    op: concat
+    input:
+      - !var_int64 user.con_la
+      - !var_int64 user.con_lb
+    hash:
+      prefix: "con_"
+      mask: 1048575
+    export:
+      slot: 511
+
+  # 001-07: concat(float=3.14, float=2.71) → record actual float format
+  - name: concat_f32_f32
+    op: concat
+    input:
+      - !var_float user.con_fa
+      - !var_float user.con_fb
+    hash:
+      prefix: "con_"
+      mask: 1048575
+    export:
+      slot: 512
+
+  # 001-08: concat(int64=100, string="str") → "100str"
+  - name: concat_i64_str
+    op: concat
+    input:
+      - !var_int64 user.con_la2
+      - !var_string user.con_str2
+    hash:
+      prefix: "con_"
+      mask: 1048575
+    export:
+      slot: 513
+
+  # ============================================================================
+  # TC-UNIT-CONCAT-001 additional concat_ws variants
+  # ============================================================================
+
+  # 001-13: concat_ws("_", int32=2024, string="01") → "2024_01"
+  - name: concat_ws_i32_str
+    op: concat_ws
+    input:
+      - !const_string "_"
+      - !var_int32 user.cws_i32_val
+      - !var_string user.cws_str_val
+    hash:
+      prefix: "cws_"
+      mask: 1048575
+    export:
+      slot: 514
+
+  # 001-15: concat_ws("|", int64=100, int64=200) → "100|200"
+  - name: concat_ws_i64_i64
+    op: concat_ws
+    input:
+      - !const_string "|"
+      - !var_int64 user.cws_la
+      - !var_int64 user.cws_lb
+    hash:
+      prefix: "cws_"
+      mask: 1048575
+    export:
+      slot: 515
+
+  # 001-16: concat_ws("", "a", "b") empty sep → "ab"
+  - name: concat_ws_empty_sep
+    op: concat_ws
+    input:
+      - !const_string ""
+      - !var_string user.cws_empty_a
+      - !var_string user.cws_empty_b
+    hash:
+      prefix: "cws_"
+      mask: 1048575
+    export:
+      slot: 516
+
+  # ============================================================================
+  # TC-UNIT-CONCAT-002 additional lower_concat_ws variants
+  # ============================================================================
+
+  # 002-02: lower_concat_ws("_", "Hello", "World") → "hello_world"
+  - name: lower_concat_ws_002_02
+    op: lower_concat_ws
+    input:
+      - !const_string "_"
+      - !var_string user.lcws2_a
+      - !var_string user.lcws2_b
+    hash:
+      prefix: "lcws_"
+      mask: 1048575
+    export:
+      slot: 517
+
+  # 002-04: lower_concat_ws("", "UPPER", "CASE") empty sep → "uppercase"
+  - name: lower_concat_ws_empty_sep
+    op: lower_concat_ws
+    input:
+      - !const_string ""
+      - !var_string user.lcws_empty_a
+      - !var_string user.lcws_empty_b
+    hash:
+      prefix: "lcws_"
+      mask: 1048575
+    export:
+      slot: 518
+
+  # 002-03: lower_concat_ws("@", int32=25, string="Male") → "25@male"
+  #  int32 → "25" (no uppercase), string "Male" → lower → "male"
+  - name: lower_concat_ws_i32_str
+    op: lower_concat_ws
+    input:
+      - !const_string "@"
+      - !var_int32 user.lcws_i32_val
+      - !var_string user.lcws_str_val
+    hash:
+      prefix: "lcws_"
+      mask: 1048575
+    export:
+      slot: 519
+
+  # ============================================================================
+  # TC-UNIT-CONCAT-002 additional trim_concat variants
+  # ============================================================================
+
+  # 002-06: trim_concat("prefix_data", "_suffix", ["prefix_","_suffix"]) → "data"
+  - name: trim_concat_prefix_only
+    op: trim_concat
+    input:
+      - !var_string user.tc2_a
+      - !var_string user.tc2_b
+      - !var_string_array user.tc2_cuts
+    hash:
+      prefix: "tc_"
+      mask: 1048575
+    export:
+      slot: 520
+
+  # 002-07: trim_concat("abc", "def", []) empty trim_list → "abcdef"
+  - name: trim_concat_empty_list
+    op: trim_concat
+    input:
+      - !var_string user.tc_el_a
+      - !var_string user.tc_el_b
+      - !var_string_array user.tc_el_cuts
+    hash:
+      prefix: "tc_"
+      mask: 1048575
+    export:
+      slot: 521
+
+  # 002-09: trim_concat("", "", [""]) empty inputs → not crash
+  - name: trim_concat_empty_inputs
+    op: trim_concat
+    input:
+      - !var_string user.tc_null_a
+      - !var_string user.tc_null_b
+      - !var_string_array user.tc_null_cuts
+    hash:
+      prefix: "tc_"
+      mask: 1048575
+    export:
+      slot: 522
+
+  # ============================================================================
+  # TC-UNIT-CONCAT-002 additional trim_concat_ws variants
+  # ============================================================================
+
+  # 002-11: trim_concat_ws("@", "user123", "cn", ["user"]) → "123@cn"
+  - name: trim_concat_ws_user_trim
+    op: trim_concat_ws
+    input:
+      - !const_string "@"
+      - !var_string user.tcws2_a
+      - !var_string user.tcws2_b
+      - !var_string_array user.tcws2_cuts
+    hash:
+      prefix: "tcws_"
+      mask: 1048575
+    export:
+      slot: 523
+
+  # 002-12: trim_concat_ws("-", "abc", "def", []) empty trim → "abc-def"
+  - name: trim_concat_ws_empty_list
+    op: trim_concat_ws
+    input:
+      - !const_string "-"
+      - !var_string user.tcws_el_a
+      - !var_string user.tcws_el_b
+      - !var_string_array user.tcws_el_cuts
+    hash:
+      prefix: "tcws_"
+      mask: 1048575
+    export:
+      slot: 524
+
+  # ============================================================================
+  # TC-UNIT-CONCAT-003 additional cartesian_concat variants
+  # ============================================================================
+
+  # 003-04: cartesian_concat(["a"], ["x"]) single element → ["ax"]
+  - name: cartesian_single
+    op: cartesian_concat
+    input:
+      - !const_string ""
+      - !var_string_array user.cart_single_a
+      - !var_string_array user.cart_single_b
+    hash:
+      prefix: "cart_"
+      mask: 1048575
+    export:
+      slot: 600
+      len: 1
+      padding: 0
+
+  # 003-08: cartesian_concat([], ["x","y"]) left empty → []
+  - name: cartesian_left_empty
+    op: cartesian_concat
+    input:
+      - !const_string ""
+      - !var_string_array user.cart_left_empty
+      - !var_string_array user.cart_right_vals
+    hash:
+      prefix: "cart_"
+      mask: 1048575
+    export:
+      slot: 601
+      len: 2
+      padding: 0
+
+  # 003-09: cartesian_concat([], []) both empty → []
+  - name: cartesian_both_empty
+    op: cartesian_concat
+    input:
+      - !const_string ""
+      - !var_string_array user.cart_both_a
+      - !var_string_array user.cart_both_b
+    hash:
+      prefix: "cart_"
+      mask: 1048575
+    export:
+      slot: 602
+      len: 2
+      padding: 0
+
+  # 003-10: cartesian 5×5 = 25 items
+  - name: cartesian_5x5
+    op: cartesian_concat
+    input:
+      - !const_string ""
+      - !var_string_array user.cart_5a
+      - !var_string_array user.cart_5b
+    hash:
+      prefix: "cart_"
+      mask: 1048575
+    export:
+      slot: 603
+      len: 25
+      padding: 0
+
+  # 003-11: cartesian truncated to export.len=10 (input 4×4=16 items)
+  - name: cartesian_truncated
+    op: cartesian_concat
+    input:
+      - !const_string ""
+      - !var_string_array user.cart_trunc_a
+      - !var_string_array user.cart_trunc_b
+    hash:
+      prefix: "cart_"
+      mask: 1048575
+    export:
+      slot: 604
+      len: 10
+      padding: 0
+
+  # 003-05: cartesian_concat([1,2], [10,20]) int32 arrays → ["110","120","210","220"]
+  - name: cartesian_i32_i32
+    op: cartesian_concat
+    input:
+      - !const_string ""
+      - !var_int32_array user.cart_i32_a
+      - !var_int32_array user.cart_i32_b
+    hash:
+      prefix: "cart_"
+      mask: 1048575
+    export:
+      slot: 605
+      len: 4
+      padding: 0
+
+  # 003-06: cartesian_concat([1LL,2LL], ["a","b"]) int64+string → ["1a","1b","2a","2b"]
+  - name: cartesian_i64_str
+    op: cartesian_concat
+    input:
+      - !const_string ""
+      - !var_int64_array user.cart_i64_a
+      - !var_string_array user.cart_str_a
+    hash:
+      prefix: "cart_"
+      mask: 1048575
+    export:
+      slot: 606
+      len: 4
+      padding: 0
+
+  # ============================================================================
+  # TC-UNIT-DISC-002-11: bucketize int64
+  # ============================================================================
+
+  # 002-11: bucketize(30LL, [18LL,25LL,35LL,45LL,55LL,65LL]) → 2
+  - name: disc_002_11
+    op: bucketize
+    input:
+      - !var_int64 user.bucket_v_i64
+      - !var_int64_array user.bucket_bounds_i64
+    export:
+      slot: 76
+      len: 1
+      padding: 0.0
+
+  # ============================================================================
+  # TC-UNIT-STAT-002-03: topk string array
+  # ============================================================================
+
+  # 002-03: topk(["a","b","c","d"], k=2) → first 2 elements ["a","b"]
+  - name: stat_topk_str
+    op: topk
+    input:
+      - !var_string_array user.topk_str_arr
+      - !const_int32 2
+    hash:
+      prefix: "tk_"
+      mask: 1048575
+    export:
+      slot: 607
+      len: 2
+      padding: 0
+
+  # ============================================================================
+  # TC-UNIT-STAT-003 additional: count empty, contains empty/string, len string_array
+  # ============================================================================
+
+  # 003-13: count([], 1) empty array → 0
+  - name: stat_count_empty
+    op: count
+    input:
+      - !var_int32_array user.count_empty_arr
+      - !const_int32 1
+    export:
+      slot: 77
+      len: 1
+      padding: 0.0
+
+  # 003-16: contains([], 1) empty array → "false"
+  - name: stat_contains_empty
+    op: contains
+    input:
+      - !var_int32_array user.contains_empty_arr
+      - !const_int32 1
+    hash:
+      prefix: "ct_"
+      mask: 65535
+    export:
+      slot: 326
+
+  # 003-19: len(["a","b"]) string array → 2
+  - name: stat_len_str_arr
+    op: len
+    input:
+      - !var_string_array user.len_str_arr
+    export:
+      slot: 78
+      len: 1
+      padding: 0.0
+
+  # ============================================================================
+  # TC-UNIT-DIST-001 additional distance edge cases
+  # Derived from distance.cc source analysis
+  # ============================================================================
+
+  # edit_distance completely different ("abc","xyz",3) → 1.0 (all chars differ)
+  - name: dist_edit_completely_diff
+    op: edit_distance
+    input:
+      - !var_string user.dist_ed_diff_s1
+      - !var_string user.dist_ed_diff_s2
+      - !const_int32 3
+    export:
+      slot: 79
+      len: 1
+      padding: 0.0
+
+  # edit_distance one empty ("abc","",5) → 1.0 (m==0 → return 1.0)
+  - name: dist_edit_one_empty
+    op: edit_distance
+    input:
+      - !var_string user.dist_ed_ne_s1
+      - !var_string user.dist_ed_ne_s2
+      - !const_int32 5
+    export:
+      slot: 80
+      len: 1
+      padding: 0.0
+
+  # edit_distance length=0 ("a","b",0) → both truncated to "" → 0.0
+  - name: dist_edit_len0
+    op: edit_distance
+    input:
+      - !var_string user.dist_l0_s1
+      - !var_string user.dist_l0_s2
+      - !const_int32 0
+    export:
+      slot: 81
+      len: 1
+      padding: 0.0
+
+  # cosine_distance both empty ("","",2) → 0.0 per source
+  - name: dist_cosine_empty_both
+    op: cosine_distance
+    input:
+      - !var_string user.dist_cos_empty_s1
+      - !var_string user.dist_cos_empty_s2
+      - !const_int32 2
+    export:
+      slot: 82
+      len: 1
+      padding: 0.0
+
+  # cosine_distance n_gram=0 ("abc","abc",0) → both truncated to "" → 0.0
+  - name: dist_cosine_ngram0
+    op: cosine_distance
+    input:
+      - !var_string user.dist_cos_ng0_s1
+      - !var_string user.dist_cos_ng0_s2
+      - !const_int32 0
+    export:
+      slot: 83
+      len: 1
+      padding: 0.0
+
+  # jaccard_distance both empty ("","",2) → 0.0
+  - name: dist_jaccard_empty_both
+    op: jaccard_distance
+    input:
+      - !var_string user.dist_jac_empty_s1
+      - !var_string user.dist_jac_empty_s2
+      - !const_int32 2
+    export:
+      slot: 84
+      len: 1
+      padding: 0.0
+
+  # jaro_winkler completely different ("abc","xyz",3) → near 1.0
+  - name: dist_jaro_completely_diff
+    op: jaro_winkler_distance
+    input:
+      - !var_string user.dist_jaro_diff_s1
+      - !var_string user.dist_jaro_diff_s2
+      - !const_int32 3
+    export:
+      slot: 85
+      len: 1
+      padding: 0.0
+
+  # jaro_winkler both empty ("","",3) → 0.0 per source (len1==0 && len2==0)
+  - name: dist_jaro_empty_both
+    op: jaro_winkler_distance
+    input:
+      - !var_string user.dist_jaro_empty_s1
+      - !var_string user.dist_jaro_empty_s2
+      - !const_int32 3
+    export:
+      slot: 86
+      len: 1
+      padding: 0.0
+
+  # fuzzy: identical strings ("hello","hello",5) → RAW SCORE = 13.0 (NOT 0!)
+  # fuzzy_score returns a similarity SCORE (higher=more similar), NOT a distance [0,1]
+  # Source: each char match = +1, consecutive match = +2 bonus
+  - name: dist_fuzzy_identical_score
+    op: fuzzy
+    input:
+      - !var_string user.dist_fuz_id_s1
+      - !var_string user.dist_fuz_id_s2
+      - !const_int32 5
+    export:
+      slot: 87
+      len: 1
+      padding: 0.0
+
+  # fuzzy: similar strings ("hello","helo",5) → score < identical but > 0
+  - name: dist_fuzzy_similar_score
+    op: fuzzy
+    input:
+      - !var_string user.dist_fuz_sim_s1
+      - !var_string user.dist_fuz_sim_s2
+      - !const_int32 5
+    export:
+      slot: 88
+      len: 1
+      padding: 0.0
+
+  # fuzzy: no sequential match ("hello","xyz",5) → 0.0
+  - name: dist_fuzzy_no_match
+    op: fuzzy
+    input:
+      - !var_string user.dist_fuz_nm_s1
+      - !var_string user.dist_fuz_nm_s2
+      - !const_int32 5
+    export:
+      slot: 89
+      len: 1
+      padding: 0.0
+
+  # fuzzy: both empty ("","",3) → 0.0 (early return when empty)
+  - name: dist_fuzzy_empty_both
+    op: fuzzy
+    input:
+      - !var_string user.dist_fuz_empty_s1
+      - !var_string user.dist_fuz_empty_s2
+      - !const_int32 3
+    export:
+      slot: 90
+      len: 1
+      padding: 0.0
