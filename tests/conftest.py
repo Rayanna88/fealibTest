@@ -219,9 +219,6 @@ def record_result():
 # ============================================================
 def pytest_sessionfinish(session, exitstatus):
     """After the full test session, write actual results + test status to CSV."""
-    if not _csv_results:
-        return
-
     input_path = CSV_INPUT_PATH
     output_path = CSV_OUTPUT_PATH
 
@@ -256,6 +253,7 @@ def pytest_sessionfinish(session, exitstatus):
 
     # Update rows
     updated = 0
+    filled_default = 0
     for row in rows[1:]:
         # Extend row if too short
         while len(row) <= max(id_col, actual_col, result_col):
@@ -266,10 +264,20 @@ def pytest_sessionfinish(session, exitstatus):
             row[actual_col] = _csv_results[case_id]["actual"]
             row[result_col] = _csv_results[case_id]["result"]
             updated += 1
+        elif case_id:
+            # Ensure every scenario in CSV has an explicit outcome.
+            if not row[actual_col].strip():
+                row[actual_col] = "N/A"
+            if not row[result_col].strip():
+                row[result_col] = "NOT_RUN"
+            filled_default += 1
 
     # Write output CSV
     with open(output_path, "w", newline="", encoding="utf-8-sig") as f:
         writer = csv.writer(f)
         writer.writerows(rows)
 
-    print(f"\n[conftest] CSV results written to: {output_path}  ({updated} rows updated)")
+    print(
+        f"\n[conftest] CSV results written to: {output_path}  "
+        f"({updated} rows updated, {filled_default} default-filled)"
+    )

@@ -1113,7 +1113,10 @@ class TestStat003NormNormalizeDotProductCountContainsLen:
 
     @skip_if_unavailable
     def test_count_absent_003_12(self, record_result):
-        user = {"count_arr": {"type": DT.kInt32Array, "value": [1, 2, 3]}}
+        """count([1,3,4], 2) = 0: element 2 NOT present in array.
+        NOTE: YAML feature stat_003_11 uses !const_int32 2 as the search target.
+        So we must pass an array that does NOT contain 2."""
+        user = {"count_arr": {"type": DT.kInt32Array, "value": [1, 3, 4]}}
         _run(record_result, "TC-UNIT-STAT-003-12", user, 52,
              check=lambda v: abs(v) <= 1e-5)
 

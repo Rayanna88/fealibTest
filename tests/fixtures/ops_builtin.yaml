@@ -35,6 +35,9 @@ user_features:
     input:
       - !var_int32 user.a_i32
       - !var_int32 user.b_i32
+    hash:
+      prefix: "arith_001_02_"
+      mask: 1048575
     export:
       slot: 1
       len: 1
@@ -68,6 +71,9 @@ user_features:
     input:
       - !var_int32 user.c_i32
       - !var_int32 user.d_i32
+    hash:
+      prefix: "arith_001_05_"
+      mask: 1048575
     export:
       slot: 4
       len: 1
@@ -101,6 +107,9 @@ user_features:
     input:
       - !var_int32 user.e_i32
       - !var_int32 user.f_i32
+    hash:
+      prefix: "arith_001_08_"
+      mask: 1048575
     export:
       slot: 7
       len: 1
@@ -134,6 +143,9 @@ user_features:
     input:
       - !var_int32 user.g_i32
       - !var_int32 user.h_i32
+    hash:
+      prefix: "arith_001_11_"
+      mask: 1048575
     export:
       slot: 10
       len: 1
@@ -160,6 +172,9 @@ user_features:
     input:
       - !var_int32 user.mod_a_i32
       - !var_int32 user.mod_b_i32
+    hash:
+      prefix: "arith_002_01_"
+      mask: 1048575
     export:
       slot: 12
       len: 1
@@ -195,6 +210,9 @@ user_features:
     op: abs
     input:
       - !var_int32 user.abs_i32
+    hash:
+      prefix: "arith_003_02_"
+      mask: 1048575
     export:
       slot: 15
       len: 1
@@ -434,6 +452,9 @@ user_features:
       - !var_int32 user.ws_n
       - !var_int32 user.ws_k
       - !var_int32 user.ws_t
+    hash:
+      prefix: "arith_004_06_"
+      mask: 1048575
     export:
       slot: 38
       len: 1
@@ -561,6 +582,9 @@ user_features:
     input:
       - !var_int32_array user.topk_arr
       - !const_int32 3
+    hash:
+      prefix: "stat_002_01_"
+      mask: 1048575
     export:
       slot: 100
       len: 3
@@ -572,6 +596,9 @@ user_features:
     input:
       - !var_int32_array user.topk_small
       - !const_int32 5
+    hash:
+      prefix: "stat_002_09_"
+      mask: 1048575
     export:
       slot: 101
       len: 5
@@ -620,6 +647,9 @@ user_features:
     input:
       - !var_int32_array user.count_arr
       - !const_int32 2
+    hash:
+      prefix: "stat_003_11_"
+      mask: 1048575
     export:
       slot: 52
       len: 1
@@ -630,6 +660,9 @@ user_features:
     op: len
     input:
       - !var_int32_array user.len_arr
+    hash:
+      prefix: "stat_003_17_"
+      mask: 1048575
     export:
       slot: 53
       len: 1
@@ -667,6 +700,9 @@ user_features:
     input:
       - !var_int32 user.bin_v_i32
       - !var_int32 user.bin_t_i32
+    hash:
+      prefix: "disc_001_06_"
+      mask: 1048575
     export:
       slot: 56
       len: 1
@@ -726,6 +762,9 @@ user_features:
     input:
       - !var_int32 user.bucket_v_i32
       - !var_int32_array user.bucket_bounds_i32
+    hash:
+      prefix: "disc_002_10_"
+      mask: 1048575
     export:
       slot: 61
       len: 1
@@ -1982,3 +2021,225 @@ user_features:
       slot: 90
       len: 1
       padding: 0.0
+
+  # ============================================================================
+  # TC-UNIT-DATE-001-16: from_unixtime with %H:%M:%S
+  # ============================================================================
+  - name: date_from_unixtime_hms
+    op: from_unixtime
+    input:
+      - !var_int64 user.ts_main
+      - !const_string "%H:%M:%S"
+    hash:
+      prefix: "fut3_"
+      mask: 1048575
+    export:
+      slot: 337
+
+  # ============================================================================
+  # TC-UNIT-DATE-002 additional: date_add/date_sub with various constants
+  # ============================================================================
+
+  # date_add("20240229", 1) = "20240301" (leap year → next month)
+  - name: date_add_from_feb29
+    op: date_add
+    input:
+      - !var_string user.da_feb29_date
+      - !const_int64 1
+    hash:
+      prefix: "da3_"
+      mask: 1048575
+    export:
+      slot: 331
+
+  # date_add("20240131", 1) = "20240201" (cross month)
+  - name: date_add_jan31
+    op: date_add
+    input:
+      - !var_string user.da_jan31_date
+      - !const_int64 1
+    hash:
+      prefix: "da4_"
+      mask: 1048575
+    export:
+      slot: 332
+
+  # date_add("20241231", 1) = "20250101" (cross year)
+  - name: date_add_dec31
+    op: date_add
+    input:
+      - !var_string user.da_dec31_date
+      - !const_int64 1
+    hash:
+      prefix: "da5_"
+      mask: 1048575
+    export:
+      slot: 333
+
+  # date_add("20240101", -1) = "20231231" (negative days)
+  - name: date_add_neg_days
+    op: date_add
+    input:
+      - !var_string user.da_neg_date
+      - !const_int64 -1
+    hash:
+      prefix: "da6_"
+      mask: 1048575
+    export:
+      slot: 334
+
+  # date_sub("20240101", 1) = "20231231" (cross year)
+  - name: date_sub_jan01
+    op: date_sub
+    input:
+      - !var_string user.ds_jan01_date
+      - !const_int64 1
+    hash:
+      prefix: "ds3_"
+      mask: 1048575
+    export:
+      slot: 335
+
+  # date_sub("20240322", 0) = "20240322" (subtract 0 days)
+  - name: date_sub_zero_days
+    op: date_sub
+    input:
+      - !var_string user.ds_zero_date
+      - !const_int64 0
+    hash:
+      prefix: "ds4_"
+      mask: 1048575
+    export:
+      slot: 336
+
+  # ============================================================================
+  # TC-UNIT-STAT-003 additional: norm empty, normalize edge cases, dot_product mismatch
+  # ============================================================================
+
+  # norm([], p=2) empty array → 0.0 or padding
+  - name: stat_norm_empty
+    op: norm
+    input:
+      - !var_float_array user.norm_empty_arr
+      - !const_float 2.0
+    export:
+      slot: 92
+      len: 1
+      padding: 0.0
+
+  # normalize([1,0,0], p=2) → [1,0,0]
+  - name: stat_normalize_unit
+    op: normalize
+    input:
+      - !var_float_array user.norm_unit_vec
+      - !const_float 2.0
+    export:
+      slot: 402
+      len: 3
+      padding: 0.0
+
+  # normalize([0,0], p=2) → [0,0] (zero vector)
+  - name: stat_normalize_zero_vec
+    op: normalize
+    input:
+      - !var_float_array user.norm_zero_vec
+      - !const_float 2.0
+    export:
+      slot: 403
+      len: 2
+      padding: 0.0
+
+  # dot_product([1,2],[3]) → dimension mismatch → padding
+  - name: stat_dot_mismatch
+    op: dot_product
+    input:
+      - !var_float_array user.dot_mis_a
+      - !var_float_array user.dot_mis_b
+    export:
+      slot: 91
+      len: 1
+      padding: 0.0
+
+  # ============================================================================
+  # TC-UNIT-DISC-001-12: binarize with hash output
+  # ============================================================================
+  - name: disc_001_12_hash
+    op: binarize
+    input:
+      - !var_float user.bin_hash_v
+      - !var_float user.bin_hash_t
+    hash:
+      prefix: "bin_"
+      mask: 65535
+    export:
+      slot: 700
+
+  # ============================================================================
+  # TC-UNIT-DISC-002-12: bucketize with hash output
+  # ============================================================================
+  - name: disc_002_12_hash
+    op: bucketize
+    input:
+      - !var_float user.bucket_hash_v
+      - !var_float_array user.bucket_hash_bounds
+    hash:
+      prefix: "age_bucket_"
+      mask: 65535
+    export:
+      slot: 701
+
+  # ============================================================================
+  # TC-UNIT-IDENTITY-001-06: identity with missing field (returns padding)
+  # ============================================================================
+  - name: identity_missing_field
+    op: identity
+    input:
+      - !var_int32 user.missing_field_xyz_001_06
+    hash:
+      prefix: "miss_"
+      mask: 65535
+    export:
+      slot: 702
+
+  # ============================================================================
+  # TC-UNIT-CONCAT-001-04: concat(float, string)
+  # TC-UNIT-CONCAT-001-14: concat_ws("-", float, string)
+  # ============================================================================
+  - name: concat_f32_str
+    op: concat
+    input:
+      - !var_float user.con_f32_val
+      - !var_string user.con_f32_str
+    hash:
+      prefix: "con_"
+      mask: 1048575
+    export:
+      slot: 703
+
+  - name: concat_ws_f32_str
+    op: concat_ws
+    input:
+      - !const_string "-"
+      - !var_float user.cws_f32_val
+      - !var_string user.cws_f32_str
+    hash:
+      prefix: "cws_"
+      mask: 1048575
+    export:
+      slot: 704
+
+  # ============================================================================
+  # TC-UNIT-CONCAT-002-13: trim_concat_ws("_","ABC","DEF",["ABC"])
+  # ============================================================================
+  - name: trim_concat_ws_abc_trim
+    op: trim_concat_ws
+    input:
+      - !const_string "_"
+      - !var_string user.tcws_abc_a
+      - !var_string user.tcws_abc_b
+      - !var_string_array user.tcws_abc_cuts
+    hash:
+      prefix: "tcws_"
+      mask: 1048575
+    export:
+      slot: 525
