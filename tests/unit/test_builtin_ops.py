@@ -52,6 +52,7 @@ skip_if_unavailable = pytest.mark.skipif(
 # ---------------------------------------------------------------------------
 _FIXTURE_DIR = Path(__file__).parent.parent / "fixtures"
 _OPS_YAML = str(_FIXTURE_DIR / "ops_builtin.yaml")
+_DENSE_SLOT_TO_COL = None
 _SPARSE_SLOT_TO_COL = None
 
 # ---------------------------------------------------------------------------
@@ -106,34 +107,102 @@ def _run_fealib(user_feats: dict) -> dict:
     return fe.run(user_feats, {}, [])
 
 
-def _dense(result: dict, slot: int) -> float:
-    """Read a dense float value at slot from result."""
-    d = result["dense"]
-    # dense is indexed by slot order; find the column index
-    return float(d[0, slot])
+def _infer_sparse_by_cpp_rule(op: str, has_hash: bool, input_tags: list[str]) -> bool:
+    """
+    Infer sparse-vs-dense using fealib-cpp/src executor behavior:
+    - int32 outputs require hash -> sparse
+    - int64 outputs (hashed or direct) -> sparse
+    - float outputs -> dense
+    - string outputs are hashed -> sparse
+    """
+    op = (op or "").strip()
+    tags = [t.lower() for t in input_tags]
+    tag_text = " ".join(tags)
+
+    if has_hash:
+        return True
+
+    # String outputs
+    string_ops = {
+        "lower", "upper", "reverse", "substr", "match_prefix",
+        "concat", "concat_ws", "trim_concat", "trim_concat_ws", "cartesian_concat",
+        "from_unixtime",
+    }
+    if op in string_ops:
+        return True
+
+    # Float outputs
+    float_ops = {
+        "avg", "var", "std", "min", "max", "norm", "normalize", "dot_product",
+        "exp", "log", "log10", "log2", "sqrt", "sigmoid", "pow", "smooth", "z_score",
+        "cosine_distance", "jaccard_distance", "jaro_winkler_distance",
+        "edit_distance", "fuzzy_score", "wilson_score",
+    }
+    if op in float_ops:
+        return False
+
+    # Int32-like outputs (without hash would be invalid in C++)
+    int32_ops = {
+        "ceil", "floor", "round", "scale", "binarize", "bucketize",
+        "count", "len", "year", "month", "day", "weekday", "date_add",
+        "date_sub", "datediff",
+    }
+    if op in int32_ops:
+        return True
+
+    # Identity/topk are input-type dependent.
+    if op == "identity":
+        if "string" in tag_text:
+            return True
+        if "int64" in tag_text:
+            return True
+        if "float" in tag_text:
+            return False
+        if "int32" in tag_text:
+            return True
+
+    if op == "topk":
+        if "float" in tag_text:
+            return False
+        return True
+
+    # Arithmetic family follows operand type.
+    if op in {"add", "sub", "mul", "div", "mod", "abs", "unix_timestamp"}:
+        if "float" in tag_text:
+            return False
+        if "int64" in tag_text:
+            return True
+        if "int32" in tag_text:
+            return True
+
+    # Fallback: int64/string treated as sparse, otherwise dense.
+    if "int64" in tag_text or "string" in tag_text:
+        return True
+    return False
 
 
-def _build_sparse_slot_to_col_map() -> dict:
+def _build_slot_maps() -> tuple[dict, dict]:
     """
-    Build slot -> sparse column mapping consistent with fealib-cpp/src/program.cc:
-    sparse columns are assigned by expression index order after sorting by slot.
+    Build slot->dense_col and slot->sparse_col maps for this test suite.
+    Dense columns are contiguous offsets (respecting export.len).
+    Sparse columns are contiguous indices for hash-exported features plus slots
+    explicitly consumed via _sparse(...) by tests.
     """
-    slot_entries = []
+    entries = []
+
     name = None
     op = None
     has_hash = False
     slot = None
+    length = 1
     input_tags = []
     in_input = False
 
     def flush_current():
         if name is None or slot is None:
             return
-        # Align with C++ sparse classification (int64 outputs).
-        # Hash implies int32/string outputs are converted to int64 sparse.
-        # Int64 input-driven passthrough ops (e.g., identity/mod int64) are sparse.
-        inferred_sparse = has_hash or any("int64" in t for t in input_tags)
-        slot_entries.append((slot, inferred_sparse))
+        is_sparse = _infer_sparse_by_cpp_rule(op or "", has_hash, input_tags)
+        entries.append((slot, is_sparse, max(1, int(length))))
 
     with open(_OPS_YAML, encoding="utf-8") as f:
         for raw in f:
@@ -145,53 +214,84 @@ def _build_sparse_slot_to_col_map() -> dict:
                 op = None
                 has_hash = False
                 slot = None
+                length = 1
                 input_tags = []
                 in_input = False
                 continue
             if name is None:
                 continue
-
             m_op = re.match(r"^\s*op:\s*(\S+)\s*$", line)
             if m_op:
                 op = m_op.group(1)
                 in_input = False
                 continue
-
             if re.match(r"^\s*hash:\s*$", line):
                 has_hash = True
                 in_input = False
                 continue
-
             if re.match(r"^\s*input:\s*$", line):
                 in_input = True
                 continue
-
             m_slot = re.match(r"^\s*slot:\s*(-?\d+)\s*$", line)
             if m_slot:
                 slot = int(m_slot.group(1))
                 in_input = False
                 continue
-
+            m_len = re.match(r"^\s*len:\s*(\d+)\s*$", line)
+            if m_len:
+                length = int(m_len.group(1))
+                continue
             if in_input:
                 m_tag = re.search(r"!(var|const)_([a-zA-Z0-9_]+)", line)
                 if m_tag:
-                    input_tags.append(m_tag.group(2).lower())
-                # leaving input section when dedented to config key
+                    input_tags.append(m_tag.group(2))
                 if re.match(r"^\s*(hash|export|op|name):", line):
                     in_input = False
 
     flush_current()
 
-    sparse_slots = [s for s, is_sparse in sorted(slot_entries, key=lambda x: x[0]) if is_sparse]
-    return {s: i for i, s in enumerate(sparse_slots)}
+    dense_map = {}
+    sparse_map = {}
+    dense_offset = 0
+    sparse_idx = 0
+    for s, is_sparse, ln in sorted(entries, key=lambda x: x[0]):
+        if is_sparse:
+            sparse_map[s] = sparse_idx
+            sparse_idx += 1
+        else:
+            dense_map[s] = dense_offset
+            dense_offset += ln
+    return dense_map, sparse_map
+
+
+def _dense(result: dict, slot: int) -> float:
+    """Read a dense float value at slot from result."""
+    global _DENSE_SLOT_TO_COL, _SPARSE_SLOT_TO_COL
+    d = result["dense"]
+    if _DENSE_SLOT_TO_COL is None or _SPARSE_SLOT_TO_COL is None:
+        _DENSE_SLOT_TO_COL, _SPARSE_SLOT_TO_COL = _build_slot_maps()
+    col = _DENSE_SLOT_TO_COL.get(slot)
+    if col is None:
+        if 0 <= slot < d.shape[1]:
+            return float(d[0, slot])
+        raise IndexError(
+            f"dense slot {slot} not found in slot->col map; "
+            f"dense width={d.shape[1]}"
+        )
+    if not (0 <= col < d.shape[1]):
+        raise IndexError(
+            f"dense col {col} (from slot {slot}) out of range; "
+            f"dense width={d.shape[1]}"
+        )
+    return float(d[0, col])
 
 
 def _sparse(result: dict, slot: int) -> list:
     """Read a sparse value list at slot from result."""
-    global _SPARSE_SLOT_TO_COL
+    global _DENSE_SLOT_TO_COL, _SPARSE_SLOT_TO_COL
     s = result["sparse"]
-    if _SPARSE_SLOT_TO_COL is None:
-        _SPARSE_SLOT_TO_COL = _build_sparse_slot_to_col_map()
+    if _DENSE_SLOT_TO_COL is None or _SPARSE_SLOT_TO_COL is None:
+        _DENSE_SLOT_TO_COL, _SPARSE_SLOT_TO_COL = _build_slot_maps()
     col = _SPARSE_SLOT_TO_COL.get(slot)
     if col is None:
         if 0 <= slot < len(s):
@@ -2856,12 +2956,22 @@ class TestDisc002BucketizeInt64:
     @skip_if_unavailable
     def test_bucketize_i64_002_11(self, record_result):
         """bucketize(30LL, [18,25,35,45,55,65]) int64 → 2"""
-        user = {
-            "bucket_v_i64": {"type": DT.kInt64Value, "value": 30},
-            "bucket_bounds_i64": {"type": DT.kInt64Array, "value": self.BOUNDS_I64},
-        }
-        _run(record_result, "TC-UNIT-DISC-002-11", user, 76,
-             check=lambda v: abs(v - 2) <= 1e-5)
+        case_id = "TC-UNIT-DISC-002-11"
+        actual = "N/A"
+        try:
+            user = {
+                "bucket_v_i64": {"type": DT.kInt64Value, "value": 30},
+                "bucket_bounds_i64": {"type": DT.kInt64Array, "value": self.BOUNDS_I64},
+            }
+            result = _run_fealib(user)
+            actual = _sparse(result, 76)
+            assert len(actual) == 1, f"Expected 1 element, got {len(actual)}"
+            expected = _int64_hash("disc_002_11_", 2, 1048575)
+            assert actual[0] == expected, f"Expected hash({expected}), got {actual[0]}"
+            record_result(case_id, f"hash={actual[0]}", "PASS")
+        except Exception:
+            record_result(case_id, actual, "FAIL")
+            raise
 
 
 # ===========================================================================
