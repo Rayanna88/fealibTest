@@ -18,6 +18,7 @@ import struct
 import sys
 import traceback as _tb
 from pathlib import Path
+import re
 
 import pytest
 
@@ -51,6 +52,7 @@ skip_if_unavailable = pytest.mark.skipif(
 # ---------------------------------------------------------------------------
 _FIXTURE_DIR = Path(__file__).parent.parent / "fixtures"
 _OPS_YAML = str(_FIXTURE_DIR / "ops_builtin.yaml")
+_SPARSE_SLOT_TO_COL = None
 
 # ---------------------------------------------------------------------------
 # Helper: build pyfealib Fealib instance (session-scoped, lazy)
@@ -111,10 +113,99 @@ def _dense(result: dict, slot: int) -> float:
     return float(d[0, slot])
 
 
+def _build_sparse_slot_to_col_map() -> dict:
+    """
+    Build slot -> sparse column mapping consistent with fealib-cpp/src/program.cc:
+    sparse columns are assigned by expression index order after sorting by slot.
+    """
+    slot_entries = []
+    name = None
+    op = None
+    has_hash = False
+    slot = None
+    input_tags = []
+    in_input = False
+
+    def flush_current():
+        if name is None or slot is None:
+            return
+        # Align with C++ sparse classification (int64 outputs).
+        # Hash implies int32/string outputs are converted to int64 sparse.
+        # Int64 input-driven passthrough ops (e.g., identity/mod int64) are sparse.
+        inferred_sparse = has_hash or any("int64" in t for t in input_tags)
+        slot_entries.append((slot, inferred_sparse))
+
+    with open(_OPS_YAML, encoding="utf-8") as f:
+        for raw in f:
+            line = raw.rstrip("\n")
+            m_name = re.match(r"^\s*-\s+name:\s*(\S+)\s*$", line)
+            if m_name:
+                flush_current()
+                name = m_name.group(1)
+                op = None
+                has_hash = False
+                slot = None
+                input_tags = []
+                in_input = False
+                continue
+            if name is None:
+                continue
+
+            m_op = re.match(r"^\s*op:\s*(\S+)\s*$", line)
+            if m_op:
+                op = m_op.group(1)
+                in_input = False
+                continue
+
+            if re.match(r"^\s*hash:\s*$", line):
+                has_hash = True
+                in_input = False
+                continue
+
+            if re.match(r"^\s*input:\s*$", line):
+                in_input = True
+                continue
+
+            m_slot = re.match(r"^\s*slot:\s*(-?\d+)\s*$", line)
+            if m_slot:
+                slot = int(m_slot.group(1))
+                in_input = False
+                continue
+
+            if in_input:
+                m_tag = re.search(r"!(var|const)_([a-zA-Z0-9_]+)", line)
+                if m_tag:
+                    input_tags.append(m_tag.group(2).lower())
+                # leaving input section when dedented to config key
+                if re.match(r"^\s*(hash|export|op|name):", line):
+                    in_input = False
+
+    flush_current()
+
+    sparse_slots = [s for s, is_sparse in sorted(slot_entries, key=lambda x: x[0]) if is_sparse]
+    return {s: i for i, s in enumerate(sparse_slots)}
+
+
 def _sparse(result: dict, slot: int) -> list:
     """Read a sparse value list at slot from result."""
+    global _SPARSE_SLOT_TO_COL
     s = result["sparse"]
-    return list(s[slot])
+    if _SPARSE_SLOT_TO_COL is None:
+        _SPARSE_SLOT_TO_COL = _build_sparse_slot_to_col_map()
+    col = _SPARSE_SLOT_TO_COL.get(slot)
+    if col is None:
+        if 0 <= slot < len(s):
+            return list(s[slot])
+        raise IndexError(
+            f"sparse slot {slot} not found in slot->col map; "
+            f"sparse columns available={len(s)}"
+        )
+    if not (0 <= col < len(s)):
+        raise IndexError(
+            f"sparse col {col} (from slot {slot}) out of range; "
+            f"sparse columns available={len(s)}"
+        )
+    return list(s[col])
 
 
 # ---------------------------------------------------------------------------
