@@ -2243,3 +2243,120 @@ user_features:
       mask: 1048575
     export:
       slot: 525
+
+  # ============================================================================
+  # TC-UNIT-STAT-002-07: topk([], k=0) → [] not crash
+  # TC-UNIT-STAT-002-08: topk([1,2,3], k=0) → [] not crash
+  # ============================================================================
+  - name: stat_topk_k0_empty
+    op: topk
+    input:
+      - !var_int32_array user.topk_k0_empty_arr
+      - !const_int32 0
+    export:
+      slot: 705
+      len: 0
+      padding: 0
+
+  - name: stat_topk_k0_nonempty
+    op: topk
+    input:
+      - !var_int32_array user.topk_k0_arr
+      - !const_int32 0
+    export:
+      slot: 706
+      len: 0
+      padding: 0
+
+  # ============================================================================
+  # TC-UNIT-CONCAT-001-09: concat(float, int32)
+  # TC-UNIT-CONCAT-001-10: concat(int32, float)
+  # TC-UNIT-CONCAT-001-11: remaining 6 combos
+  # ============================================================================
+  - name: concat_f32_i32
+    op: concat
+    input:
+      - !var_float user.con_fi_val
+      - !var_int32 user.con_fi_int
+    hash:
+      prefix: "con_"
+      mask: 1048575
+    export:
+      slot: 707
+
+  - name: concat_i32_f32
+    op: concat
+    input:
+      - !var_int32 user.con_if_int
+      - !var_float user.con_if_val
+    hash:
+      prefix: "con_"
+      mask: 1048575
+    export:
+      slot: 708
+
+  - name: concat_i64_f32
+    op: concat
+    input:
+      - !var_int64 user.con_lf_int
+      - !var_float user.con_lf_val
+    hash:
+      prefix: "con_"
+      mask: 1048575
+    export:
+      slot: 709
+
+  - name: concat_i64_i32
+    op: concat
+    input:
+      - !var_int64 user.con_li_int
+      - !var_int32 user.con_li_i32
+    hash:
+      prefix: "con_"
+      mask: 1048575
+    export:
+      slot: 710
+
+  - name: concat_f32_i64
+    op: concat
+    input:
+      - !var_float user.con_fl_val
+      - !var_int64 user.con_fl_int
+    hash:
+      prefix: "con_"
+      mask: 1048575
+    export:
+      slot: 711
+
+  - name: concat_str_i64
+    op: concat
+    input:
+      - !var_string user.con_sl_str
+      - !var_int64 user.con_sl_int
+    hash:
+      prefix: "con_"
+      mask: 1048575
+    export:
+      slot: 712
+
+  - name: concat_str_f32
+    op: concat
+    input:
+      - !var_string user.con_sf_str
+      - !var_float user.con_sf_val
+    hash:
+      prefix: "con_"
+      mask: 1048575
+    export:
+      slot: 713
+
+  - name: concat_i32_i64
+    op: concat
+    input:
+      - !var_int32 user.con_il_i32
+      - !var_int64 user.con_il_int
+    hash:
+      prefix: "con_"
+      mask: 1048575
+    export:
+      slot: 714
