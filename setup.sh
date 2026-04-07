@@ -4,6 +4,20 @@
 
 set -e
 
+# ── Logging setup ──────────────────────────────────────────────────────────────
+LOG_FILE="setup_$(date '+%Y%m%d_%H%M%S').log"
+
+# Print the mandatory header line into the log file first
+echo "the log info while running the scripts in jump server" > "$LOG_FILE"
+
+# From this point forward, everything printed to stdout/stderr is ALSO written
+# to the log file (tee appends so the header line above is preserved).
+exec > >(tee -a "$LOG_FILE") 2>&1
+
+echo "Log file: $LOG_FILE"
+echo "──────────────────────────────────────────────────────────────────────────"
+# ───────────────────────────────────────────────────────────────────────────────
+
 echo "=========================================="
 echo "pyfealib Environment Setup"
 echo "=========================================="
