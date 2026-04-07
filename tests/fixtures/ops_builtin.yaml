@@ -2310,6 +2310,9 @@ user_features:
     input:
       - !var_int32_array user.topk_k0_empty_arr
       - !const_int32 0
+    hash:
+      prefix: "stat_topk_k0_empty_"
+      mask: 1048575
     export:
       slot: 705
       len: 1
@@ -2320,6 +2323,9 @@ user_features:
     input:
       - !var_int32_array user.topk_k0_arr
       - !const_int32 0
+    hash:
+      prefix: "stat_topk_k0_nonempty_"
+      mask: 1048575
     export:
       slot: 706
       len: 1
