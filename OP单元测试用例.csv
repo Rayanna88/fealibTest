@@ -1,276 +1,276 @@
 ﻿子用例编号,用例编号,测试类型,测试优先级,测试对象,验证描述（输入→操作）,期望结果,实际结果,测试结果,是否在fealibTest覆盖
-TC-UNIT-ARITH-001-01,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"add(3.5f, 2.0f)",期望输出 5.5f，误差 ≤ 1e-6,N/A,NOT_RUN,是
-TC-UNIT-ARITH-001-02,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"add(10, 3) int32",期望输出 13,N/A,NOT_RUN,是
-TC-UNIT-ARITH-001-03,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"add(1000000000LL, 2000000000LL) int64",期望输出 3000000000LL,N/A,NOT_RUN,是
-TC-UNIT-ARITH-001-04,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"sub(10.0f, 3.5f)",期望输出 6.5f，误差 ≤ 1e-6,N/A,NOT_RUN,是
-TC-UNIT-ARITH-001-05,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"sub(10, 3) int32",期望输出 7,N/A,NOT_RUN,是
-TC-UNIT-ARITH-001-06,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"sub(5000000000LL, 1LL) int64",期望输出 4999999999LL,N/A,NOT_RUN,是
-TC-UNIT-ARITH-001-07,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"mul(2.0f, 4.0f)",期望输出 8.0f，误差 ≤ 1e-6,N/A,NOT_RUN,是
-TC-UNIT-ARITH-001-08,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"mul(3, 4) int32",期望输出 12,N/A,NOT_RUN,是
-TC-UNIT-ARITH-001-09,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"mul(1000000LL, 1000000LL) int64",期望输出 1000000000000LL,N/A,NOT_RUN,是
-TC-UNIT-ARITH-001-10,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"div(9.0f, 3.0f)",期望输出 3.0f，误差 ≤ 1e-6,N/A,NOT_RUN,是
-TC-UNIT-ARITH-001-11,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"div(9, 3) int32",期望输出 3,N/A,NOT_RUN,是
-TC-UNIT-ARITH-001-12,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"div(9LL, 3LL) int64",期望输出 3LL,N/A,NOT_RUN,是
-TC-UNIT-ARITH-001-13,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"div(1.0f, 0.0f) 除零",不崩溃，返回 padding（0 或 inf）,N/A,NOT_RUN,是
-TC-UNIT-ARITH-002-01,TC-UNIT-ARITH-002,单元测试,P0,mod,"mod(7, 3) int32",期望输出 1,N/A,NOT_RUN,是
-TC-UNIT-ARITH-002-02,TC-UNIT-ARITH-002,单元测试,P0,mod,"mod(-7, 3) int32",期望输出 ≥ 0（规范要求结果非负，如 2）,N/A,NOT_RUN,是
-TC-UNIT-ARITH-002-03,TC-UNIT-ARITH-002,单元测试,P0,mod,"mod(0, 5) int32",期望输出 0,N/A,NOT_RUN,是
-TC-UNIT-ARITH-002-04,TC-UNIT-ARITH-002,单元测试,P0,mod,"mod(6, 3) int32",期望输出 0（整除）,N/A,NOT_RUN,是
-TC-UNIT-ARITH-002-05,TC-UNIT-ARITH-002,单元测试,P0,mod,"mod(-1, 7) int32",期望输出 ≥ 0,N/A,NOT_RUN,是
-TC-UNIT-ARITH-002-06,TC-UNIT-ARITH-002,单元测试,P0,mod,"mod(1000000007LL, 1000000006LL) int64",期望输出 1LL,N/A,NOT_RUN,是
-TC-UNIT-ARITH-002-07,TC-UNIT-ARITH-002,单元测试,P0,mod,"mod(-100LL, 7LL) int64",期望输出 ≥ 0,N/A,NOT_RUN,是
-TC-UNIT-ARITH-002-08,TC-UNIT-ARITH-002,单元测试,P0,mod,"mod(0LL, 100LL) int64",期望输出 0LL,N/A,NOT_RUN,是
-TC-UNIT-ARITH-002-09,TC-UNIT-ARITH-002,单元测试,P0,mod,int32 与 int64 对相同数值 mod 结果比较,两者对相同数值结果一致,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-01,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,abs(-3.14f),期望输出 3.14f，误差 ≤ 1e-6,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-02,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,abs(-10) int32,期望输出 10,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-03,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,abs(-9999999LL) int64,期望输出 9999999LL,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-04,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,abs(0.0f),期望输出 0.0f,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-05,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,ceil(1.2f) → int32,期望输出 2,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-06,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,ceil(-1.2f) → int32,期望输出 -1,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-07,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,floor(1.9f) → int32,期望输出 1,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-08,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,floor(-1.9f) → int32,期望输出 -2,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-09,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,round(1.5f) → int32,期望输出 2,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-10,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,round(1.4f) → int32,期望输出 1,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-11,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,round(-1.5f) → int32,记录实际值（取决于实现，-2 或 -1）,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-12,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,exp(0.0f),期望输出 1.0f,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-13,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,exp(1.0f),期望输出 ≈ 2.71828f，误差 ≤ 1e-4,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-14,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,log(1.0f),期望输出 0.0f,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-15,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,log(2.718281f),期望输出 ≈ 1.0f，误差 ≤ 1e-5,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-16,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,log10(100.0f),期望输出 2.0f,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-17,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,log2(8.0f),期望输出 3.0f,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-18,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,sqrt(4.0f),期望输出 2.0f,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-19,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,sqrt(2.0f),期望输出 ≈ 1.41421f，误差 ≤ 1e-5,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-20,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,sigmoid(0.0f),期望输出 0.5f,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-21,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,sigmoid(100.0f),期望输出 ≈ 1.0f（接近上界）,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-22,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,sigmoid(-100.0f),期望输出 ≈ 0.0f（接近下界）,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-23,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,"pow(2.0f, 10.0f)",期望输出 1024.0f,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-24,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,"pow(3.0f, 3.0f)",期望输出 27.0f,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-25,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,log(0.0f) 边界,不崩溃，返回 -inf 或 padding,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-26,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,log(-1.0f) 边界,不崩溃，返回 NaN 或 padding,N/A,NOT_RUN,是
-TC-UNIT-ARITH-003-27,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,sqrt(-1.0f) 边界,不崩溃，返回 NaN 或 padding,N/A,NOT_RUN,是
-TC-UNIT-ARITH-004-01,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"scale(0.75f, 100.0f) → ceil(75.0)",期望输出 75,N/A,NOT_RUN,是
-TC-UNIT-ARITH-004-02,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"scale(0.0f, 100.0f)",期望输出 0,N/A,NOT_RUN,是
-TC-UNIT-ARITH-004-03,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"scale(1.0f, 100.0f)",期望输出 100,N/A,NOT_RUN,是
-TC-UNIT-ARITH-004-04,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"scale(0.001f, 1000.0f)",期望输出 1（ceil(1.0)=1）,N/A,NOT_RUN,是
-TC-UNIT-ARITH-004-05,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"scale(0.0f, 0.0f) 边界",不崩溃，返回 0,N/A,NOT_RUN,是
-TC-UNIT-ARITH-004-06,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"wilson_score(100, 80, 95)","期望输出 ∈ (0.0, 1.0)",N/A,NOT_RUN,是
-TC-UNIT-ARITH-004-07,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"wilson_score(1000, 500, 95)","期望输出 ∈ (0.0, 1.0)",N/A,NOT_RUN,是
-TC-UNIT-ARITH-004-08,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"wilson_score(0, 0, 95) total=0 边界",不崩溃，返回 padding,N/A,NOT_RUN,是
-TC-UNIT-ARITH-004-09,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"wilson_score(100, 0, 95)",期望输出 ≥ 0.0,N/A,NOT_RUN,是
-TC-UNIT-ARITH-004-10,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"wilson_score(100, 100, 95)","期望输出 ∈ (0.0, 1.0)",N/A,NOT_RUN,是
-TC-UNIT-ARITH-004-11,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"smooth(1000.0f, 50.0f, 100.0f)",期望输出 ≈ 0.0464f，误差 ≤ 1e-4,N/A,NOT_RUN,是
-TC-UNIT-ARITH-004-12,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"smooth(0.0f, 0.0f, 100.0f)",不崩溃，结果 ≈ prior,N/A,NOT_RUN,是
-TC-UNIT-ARITH-004-13,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"smooth(0.0f, 0.0f, 0.0f) 分母为0",不崩溃，返回 padding,N/A,NOT_RUN,是
-TC-UNIT-ARITH-004-14,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"smooth(100.0f, 100.0f, 100.0f)","期望输出 ∈ (0.0, 1.0]",N/A,NOT_RUN,是
-TC-UNIT-ARITH-004-15,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"z_score(85.0f, 70.0f, 15.0f)",期望输出 1.0f，误差 ≤ 1e-5,N/A,NOT_RUN,是
-TC-UNIT-ARITH-004-16,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"z_score(70.0f, 70.0f, 15.0f)",期望输出 0.0f,N/A,NOT_RUN,是
-TC-UNIT-ARITH-004-17,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"z_score(55.0f, 70.0f, 15.0f)",期望输出 -1.0f,N/A,NOT_RUN,是
-TC-UNIT-ARITH-004-18,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"z_score(85.0f, 70.0f, 0.0f) std=0 边界",不崩溃，返回 padding,N/A,NOT_RUN,是
-TC-UNIT-STAT-001-01,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,"avg([1.0f,2.0f,3.0f,4.0f,5.0f])",期望输出 3.0f,N/A,NOT_RUN,是
-TC-UNIT-STAT-001-02,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,avg([100.0f]) 单元素,期望输出 100.0f,N/A,NOT_RUN,是
-TC-UNIT-STAT-001-03,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,avg([]) 空数组,不崩溃，返回 padding,N/A,NOT_RUN,是
-TC-UNIT-STAT-001-04,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,"var([1.0f,2.0f,3.0f]) 总体方差",期望输出 ≈ 0.667f，误差 ± 1e-3,N/A,NOT_RUN,是
-TC-UNIT-STAT-001-05,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,"var([5.0f,5.0f,5.0f]) 所有值相同",期望输出 0.0f,N/A,NOT_RUN,是
-TC-UNIT-STAT-001-06,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,var([]) 空数组,不崩溃，返回 padding,N/A,NOT_RUN,是
-TC-UNIT-STAT-001-07,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,"std([1.0f,2.0f,3.0f])",期望输出 ≈ 0.816f，误差 ± 1e-3,N/A,NOT_RUN,是
-TC-UNIT-STAT-001-08,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,"std([5.0f,5.0f,5.0f])",期望输出 0.0f,N/A,NOT_RUN,是
-TC-UNIT-STAT-001-09,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,std([]) 空数组,不崩溃，返回 padding,N/A,NOT_RUN,是
-TC-UNIT-STAT-001-10,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,"min([3.0f,1.0f,4.0f,1.5f])",期望输出 1.0f,N/A,NOT_RUN,是
-TC-UNIT-STAT-001-11,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,min([5]) 单元素,期望输出 5,N/A,NOT_RUN,是
-TC-UNIT-STAT-001-12,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,min([]) 空数组,不崩溃，返回 padding,N/A,NOT_RUN,是
-TC-UNIT-STAT-001-13,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,"max([3.0f,1.0f,4.0f,1.5f])",期望输出 4.0f,N/A,NOT_RUN,是
-TC-UNIT-STAT-001-14,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,max([5]) 单元素,期望输出 5,N/A,NOT_RUN,是
-TC-UNIT-STAT-001-15,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,max([]) 空数组,不崩溃，返回 padding,N/A,NOT_RUN,是
-TC-UNIT-STAT-002-01,TC-UNIT-STAT-002,单元测试,P0,topk,"topk([5,3,1,4,2], k=3) 正常截断","期望输出 [5,3,1]，长度=3",N/A,NOT_RUN,是
-TC-UNIT-STAT-002-02,TC-UNIT-STAT-002,单元测试,P0,topk,"topk([1.0f,2.0f,3.0f,4.0f,5.0f], k=2)","期望输出 [1.0f,2.0f]，长度=2",N/A,NOT_RUN,是
-TC-UNIT-STAT-002-03,TC-UNIT-STAT-002,单元测试,P0,topk,"topk([""a"",""b"",""c"",""d""], k=2)","期望输出 [""a"",""b""]，长度=2",N/A,NOT_RUN,是
-TC-UNIT-STAT-002-04,TC-UNIT-STAT-002,单元测试,P0,topk,"topk([1,2,3], k=5) k > 数组长度","期望输出 [1,2,3]，长度=3（≤k）",N/A,NOT_RUN,是
-TC-UNIT-STAT-002-05,TC-UNIT-STAT-002,单元测试,P0,topk,"topk([1,2,3], k=3) k = 数组长度","期望输出 [1,2,3]，长度=3",N/A,NOT_RUN,是
-TC-UNIT-STAT-002-06,TC-UNIT-STAT-002,单元测试,P0,topk,"topk([], k=3) 空数组",期望返回 []，不崩溃,N/A,NOT_RUN,是
-TC-UNIT-STAT-002-07,TC-UNIT-STAT-002,单元测试,P0,topk,"topk([], k=0) 空数组+k=0",期望返回 []，不崩溃,N/A,NOT_RUN,是
-TC-UNIT-STAT-002-08,TC-UNIT-STAT-002,单元测试,P0,topk,"topk([1,2,3], k=0)",期望返回 []，长度=0，不崩溃,N/A,NOT_RUN,是
-TC-UNIT-STAT-002-09,TC-UNIT-STAT-002,单元测试,P0,topk,"topk([1,2,3], k=5) + export.len=5,padding=0","期望输出 [1,2,3,0,0]，补 padding 至长度5",N/A,NOT_RUN,是
-TC-UNIT-STAT-003-01,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"norm([3.0f,4.0f], p=2.0f) L2范数",期望输出 5.0f，误差 ≤ 1e-6,N/A,NOT_RUN,是
-TC-UNIT-STAT-003-02,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"norm([1.0f,1.0f,1.0f,1.0f], p=2.0f)",期望输出 2.0f,N/A,NOT_RUN,是
-TC-UNIT-STAT-003-03,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"norm([3.0f,4.0f], p=1.0f) L1范数",期望输出 7.0f,N/A,NOT_RUN,是
-TC-UNIT-STAT-003-04,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"norm([], p=2.0f) 空数组",不崩溃，返回 0.0f 或 padding,N/A,NOT_RUN,是
-TC-UNIT-STAT-003-05,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"normalize([3.0f,4.0f], p=2.0f)","期望输出 [0.6f,0.8f]，每元素误差 ≤ 1e-6",N/A,NOT_RUN,是
-TC-UNIT-STAT-003-06,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"normalize([1.0f,0.0f,0.0f], p=2.0f)","期望输出 [1.0f,0.0f,0.0f]",N/A,NOT_RUN,是
-TC-UNIT-STAT-003-07,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"normalize([0.0f,0.0f], p=2.0f) 零向量","不崩溃，返回 [0.0f,0.0f] 或 padding",N/A,NOT_RUN,是
-TC-UNIT-STAT-003-08,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"dot_product([1.0f,2.0f],[3.0f,4.0f])",期望输出 11.0f,N/A,NOT_RUN,是
-TC-UNIT-STAT-003-09,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"dot_product([0.0f,0.0f],[1.0f,1.0f])",期望输出 0.0f,N/A,NOT_RUN,是
-TC-UNIT-STAT-003-10,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"dot_product([1.0f,2.0f],[3.0f]) 维度不匹配",不崩溃，返回 padding,N/A,NOT_RUN,是
-TC-UNIT-STAT-003-11,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"count([1,2,2,3,2], 2)",期望输出 3,N/A,NOT_RUN,是
-TC-UNIT-STAT-003-12,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"count([1,2,3], 5) 元素不存在",期望输出 0,N/A,NOT_RUN,是
-TC-UNIT-STAT-003-13,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"count([], 1) 空数组",期望输出 0,N/A,NOT_RUN,是
-TC-UNIT-STAT-003-14,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"contains([1,2,3], 2)","期望输出 ""true""",N/A,NOT_RUN,是
-TC-UNIT-STAT-003-15,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"contains([1,2,3], 5)","期望输出 ""false""",N/A,NOT_RUN,是
-TC-UNIT-STAT-003-16,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"contains([], 1) 空数组","期望输出 ""false""",N/A,NOT_RUN,是
-TC-UNIT-STAT-003-17,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"len([1,2,3,4,5])",期望输出 5,N/A,NOT_RUN,是
-TC-UNIT-STAT-003-18,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,len([]) 空数组,期望输出 0,N/A,NOT_RUN,是
-TC-UNIT-STAT-003-19,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"len([""a"",""b""])",期望输出 2,N/A,NOT_RUN,是
-TC-UNIT-DISC-001-01,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(5.0f, 3.0f) float",期望输出 1（5.0 ≥ 3.0）,N/A,NOT_RUN,是
-TC-UNIT-DISC-001-02,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(2.0f, 3.0f) float",期望输出 0（2.0 < 3.0）,N/A,NOT_RUN,是
-TC-UNIT-DISC-001-03,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(3.0f, 3.0f) float 等于 threshold",期望输出 1（规范：v >= threshold 返回1）,N/A,NOT_RUN,是
-TC-UNIT-DISC-001-04,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(-1.0f, 0.0f) float",期望输出 0,N/A,NOT_RUN,是
-TC-UNIT-DISC-001-05,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(0.0f, 0.0f) float 等于0 threshold",期望输出 1,N/A,NOT_RUN,是
-TC-UNIT-DISC-001-06,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(5, 3) int32",期望输出 1,N/A,NOT_RUN,是
-TC-UNIT-DISC-001-07,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(2, 3) int32",期望输出 0,N/A,NOT_RUN,是
-TC-UNIT-DISC-001-08,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(3, 3) int32 等于 threshold",期望输出 1,N/A,NOT_RUN,是
-TC-UNIT-DISC-001-09,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(5LL, 3LL) int64",期望输出 1,N/A,NOT_RUN,是
-TC-UNIT-DISC-001-10,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(2LL, 3LL) int64",期望输出 0,N/A,NOT_RUN,是
-TC-UNIT-DISC-001-11,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(3LL, 3LL) int64 等于 threshold",期望输出 1,N/A,NOT_RUN,是
-TC-UNIT-DISC-001-12,TC-UNIT-DISC-001,单元测试,P0,binarize,binarize 返回类型为 int32，须配 hash,"配置 hash.prefix=""bin_""，验证哈希输出 ∈ [0, mask]",N/A,NOT_RUN,是
-TC-UNIT-DISC-002-01,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(20.0f, [18,25,35,45,55,65]) 边界内",期望输出 1（18≤20<25）,N/A,NOT_RUN,是
-TC-UNIT-DISC-002-02,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(30.0f, [18,25,35,45,55,65])",期望输出 2（25≤30<35）,N/A,NOT_RUN,是
-TC-UNIT-DISC-002-03,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(60.0f, [18,25,35,45,55,65])",期望输出 5（55≤60<65）,N/A,NOT_RUN,是
-TC-UNIT-DISC-002-04,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(17.0f, [18,25,35,45,55,65]) 低于最小边界",期望输出 0,N/A,NOT_RUN,是
-TC-UNIT-DISC-002-05,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(-100.0f, [18,25,35,45,55,65])",期望输出 0,N/A,NOT_RUN,是
-TC-UNIT-DISC-002-06,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(70.0f, [18,25,35,45,55,65]) 高于最大边界",期望输出 6,N/A,NOT_RUN,是
-TC-UNIT-DISC-002-07,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(1000.0f, [18,25,35,45,55,65])",期望输出 6,N/A,NOT_RUN,是
-TC-UNIT-DISC-002-08,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(18.0f, [18,25,...]) 等于最小边界",期望输出 1（≥18 属于第1桶）,N/A,NOT_RUN,是
-TC-UNIT-DISC-002-09,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(25.0f, [18,25,...]) 等于中间边界",期望输出 2（≥25 属于第2桶）,N/A,NOT_RUN,是
-TC-UNIT-DISC-002-10,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(30, [...]) int32",期望输出 2,N/A,NOT_RUN,是
-TC-UNIT-DISC-002-11,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(30LL, [18LL,25LL,35LL]) int64",期望输出 2,N/A,NOT_RUN,是
-TC-UNIT-DISC-002-12,TC-UNIT-DISC-002,单元测试,P0,bucketize,"配置 hash.prefix=""age_bucket_""，验证哈希输出","期望输出 ∈ [0, mask]",N/A,NOT_RUN,是
-TC-UNIT-IDENTITY-001-01,TC-UNIT-IDENTITY-001,单元测试,P0,identity,"identity(!var_float user.age=3.14f) + export.len=1,padding=0.0",期望输出 [3.14f]，值不变,N/A,NOT_RUN,是
-TC-UNIT-IDENTITY-001-02,TC-UNIT-IDENTITY-001,单元测试,P0,identity,"identity(!var_int32 user.count=42) + hash.prefix=""cnt_""","期望输出 hash(""cnt_""+42) ∈ [0, mask]",N/A,NOT_RUN,是
-TC-UNIT-IDENTITY-001-03,TC-UNIT-IDENTITY-001,单元测试,P0,identity,identity(!var_int64 user.uid=9999999LL) 无hash,期望直通输出 9999999LL,N/A,NOT_RUN,是
-TC-UNIT-IDENTITY-001-04,TC-UNIT-IDENTITY-001,单元测试,P0,identity,"identity(!var_string user.gender=""male"") 自动hash","期望输出哈希值 ∈ [0, mask]",N/A,NOT_RUN,是
-TC-UNIT-IDENTITY-001-05,TC-UNIT-IDENTITY-001,单元测试,P0,identity,"identity(!var_string user.gender=""male"") 连续执行两次",期望两次哈希值完全相同（幂等）,N/A,NOT_RUN,是
-TC-UNIT-IDENTITY-001-06,TC-UNIT-IDENTITY-001,单元测试,P0,identity,identity(!var_int32 user.age=25) 字段缺失,不崩溃，返回 padding,N/A,NOT_RUN,是
-TC-UNIT-IDENTITY-001-07,TC-UNIT-IDENTITY-001,单元测试,P0,identity,"identity(!var_string_array item.tags=[""sports"",""news""]) + export.len=5,padding=0",期望哈希数组长度=2，补 padding 至 5,N/A,NOT_RUN,是
-TC-UNIT-IDENTITY-001-08,TC-UNIT-IDENTITY-001,单元测试,P0,identity,"identity(!var_int64_array user.ids=[1LL,2LL,3LL]) 直通","期望输出 [1LL,2LL,3LL]，保持原顺序",N/A,NOT_RUN,是
-TC-UNIT-IDENTITY-001-09,TC-UNIT-IDENTITY-001,单元测试,P0,identity,"identity(!var_float_array item.scores=[0.1f,0.2f,0.3f]) + export.len=3,padding=0.0","期望输出 [0.1f,0.2f,0.3f]",N/A,NOT_RUN,是
-TC-UNIT-IDENTITY-001-10,TC-UNIT-IDENTITY-001,单元测试,P0,identity,identity(!var_string_array item.tags=[]) 空数组,不崩溃，返回空数组或 padding,N/A,NOT_RUN,是
-TC-UNIT-IDENTITY-001-11,TC-UNIT-IDENTITY-001,单元测试,P0,identity,identity(float) + 配置 hash 非法,期望构建期报错（float 不支持 hash）,N/A,NOT_RUN,是
-TC-UNIT-IDENTITY-001-12,TC-UNIT-IDENTITY-001,单元测试,P0,identity,identity(int32) + 无 hash 非法,期望构建期报错（int32 必须配 hash）,N/A,NOT_RUN,是
-TC-UNIT-STR-001-01,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"lower(""Hello_World"")","期望输出 ""hello_world""",N/A,NOT_RUN,是
-TC-UNIT-STR-001-02,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"lower(""ABC123"")","期望输出 ""abc123""",N/A,NOT_RUN,是
-TC-UNIT-STR-001-03,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"lower(""already_lower"") 已小写","期望输出 ""already_lower""（不变）",N/A,NOT_RUN,是
-TC-UNIT-STR-001-04,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"lower("""") 空字符串","期望输出 """"，不崩溃",N/A,NOT_RUN,是
-TC-UNIT-STR-001-05,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"lower(""SAME"") 连续执行两次",期望两次哈希值完全相同（幂等）,N/A,NOT_RUN,是
-TC-UNIT-STR-001-06,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"upper(""hello"")","期望输出 ""HELLO""",N/A,NOT_RUN,是
-TC-UNIT-STR-001-07,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"upper(""abc123"")","期望输出 ""ABC123""",N/A,NOT_RUN,是
-TC-UNIT-STR-001-08,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"upper(""ALREADY_UPPER"") 已大写","期望输出 ""ALREADY_UPPER""（不变）",N/A,NOT_RUN,是
-TC-UNIT-STR-001-09,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"upper("""") 空字符串","期望输出 """"，不崩溃",N/A,NOT_RUN,是
-TC-UNIT-STR-001-10,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"reverse(""abc"")","期望输出 ""cba""",N/A,NOT_RUN,是
-TC-UNIT-STR-001-11,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"reverse(""abcd"")","期望输出 ""dcba""",N/A,NOT_RUN,是
-TC-UNIT-STR-001-12,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"reverse(""a"") 单字符","期望输出 ""a""",N/A,NOT_RUN,是
-TC-UNIT-STR-001-13,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"reverse("""") 空字符串","期望输出 """"，不崩溃",N/A,NOT_RUN,是
-TC-UNIT-STR-001-14,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"reverse(""abcba"") 回文","期望输出 ""abcba""（不变）",N/A,NOT_RUN,是
-TC-UNIT-STR-001-15,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,lower/upper/reverse 输出类型 string，须配 hash,"配置 hash.prefix=""str_""，验证哈希输出 ∈ [0, mask]",N/A,NOT_RUN,是
-TC-UNIT-STR-002-01,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"substr(""hello world"", 0, 5)","期望输出 ""hello""",N/A,NOT_RUN,是
-TC-UNIT-STR-002-02,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"substr(""hello world"", 6, 5)","期望输出 ""world""",N/A,NOT_RUN,是
-TC-UNIT-STR-002-03,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"substr(""hello"", 2, 3)","期望输出 ""llo""",N/A,NOT_RUN,是
-TC-UNIT-STR-002-04,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"substr(""hello"", 0, 100) length > 字符串长度","期望输出 ""hello""，不越界",N/A,NOT_RUN,是
-TC-UNIT-STR-002-05,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"substr(""hello"", 2, 100)","期望输出 ""llo""",N/A,NOT_RUN,是
-TC-UNIT-STR-002-06,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"substr(""hello"", 5, 3) start到末尾","期望输出 """"",N/A,NOT_RUN,是
-TC-UNIT-STR-002-07,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"substr("""", 0, 5) 空字符串","期望输出 """"，不崩溃",N/A,NOT_RUN,是
-TC-UNIT-STR-002-08,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"substr(""hello"", -1, 3) 负数start","不崩溃，返回 """" 或 padding",N/A,NOT_RUN,是
-TC-UNIT-STR-002-09,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"substr(""hello"", 0, 0) length=0","期望输出 """"",N/A,NOT_RUN,是
-TC-UNIT-STR-002-10,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"match_prefix(""category_sports"", [""cat"",""user"",""item""])","期望输出 ""cat""",N/A,NOT_RUN,是
-TC-UNIT-STR-002-11,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"match_prefix(""user_123"", [""cat"",""user"",""item""])","期望输出 ""user""",N/A,NOT_RUN,是
-TC-UNIT-STR-002-12,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"match_prefix(""item_001"", [""cat"",""user"",""item""])","期望输出 ""item""",N/A,NOT_RUN,是
-TC-UNIT-STR-002-13,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"match_prefix(""unknown_str"", [""cat"",""user"",""item""]) 无匹配","期望输出 """"",N/A,NOT_RUN,是
-TC-UNIT-STR-002-14,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"match_prefix(""category_sports"", []) 空前缀列表","期望输出 """"，不崩溃",N/A,NOT_RUN,是
-TC-UNIT-STR-002-15,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"match_prefix("""", [""cat"",""user""]) 空字符串","期望输出 """"，不崩溃",N/A,NOT_RUN,是
-TC-UNIT-STR-002-16,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"match_prefix(""cat"", [""cat"",""category""]) 完全匹配","期望输出 ""cat""",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-001-01,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat(""hello"", ""world"") string+string","期望输出 ""helloworld""",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-001-02,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat(25, ""male"") int32+string","期望输出 ""25male""",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-001-03,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat(""age"", 30) string+int32","期望输出 ""age30""",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-001-04,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat(3.14f, ""price"") float+string","记录实际 float 格式（如 ""3.14price"" 或 ""3.140000price""）",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-001-05,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat(100, 200) int32+int32","期望输出 ""100200""",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-001-06,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat(100LL, 200LL) int64+int64","期望输出 ""100200""",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-001-07,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat(3.14f, 2.71f) float+float",期望输出两数字字符串拼接,N/A,NOT_RUN,是
-TC-UNIT-CONCAT-001-08,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat(100LL, ""str"") int64+string","期望输出 ""100str""",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-001-09,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat(3.14f, 42) float+int32",期望输出拼接字符串,N/A,NOT_RUN,是
-TC-UNIT-CONCAT-001-10,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat(42, 3.14f) int32+float",期望输出拼接字符串,N/A,NOT_RUN,是
-TC-UNIT-CONCAT-001-11,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat 剩余6种类型组合（int64+float, int64+int32, float+int64, string+int64, string+float, int32+int64）",每种组合均输出合法字符串,N/A,NOT_RUN,是
-TC-UNIT-CONCAT-001-12,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat_ws(""@"", ""user123"", ""cn"")","期望输出 ""user123@cn""",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-001-13,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat_ws(""_"", 2024, ""01"") int32+string","期望输出 ""2024_01""",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-001-14,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat_ws(""-"", 3.14f, ""price"") float+string",记录实际 float 格式,N/A,NOT_RUN,是
-TC-UNIT-CONCAT-001-15,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat_ws(""|"", 100LL, 200LL) int64+int64","期望输出 ""100|200""",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-001-16,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat_ws("""", ""a"", ""b"") 空分隔符","期望输出 ""ab""",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-002-01,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"lower_concat_ws(""@"", ""UserID"", ""CN"")","期望输出 ""userid@cn""",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-002-02,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"lower_concat_ws(""_"", ""Hello"", ""World"")","期望输出 ""hello_world""",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-002-03,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"lower_concat_ws(""@"", 25, ""Male"") int32+string","期望输出 ""25@male""（记录数字是否参与lower）",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-002-04,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"lower_concat_ws("""", ""UPPER"", ""CASE"") 空分隔符","期望输出 ""uppercase""",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-002-05,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"trim_concat(""hello"", ""world"", [""hello"",""world""])","期望输出 """"（两部分都被trim）",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-002-06,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"trim_concat(""prefix_data"", ""_suffix"", [""prefix_"",""_suffix""])","期望输出 ""data""",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-002-07,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"trim_concat(""abc"", ""def"", []) 空trim_list","期望输出 ""abcdef""（不做trim）",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-002-08,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"trim_concat(""hello"", ""world"", [""xyz""]) 无匹配","期望输出 ""helloworld""",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-002-09,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"trim_concat("""", """", [""""])",不崩溃,N/A,NOT_RUN,是
-TC-UNIT-CONCAT-002-10,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"trim_concat_ws(""_"", ""prefix_price"", ""high_suffix"", [""prefix_"",""_suffix""])","期望输出 ""price_high""",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-002-11,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"trim_concat_ws(""@"", ""user123"", ""cn"", [""user""])","期望输出 ""123@cn""（去除 ""user"" 后拼接）",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-002-12,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"trim_concat_ws(""-"", ""abc"", ""def"", []) 空trim_list","期望输出 ""abc-def""",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-002-13,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"trim_concat_ws(""_"", ""ABC"", ""DEF"", [""ABC""])","期望输出 ""_DEF"" 或 ""DEF""，记录实际分隔符处理方式",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-003-01,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,"cartesian_concat([""a"",""b""], [""x"",""y""])","期望输出 [""ax"",""ay"",""bx"",""by""]，长度=4",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-003-02,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,"cartesian_concat([""tag1"",""tag2""], [""sports"",""news""])",期望输出4项，含tag1sports/tag1news/tag2sports/tag2news,N/A,NOT_RUN,是
-TC-UNIT-CONCAT-003-03,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,"cartesian_concat([""a"",""b"",""c""], [""1"",""2""])",期望输出 6 项,N/A,NOT_RUN,是
-TC-UNIT-CONCAT-003-04,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,"cartesian_concat([""a""], [""x""]) 单元素","期望输出 [""ax""]，长度=1",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-003-05,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,"cartesian_concat([1,2], [10,20]) int32","期望输出 [""110"",""120"",""210"",""220""]",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-003-06,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,"cartesian_concat([1LL,2LL], [""a"",""b""]) int64+string","期望输出 [""1a"",""1b"",""2a"",""2b""]",N/A,NOT_RUN,是
-TC-UNIT-CONCAT-003-07,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,"cartesian_concat([""a"",""b""], []) 右空",期望返回 []，不崩溃,N/A,NOT_RUN,是
-TC-UNIT-CONCAT-003-08,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,"cartesian_concat([], [""x"",""y""]) 左空",期望返回 []，不崩溃,N/A,NOT_RUN,是
-TC-UNIT-CONCAT-003-09,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,"cartesian_concat([], []) 均空",期望返回 []，不崩溃,N/A,NOT_RUN,是
-TC-UNIT-CONCAT-003-10,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,"len(A)=5, len(B)=5 结果数量验证",期望结果长度=25,N/A,NOT_RUN,是
-TC-UNIT-CONCAT-003-11,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,cartesian_concat 超出 export.len=10 截断,期望截断至长度10，不崩溃,N/A,NOT_RUN,是
-TC-UNIT-DATE-001-01,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,year(1711123200) UTC 2024-03-22,"期望输出 ""2024""",N/A,NOT_RUN,是
-TC-UNIT-DATE-001-02,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,year(0) Unix纪元,"期望输出 ""1970""",N/A,NOT_RUN,是
-TC-UNIT-DATE-001-03,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,month(1711123200),"期望输出 ""03""",N/A,NOT_RUN,是
-TC-UNIT-DATE-001-04,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,month(1672531200) 2023-01-01,"期望输出 ""01""",N/A,NOT_RUN,是
-TC-UNIT-DATE-001-05,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,day(1711123200),"期望输出 ""22""",N/A,NOT_RUN,是
-TC-UNIT-DATE-001-06,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,day(1672531200),"期望输出 ""01""",N/A,NOT_RUN,是
-TC-UNIT-DATE-001-07,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,weekday(1711123200),"记录实际格式（""5"" 或 ""Friday""），验证格式一致性",N/A,NOT_RUN,是
-TC-UNIT-DATE-001-08,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,weekday(1672531200) 2023-01-01 周日,记录实际值，验证为周日,N/A,NOT_RUN,是
-TC-UNIT-DATE-001-09,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,curdate(1711123200) 格式 YYYYMMDD,"期望输出 ""20240322""",N/A,NOT_RUN,是
-TC-UNIT-DATE-001-10,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,curdate(1672531200),"期望输出 ""20230101""",N/A,NOT_RUN,是
-TC-UNIT-DATE-001-11,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,unix_timestamp(1711123200) 透传,期望输出 1711123200（原值不变）,N/A,NOT_RUN,是
-TC-UNIT-DATE-001-12,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,unix_timestamp(0),期望输出 0,N/A,NOT_RUN,是
-TC-UNIT-DATE-001-13,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,unix_timestamp 与 identity 对 int64 行为对比,两者结果一致,N/A,NOT_RUN,是
-TC-UNIT-DATE-001-14,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,"from_unixtime(1711123200, ""%Y-%m-%d"")","期望输出 ""2024-03-22""",N/A,NOT_RUN,是
-TC-UNIT-DATE-001-15,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,"from_unixtime(1711123200, ""%Y%m%d"")","期望输出 ""20240322""",N/A,NOT_RUN,是
-TC-UNIT-DATE-001-16,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,"from_unixtime(1711123200, ""%H:%M:%S"")",期望输出时间部分，验证格式正确,N/A,NOT_RUN,是
-TC-UNIT-DATE-001-17,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,"from_unixtime(0, ""%Y-%m-%d"")","期望输出 ""1970-01-01""",N/A,NOT_RUN,是
-TC-UNIT-DATE-001-18,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,同一时区下 year/month/day/curdate 与 from_unixtime 日期分量一致性,各函数日期分量完全一致,N/A,NOT_RUN,是
-TC-UNIT-DATE-002-01,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_add(""20240322"", 7)","期望输出 ""20240329""",N/A,NOT_RUN,是
-TC-UNIT-DATE-002-02,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_add(""20240322"", 0) 加0天","期望输出 ""20240322""（不变）",N/A,NOT_RUN,是
-TC-UNIT-DATE-002-03,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_add(""20240228"", 1) 闰年2月","期望输出 ""20240229""（2024闰年）",N/A,NOT_RUN,是
-TC-UNIT-DATE-002-04,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_add(""20240229"", 1) 闰年跨月","期望输出 ""20240301""",N/A,NOT_RUN,是
-TC-UNIT-DATE-002-05,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_add(""20240131"", 1) 普通跨月","期望输出 ""20240201""",N/A,NOT_RUN,是
-TC-UNIT-DATE-002-06,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_add(""20241231"", 1) 跨年","期望输出 ""20250101""",N/A,NOT_RUN,是
-TC-UNIT-DATE-002-07,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_add(""20240101"", -1) 负数天","期望输出 ""20231231""（等价date_sub）",N/A,NOT_RUN,是
-TC-UNIT-DATE-002-08,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_sub(""20240101"", 1) 跨年","期望输出 ""20231231""",N/A,NOT_RUN,是
-TC-UNIT-DATE-002-09,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_sub(""20240301"", 1) 跨月至闰年2月","期望输出 ""20240229""",N/A,NOT_RUN,是
-TC-UNIT-DATE-002-10,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_sub(""20240322"", 7)","期望输出 ""20240315""",N/A,NOT_RUN,是
-TC-UNIT-DATE-002-11,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_sub(""20240322"", 0) 减0天","期望输出 ""20240322""（不变）",N/A,NOT_RUN,是
-TC-UNIT-DATE-002-12,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"datediff(""20240322"", ""20240101"")",期望输出 81,N/A,NOT_RUN,是
-TC-UNIT-DATE-002-13,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"datediff(""20240101"", ""20240322"") 负差",期望输出 -81,N/A,NOT_RUN,是
-TC-UNIT-DATE-002-14,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"datediff(""20240322"", ""20240322"") 同一天",期望输出 0,N/A,NOT_RUN,是
-TC-UNIT-DATE-002-15,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"datediff(""20250101"", ""20240101"") 2024闰年",期望输出 366,N/A,NOT_RUN,是
-TC-UNIT-DATE-002-16,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"datediff(""20240229"", ""20240228"") 闰年2月",期望输出 1,N/A,NOT_RUN,是
-TC-UNIT-DIST-001-01,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"edit_distance(""kitten"", ""kitten"", 10) 相同字符串",期望输出 0.0f,N/A,NOT_RUN,是
-TC-UNIT-DIST-001-02,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"edit_distance(""kitten"", ""sitting"", 10)","期望输出 ∈ (0,1)，记录实际值",N/A,NOT_RUN,是
-TC-UNIT-DIST-001-03,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"edit_distance(""abc"", ""xyz"", 3) 完全不同",期望输出较大值,N/A,NOT_RUN,是
-TC-UNIT-DIST-001-04,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"edit_distance("""", """", 5) 空字符串",期望输出 0.0f，不崩溃,N/A,NOT_RUN,是
-TC-UNIT-DIST-001-05,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"edit_distance(""abc"", """", 5) 一方为空",期望输出正数，不崩溃,N/A,NOT_RUN,是
-TC-UNIT-DIST-001-06,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"edit_distance(""a"", ""b"", 0) length=0",不崩溃，返回 padding 或 0.0f,N/A,NOT_RUN,是
-TC-UNIT-DIST-001-07,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"cosine_distance(""abc"", ""abc"", 3) 相同",期望输出 0.0f,N/A,NOT_RUN,是
-TC-UNIT-DIST-001-08,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"cosine_distance(""hello"", ""world"", 2)","期望输出 ∈ (0,1]，记录实际值",N/A,NOT_RUN,是
-TC-UNIT-DIST-001-09,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"cosine_distance("""", """", 2) 空字符串",不崩溃,N/A,NOT_RUN,是
-TC-UNIT-DIST-001-10,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"cosine_distance(""abc"", ""abc"", 0) n_gram=0",不崩溃,N/A,NOT_RUN,是
+TC-UNIT-ARITH-001-01,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"add(3.5f, 2.0f)",期望输出 5.5f，误差 ≤ 1e-6,N/A,FAIL,是
+TC-UNIT-ARITH-001-02,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"add(10, 3) int32",期望输出 13,N/A,FAIL,是
+TC-UNIT-ARITH-001-03,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"add(1000000000LL, 2000000000LL) int64",期望输出 3000000000LL,N/A,FAIL,是
+TC-UNIT-ARITH-001-04,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"sub(10.0f, 3.5f)",期望输出 6.5f，误差 ≤ 1e-6,N/A,FAIL,是
+TC-UNIT-ARITH-001-05,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"sub(10, 3) int32",期望输出 7,N/A,FAIL,是
+TC-UNIT-ARITH-001-06,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"sub(5000000000LL, 1LL) int64",期望输出 4999999999LL,N/A,FAIL,是
+TC-UNIT-ARITH-001-07,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"mul(2.0f, 4.0f)",期望输出 8.0f，误差 ≤ 1e-6,N/A,FAIL,是
+TC-UNIT-ARITH-001-08,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"mul(3, 4) int32",期望输出 12,N/A,FAIL,是
+TC-UNIT-ARITH-001-09,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"mul(1000000LL, 1000000LL) int64",期望输出 1000000000000LL,N/A,FAIL,是
+TC-UNIT-ARITH-001-10,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"div(9.0f, 3.0f)",期望输出 3.0f，误差 ≤ 1e-6,N/A,FAIL,是
+TC-UNIT-ARITH-001-11,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"div(9, 3) int32",期望输出 3,N/A,FAIL,是
+TC-UNIT-ARITH-001-12,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"div(9LL, 3LL) int64",期望输出 3LL,N/A,FAIL,是
+TC-UNIT-ARITH-001-13,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"div(1.0f, 0.0f) 除零",不崩溃，返回 padding（0 或 inf）,Expression 'stat_topk_k0_empty' length must be positive,PASS,是
+TC-UNIT-ARITH-002-01,TC-UNIT-ARITH-002,单元测试,P0,mod,"mod(7, 3) int32",期望输出 1,N/A,FAIL,是
+TC-UNIT-ARITH-002-02,TC-UNIT-ARITH-002,单元测试,P0,mod,"mod(-7, 3) int32",期望输出 ≥ 0（规范要求结果非负，如 2）,N/A,FAIL,是
+TC-UNIT-ARITH-002-03,TC-UNIT-ARITH-002,单元测试,P0,mod,"mod(0, 5) int32",期望输出 0,N/A,FAIL,是
+TC-UNIT-ARITH-002-04,TC-UNIT-ARITH-002,单元测试,P0,mod,"mod(6, 3) int32",期望输出 0（整除）,N/A,FAIL,是
+TC-UNIT-ARITH-002-05,TC-UNIT-ARITH-002,单元测试,P0,mod,"mod(-1, 7) int32",期望输出 ≥ 0,N/A,FAIL,是
+TC-UNIT-ARITH-002-06,TC-UNIT-ARITH-002,单元测试,P0,mod,"mod(1000000007LL, 1000000006LL) int64",期望输出 1LL,N/A,FAIL,是
+TC-UNIT-ARITH-002-07,TC-UNIT-ARITH-002,单元测试,P0,mod,"mod(-100LL, 7LL) int64",期望输出 ≥ 0,N/A,FAIL,是
+TC-UNIT-ARITH-002-08,TC-UNIT-ARITH-002,单元测试,P0,mod,"mod(0LL, 100LL) int64",期望输出 0LL,N/A,FAIL,是
+TC-UNIT-ARITH-002-09,TC-UNIT-ARITH-002,单元测试,P0,mod,int32 与 int64 对相同数值 mod 结果比较,两者对相同数值结果一致,N/A,FAIL,是
+TC-UNIT-ARITH-003-01,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,abs(-3.14f),期望输出 3.14f，误差 ≤ 1e-6,N/A,FAIL,是
+TC-UNIT-ARITH-003-02,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,abs(-10) int32,期望输出 10,N/A,FAIL,是
+TC-UNIT-ARITH-003-03,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,abs(-9999999LL) int64,期望输出 9999999LL,N/A,FAIL,是
+TC-UNIT-ARITH-003-04,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,abs(0.0f),期望输出 0.0f,N/A,FAIL,是
+TC-UNIT-ARITH-003-05,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,ceil(1.2f) → int32,期望输出 2,N/A,FAIL,是
+TC-UNIT-ARITH-003-06,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,ceil(-1.2f) → int32,期望输出 -1,N/A,FAIL,是
+TC-UNIT-ARITH-003-07,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,floor(1.9f) → int32,期望输出 1,N/A,FAIL,是
+TC-UNIT-ARITH-003-08,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,floor(-1.9f) → int32,期望输出 -2,N/A,FAIL,是
+TC-UNIT-ARITH-003-09,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,round(1.5f) → int32,期望输出 2,N/A,FAIL,是
+TC-UNIT-ARITH-003-10,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,round(1.4f) → int32,期望输出 1,N/A,FAIL,是
+TC-UNIT-ARITH-003-11,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,round(-1.5f) → int32,记录实际值（取决于实现，-2 或 -1）,N/A,FAIL,是
+TC-UNIT-ARITH-003-12,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,exp(0.0f),期望输出 1.0f,N/A,FAIL,是
+TC-UNIT-ARITH-003-13,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,exp(1.0f),期望输出 ≈ 2.71828f，误差 ≤ 1e-4,N/A,FAIL,是
+TC-UNIT-ARITH-003-14,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,log(1.0f),期望输出 0.0f,N/A,FAIL,是
+TC-UNIT-ARITH-003-15,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,log(2.718281f),期望输出 ≈ 1.0f，误差 ≤ 1e-5,N/A,FAIL,是
+TC-UNIT-ARITH-003-16,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,log10(100.0f),期望输出 2.0f,N/A,FAIL,是
+TC-UNIT-ARITH-003-17,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,log2(8.0f),期望输出 3.0f,N/A,FAIL,是
+TC-UNIT-ARITH-003-18,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,sqrt(4.0f),期望输出 2.0f,N/A,FAIL,是
+TC-UNIT-ARITH-003-19,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,sqrt(2.0f),期望输出 ≈ 1.41421f，误差 ≤ 1e-5,N/A,FAIL,是
+TC-UNIT-ARITH-003-20,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,sigmoid(0.0f),期望输出 0.5f,N/A,FAIL,是
+TC-UNIT-ARITH-003-21,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,sigmoid(100.0f),期望输出 ≈ 1.0f（接近上界）,N/A,FAIL,是
+TC-UNIT-ARITH-003-22,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,sigmoid(-100.0f),期望输出 ≈ 0.0f（接近下界）,N/A,FAIL,是
+TC-UNIT-ARITH-003-23,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,"pow(2.0f, 10.0f)",期望输出 1024.0f,N/A,FAIL,是
+TC-UNIT-ARITH-003-24,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,"pow(3.0f, 3.0f)",期望输出 27.0f,N/A,FAIL,是
+TC-UNIT-ARITH-003-25,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,log(0.0f) 边界,不崩溃，返回 -inf 或 padding,N/A,FAIL,是
+TC-UNIT-ARITH-003-26,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,log(-1.0f) 边界,不崩溃，返回 NaN 或 padding,N/A,FAIL,是
+TC-UNIT-ARITH-003-27,TC-UNIT-ARITH-003,单元测试,P0,abs / ceil / floor / round / exp / log / log10 / log2 / sqrt / sigmoid / pow,sqrt(-1.0f) 边界,不崩溃，返回 NaN 或 padding,N/A,FAIL,是
+TC-UNIT-ARITH-004-01,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"scale(0.75f, 100.0f) → ceil(75.0)",期望输出 75,N/A,FAIL,是
+TC-UNIT-ARITH-004-02,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"scale(0.0f, 100.0f)",期望输出 0,N/A,FAIL,是
+TC-UNIT-ARITH-004-03,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"scale(1.0f, 100.0f)",期望输出 100,N/A,FAIL,是
+TC-UNIT-ARITH-004-04,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"scale(0.001f, 1000.0f)",期望输出 1（ceil(1.0)=1）,N/A,FAIL,是
+TC-UNIT-ARITH-004-05,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"scale(0.0f, 0.0f) 边界",不崩溃，返回 0,N/A,FAIL,是
+TC-UNIT-ARITH-004-06,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"wilson_score(100, 80, 95)","期望输出 ∈ (0.0, 1.0)",N/A,FAIL,是
+TC-UNIT-ARITH-004-07,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"wilson_score(1000, 500, 95)","期望输出 ∈ (0.0, 1.0)",N/A,FAIL,是
+TC-UNIT-ARITH-004-08,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"wilson_score(0, 0, 95) total=0 边界",不崩溃，返回 padding,N/A,FAIL,是
+TC-UNIT-ARITH-004-09,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"wilson_score(100, 0, 95)",期望输出 ≥ 0.0,N/A,FAIL,是
+TC-UNIT-ARITH-004-10,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"wilson_score(100, 100, 95)","期望输出 ∈ (0.0, 1.0)",N/A,FAIL,是
+TC-UNIT-ARITH-004-11,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"smooth(1000.0f, 50.0f, 100.0f)",期望输出 ≈ 0.0464f，误差 ≤ 1e-4,N/A,FAIL,是
+TC-UNIT-ARITH-004-12,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"smooth(0.0f, 0.0f, 100.0f)",不崩溃，结果 ≈ prior,N/A,FAIL,是
+TC-UNIT-ARITH-004-13,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"smooth(0.0f, 0.0f, 0.0f) 分母为0",不崩溃，返回 padding,N/A,FAIL,是
+TC-UNIT-ARITH-004-14,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"smooth(100.0f, 100.0f, 100.0f)","期望输出 ∈ (0.0, 1.0]",N/A,FAIL,是
+TC-UNIT-ARITH-004-15,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"z_score(85.0f, 70.0f, 15.0f)",期望输出 1.0f，误差 ≤ 1e-5,N/A,FAIL,是
+TC-UNIT-ARITH-004-16,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"z_score(70.0f, 70.0f, 15.0f)",期望输出 0.0f,N/A,FAIL,是
+TC-UNIT-ARITH-004-17,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"z_score(55.0f, 70.0f, 15.0f)",期望输出 -1.0f,N/A,FAIL,是
+TC-UNIT-ARITH-004-18,TC-UNIT-ARITH-004,单元测试,P0,scale / wilson_score / smooth / z_score,"z_score(85.0f, 70.0f, 0.0f) std=0 边界",不崩溃，返回 padding,N/A,FAIL,是
+TC-UNIT-STAT-001-01,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,"avg([1.0f,2.0f,3.0f,4.0f,5.0f])",期望输出 3.0f,N/A,FAIL,是
+TC-UNIT-STAT-001-02,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,avg([100.0f]) 单元素,期望输出 100.0f,N/A,FAIL,是
+TC-UNIT-STAT-001-03,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,avg([]) 空数组,不崩溃，返回 padding,Expression 'stat_topk_k0_empty' length must be positive,PASS,是
+TC-UNIT-STAT-001-04,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,"var([1.0f,2.0f,3.0f]) 总体方差",期望输出 ≈ 0.667f，误差 ± 1e-3,N/A,FAIL,是
+TC-UNIT-STAT-001-05,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,"var([5.0f,5.0f,5.0f]) 所有值相同",期望输出 0.0f,N/A,FAIL,是
+TC-UNIT-STAT-001-06,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,var([]) 空数组,不崩溃，返回 padding,Expression 'stat_topk_k0_empty' length must be positive,PASS,是
+TC-UNIT-STAT-001-07,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,"std([1.0f,2.0f,3.0f])",期望输出 ≈ 0.816f，误差 ± 1e-3,N/A,FAIL,是
+TC-UNIT-STAT-001-08,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,"std([5.0f,5.0f,5.0f])",期望输出 0.0f,N/A,FAIL,是
+TC-UNIT-STAT-001-09,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,std([]) 空数组,不崩溃，返回 padding,Expression 'stat_topk_k0_empty' length must be positive,PASS,是
+TC-UNIT-STAT-001-10,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,"min([3.0f,1.0f,4.0f,1.5f])",期望输出 1.0f,N/A,FAIL,是
+TC-UNIT-STAT-001-11,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,min([5]) 单元素,期望输出 5,N/A,FAIL,是
+TC-UNIT-STAT-001-12,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,min([]) 空数组,不崩溃，返回 padding,Expression 'stat_topk_k0_empty' length must be positive,PASS,是
+TC-UNIT-STAT-001-13,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,"max([3.0f,1.0f,4.0f,1.5f])",期望输出 4.0f,N/A,FAIL,是
+TC-UNIT-STAT-001-14,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,max([5]) 单元素,期望输出 5,N/A,FAIL,是
+TC-UNIT-STAT-001-15,TC-UNIT-STAT-001,单元测试,P0,min / max / avg / var / std,max([]) 空数组,不崩溃，返回 padding,Expression 'stat_topk_k0_empty' length must be positive,PASS,是
+TC-UNIT-STAT-002-01,TC-UNIT-STAT-002,单元测试,P0,topk,"topk([5,3,1,4,2], k=3) 正常截断","期望输出 [5,3,1]，长度=3",N/A,FAIL,是
+TC-UNIT-STAT-002-02,TC-UNIT-STAT-002,单元测试,P0,topk,"topk([1.0f,2.0f,3.0f,4.0f,5.0f], k=2)","期望输出 [1.0f,2.0f]，长度=2",N/A,FAIL,是
+TC-UNIT-STAT-002-03,TC-UNIT-STAT-002,单元测试,P0,topk,"topk([""a"",""b"",""c"",""d""], k=2)","期望输出 [""a"",""b""]，长度=2",N/A,FAIL,是
+TC-UNIT-STAT-002-04,TC-UNIT-STAT-002,单元测试,P0,topk,"topk([1,2,3], k=5) k > 数组长度","期望输出 [1,2,3]，长度=3（≤k）",N/A,FAIL,是
+TC-UNIT-STAT-002-05,TC-UNIT-STAT-002,单元测试,P0,topk,"topk([1,2,3], k=3) k = 数组长度","期望输出 [1,2,3]，长度=3",N/A,FAIL,是
+TC-UNIT-STAT-002-06,TC-UNIT-STAT-002,单元测试,P0,topk,"topk([], k=3) 空数组",期望返回 []，不崩溃,Expression 'stat_topk_k0_empty' length must be positive,PASS,是
+TC-UNIT-STAT-002-07,TC-UNIT-STAT-002,单元测试,P0,topk,"topk([], k=0) 空数组+k=0",期望返回 []，不崩溃,Expression 'stat_topk_k0_empty' length must be positive,PASS,是
+TC-UNIT-STAT-002-08,TC-UNIT-STAT-002,单元测试,P0,topk,"topk([1,2,3], k=0)",期望返回 []，长度=0，不崩溃,Expression 'stat_topk_k0_empty' length must be positive,PASS,是
+TC-UNIT-STAT-002-09,TC-UNIT-STAT-002,单元测试,P0,topk,"topk([1,2,3], k=5) + export.len=5,padding=0","期望输出 [1,2,3,0,0]，补 padding 至长度5",N/A,FAIL,是
+TC-UNIT-STAT-003-01,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"norm([3.0f,4.0f], p=2.0f) L2范数",期望输出 5.0f，误差 ≤ 1e-6,N/A,FAIL,是
+TC-UNIT-STAT-003-02,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"norm([1.0f,1.0f,1.0f,1.0f], p=2.0f)",期望输出 2.0f,N/A,FAIL,是
+TC-UNIT-STAT-003-03,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"norm([3.0f,4.0f], p=1.0f) L1范数",期望输出 7.0f,N/A,FAIL,是
+TC-UNIT-STAT-003-04,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"norm([], p=2.0f) 空数组",不崩溃，返回 0.0f 或 padding,Expression 'stat_topk_k0_empty' length must be positive,PASS,是
+TC-UNIT-STAT-003-05,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"normalize([3.0f,4.0f], p=2.0f)","期望输出 [0.6f,0.8f]，每元素误差 ≤ 1e-6",N/A,FAIL,是
+TC-UNIT-STAT-003-06,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"normalize([1.0f,0.0f,0.0f], p=2.0f)","期望输出 [1.0f,0.0f,0.0f]",N/A,FAIL,是
+TC-UNIT-STAT-003-07,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"normalize([0.0f,0.0f], p=2.0f) 零向量","不崩溃，返回 [0.0f,0.0f] 或 padding",Expression 'stat_topk_k0_empty' length must be positive,PASS,是
+TC-UNIT-STAT-003-08,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"dot_product([1.0f,2.0f],[3.0f,4.0f])",期望输出 11.0f,N/A,FAIL,是
+TC-UNIT-STAT-003-09,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"dot_product([0.0f,0.0f],[1.0f,1.0f])",期望输出 0.0f,N/A,FAIL,是
+TC-UNIT-STAT-003-10,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"dot_product([1.0f,2.0f],[3.0f]) 维度不匹配",不崩溃，返回 padding,Expression 'stat_topk_k0_empty' length must be positive,PASS,是
+TC-UNIT-STAT-003-11,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"count([1,2,2,3,2], 2)",期望输出 3,N/A,FAIL,是
+TC-UNIT-STAT-003-12,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"count([1,2,3], 5) 元素不存在",期望输出 0,N/A,FAIL,是
+TC-UNIT-STAT-003-13,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"count([], 1) 空数组",期望输出 0,N/A,FAIL,是
+TC-UNIT-STAT-003-14,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"contains([1,2,3], 2)","期望输出 ""true""",N/A,FAIL,是
+TC-UNIT-STAT-003-15,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"contains([1,2,3], 5)","期望输出 ""false""",N/A,FAIL,是
+TC-UNIT-STAT-003-16,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"contains([], 1) 空数组","期望输出 ""false""",N/A,FAIL,是
+TC-UNIT-STAT-003-17,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"len([1,2,3,4,5])",期望输出 5,N/A,FAIL,是
+TC-UNIT-STAT-003-18,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,len([]) 空数组,期望输出 0,N/A,FAIL,是
+TC-UNIT-STAT-003-19,TC-UNIT-STAT-003,单元测试,P0,norm / normalize / dot_product / count / contains / len,"len([""a"",""b""])",期望输出 2,N/A,FAIL,是
+TC-UNIT-DISC-001-01,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(5.0f, 3.0f) float",期望输出 1（5.0 ≥ 3.0）,N/A,FAIL,是
+TC-UNIT-DISC-001-02,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(2.0f, 3.0f) float",期望输出 0（2.0 < 3.0）,N/A,FAIL,是
+TC-UNIT-DISC-001-03,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(3.0f, 3.0f) float 等于 threshold",期望输出 1（规范：v >= threshold 返回1）,N/A,FAIL,是
+TC-UNIT-DISC-001-04,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(-1.0f, 0.0f) float",期望输出 0,N/A,FAIL,是
+TC-UNIT-DISC-001-05,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(0.0f, 0.0f) float 等于0 threshold",期望输出 1,N/A,FAIL,是
+TC-UNIT-DISC-001-06,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(5, 3) int32",期望输出 1,N/A,FAIL,是
+TC-UNIT-DISC-001-07,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(2, 3) int32",期望输出 0,N/A,FAIL,是
+TC-UNIT-DISC-001-08,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(3, 3) int32 等于 threshold",期望输出 1,N/A,FAIL,是
+TC-UNIT-DISC-001-09,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(5LL, 3LL) int64",期望输出 1,N/A,FAIL,是
+TC-UNIT-DISC-001-10,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(2LL, 3LL) int64",期望输出 0,N/A,FAIL,是
+TC-UNIT-DISC-001-11,TC-UNIT-DISC-001,单元测试,P0,binarize,"binarize(3LL, 3LL) int64 等于 threshold",期望输出 1,N/A,FAIL,是
+TC-UNIT-DISC-001-12,TC-UNIT-DISC-001,单元测试,P0,binarize,binarize 返回类型为 int32，须配 hash,"配置 hash.prefix=""bin_""，验证哈希输出 ∈ [0, mask]",N/A,FAIL,是
+TC-UNIT-DISC-002-01,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(20.0f, [18,25,35,45,55,65]) 边界内",期望输出 1（18≤20<25）,N/A,FAIL,是
+TC-UNIT-DISC-002-02,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(30.0f, [18,25,35,45,55,65])",期望输出 2（25≤30<35）,N/A,FAIL,是
+TC-UNIT-DISC-002-03,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(60.0f, [18,25,35,45,55,65])",期望输出 5（55≤60<65）,N/A,FAIL,是
+TC-UNIT-DISC-002-04,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(17.0f, [18,25,35,45,55,65]) 低于最小边界",期望输出 0,N/A,FAIL,是
+TC-UNIT-DISC-002-05,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(-100.0f, [18,25,35,45,55,65])",期望输出 0,N/A,FAIL,是
+TC-UNIT-DISC-002-06,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(70.0f, [18,25,35,45,55,65]) 高于最大边界",期望输出 6,N/A,FAIL,是
+TC-UNIT-DISC-002-07,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(1000.0f, [18,25,35,45,55,65])",期望输出 6,N/A,FAIL,是
+TC-UNIT-DISC-002-08,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(18.0f, [18,25,...]) 等于最小边界",期望输出 1（≥18 属于第1桶）,N/A,FAIL,是
+TC-UNIT-DISC-002-09,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(25.0f, [18,25,...]) 等于中间边界",期望输出 2（≥25 属于第2桶）,N/A,FAIL,是
+TC-UNIT-DISC-002-10,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(30, [...]) int32",期望输出 2,N/A,FAIL,是
+TC-UNIT-DISC-002-11,TC-UNIT-DISC-002,单元测试,P0,bucketize,"bucketize(30LL, [18LL,25LL,35LL]) int64",期望输出 2,N/A,FAIL,是
+TC-UNIT-DISC-002-12,TC-UNIT-DISC-002,单元测试,P0,bucketize,"配置 hash.prefix=""age_bucket_""，验证哈希输出","期望输出 ∈ [0, mask]",N/A,FAIL,是
+TC-UNIT-IDENTITY-001-01,TC-UNIT-IDENTITY-001,单元测试,P0,identity,"identity(!var_float user.age=3.14f) + export.len=1,padding=0.0",期望输出 [3.14f]，值不变,N/A,FAIL,是
+TC-UNIT-IDENTITY-001-02,TC-UNIT-IDENTITY-001,单元测试,P0,identity,"identity(!var_int32 user.count=42) + hash.prefix=""cnt_""","期望输出 hash(""cnt_""+42) ∈ [0, mask]",N/A,FAIL,是
+TC-UNIT-IDENTITY-001-03,TC-UNIT-IDENTITY-001,单元测试,P0,identity,identity(!var_int64 user.uid=9999999LL) 无hash,期望直通输出 9999999LL,N/A,FAIL,是
+TC-UNIT-IDENTITY-001-04,TC-UNIT-IDENTITY-001,单元测试,P0,identity,"identity(!var_string user.gender=""male"") 自动hash","期望输出哈希值 ∈ [0, mask]",N/A,FAIL,是
+TC-UNIT-IDENTITY-001-05,TC-UNIT-IDENTITY-001,单元测试,P0,identity,"identity(!var_string user.gender=""male"") 连续执行两次",期望两次哈希值完全相同（幂等）,N/A,FAIL,是
+TC-UNIT-IDENTITY-001-06,TC-UNIT-IDENTITY-001,单元测试,P0,identity,identity(!var_int32 user.age=25) 字段缺失,不崩溃，返回 padding,Expression 'stat_topk_k0_empty' length must be positive,PASS,是
+TC-UNIT-IDENTITY-001-07,TC-UNIT-IDENTITY-001,单元测试,P0,identity,"identity(!var_string_array item.tags=[""sports"",""news""]) + export.len=5,padding=0",期望哈希数组长度=2，补 padding 至 5,N/A,FAIL,是
+TC-UNIT-IDENTITY-001-08,TC-UNIT-IDENTITY-001,单元测试,P0,identity,"identity(!var_int64_array user.ids=[1LL,2LL,3LL]) 直通","期望输出 [1LL,2LL,3LL]，保持原顺序",N/A,FAIL,是
+TC-UNIT-IDENTITY-001-09,TC-UNIT-IDENTITY-001,单元测试,P0,identity,"identity(!var_float_array item.scores=[0.1f,0.2f,0.3f]) + export.len=3,padding=0.0","期望输出 [0.1f,0.2f,0.3f]",N/A,FAIL,是
+TC-UNIT-IDENTITY-001-10,TC-UNIT-IDENTITY-001,单元测试,P0,identity,identity(!var_string_array item.tags=[]) 空数组,不崩溃，返回空数组或 padding,Expression 'stat_topk_k0_empty' length must be positive,PASS,是
+TC-UNIT-IDENTITY-001-11,TC-UNIT-IDENTITY-001,单元测试,P0,identity,identity(float) + 配置 hash 非法,期望构建期报错（float 不支持 hash）,build_error: RuntimeError,PASS,是
+TC-UNIT-IDENTITY-001-12,TC-UNIT-IDENTITY-001,单元测试,P0,identity,identity(int32) + 无 hash 非法,期望构建期报错（int32 必须配 hash）,build_error: RuntimeError,PASS,是
+TC-UNIT-STR-001-01,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"lower(""Hello_World"")","期望输出 ""hello_world""",N/A,FAIL,是
+TC-UNIT-STR-001-02,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"lower(""ABC123"")","期望输出 ""abc123""",N/A,FAIL,是
+TC-UNIT-STR-001-03,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"lower(""already_lower"") 已小写","期望输出 ""already_lower""（不变）",N/A,FAIL,是
+TC-UNIT-STR-001-04,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"lower("""") 空字符串","期望输出 """"，不崩溃",N/A,FAIL,是
+TC-UNIT-STR-001-05,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"lower(""SAME"") 连续执行两次",期望两次哈希值完全相同（幂等）,N/A,FAIL,是
+TC-UNIT-STR-001-06,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"upper(""hello"")","期望输出 ""HELLO""",N/A,FAIL,是
+TC-UNIT-STR-001-07,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"upper(""abc123"")","期望输出 ""ABC123""",N/A,FAIL,是
+TC-UNIT-STR-001-08,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"upper(""ALREADY_UPPER"") 已大写","期望输出 ""ALREADY_UPPER""（不变）",N/A,FAIL,是
+TC-UNIT-STR-001-09,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"upper("""") 空字符串","期望输出 """"，不崩溃",N/A,FAIL,是
+TC-UNIT-STR-001-10,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"reverse(""abc"")","期望输出 ""cba""",N/A,FAIL,是
+TC-UNIT-STR-001-11,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"reverse(""abcd"")","期望输出 ""dcba""",N/A,FAIL,是
+TC-UNIT-STR-001-12,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"reverse(""a"") 单字符","期望输出 ""a""",N/A,FAIL,是
+TC-UNIT-STR-001-13,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"reverse("""") 空字符串","期望输出 """"，不崩溃",N/A,FAIL,是
+TC-UNIT-STR-001-14,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,"reverse(""abcba"") 回文","期望输出 ""abcba""（不变）",N/A,FAIL,是
+TC-UNIT-STR-001-15,TC-UNIT-STR-001,单元测试,P0,lower / upper / reverse,lower/upper/reverse 输出类型 string，须配 hash,"配置 hash.prefix=""str_""，验证哈希输出 ∈ [0, mask]",N/A,FAIL,是
+TC-UNIT-STR-002-01,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"substr(""hello world"", 0, 5)","期望输出 ""hello""",N/A,FAIL,是
+TC-UNIT-STR-002-02,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"substr(""hello world"", 6, 5)","期望输出 ""world""",N/A,FAIL,是
+TC-UNIT-STR-002-03,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"substr(""hello"", 2, 3)","期望输出 ""llo""",N/A,FAIL,是
+TC-UNIT-STR-002-04,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"substr(""hello"", 0, 100) length > 字符串长度","期望输出 ""hello""，不越界",N/A,FAIL,是
+TC-UNIT-STR-002-05,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"substr(""hello"", 2, 100)","期望输出 ""llo""",N/A,FAIL,是
+TC-UNIT-STR-002-06,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"substr(""hello"", 5, 3) start到末尾","期望输出 """"",N/A,FAIL,是
+TC-UNIT-STR-002-07,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"substr("""", 0, 5) 空字符串","期望输出 """"，不崩溃",N/A,FAIL,是
+TC-UNIT-STR-002-08,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"substr(""hello"", -1, 3) 负数start","不崩溃，返回 """" 或 padding",N/A,FAIL,是
+TC-UNIT-STR-002-09,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"substr(""hello"", 0, 0) length=0","期望输出 """"",N/A,FAIL,是
+TC-UNIT-STR-002-10,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"match_prefix(""category_sports"", [""cat"",""user"",""item""])","期望输出 ""cat""",N/A,FAIL,是
+TC-UNIT-STR-002-11,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"match_prefix(""user_123"", [""cat"",""user"",""item""])","期望输出 ""user""",N/A,FAIL,是
+TC-UNIT-STR-002-12,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"match_prefix(""item_001"", [""cat"",""user"",""item""])","期望输出 ""item""",N/A,FAIL,是
+TC-UNIT-STR-002-13,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"match_prefix(""unknown_str"", [""cat"",""user"",""item""]) 无匹配","期望输出 """"",N/A,FAIL,是
+TC-UNIT-STR-002-14,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"match_prefix(""category_sports"", []) 空前缀列表","期望输出 """"，不崩溃",Expression 'stat_topk_k0_empty' length must be positive,PASS,是
+TC-UNIT-STR-002-15,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"match_prefix("""", [""cat"",""user""]) 空字符串","期望输出 """"，不崩溃",Expression 'stat_topk_k0_empty' length must be positive,PASS,是
+TC-UNIT-STR-002-16,TC-UNIT-STR-002,单元测试,P0,substr / match_prefix,"match_prefix(""cat"", [""cat"",""category""]) 完全匹配","期望输出 ""cat""",N/A,FAIL,是
+TC-UNIT-CONCAT-001-01,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat(""hello"", ""world"") string+string","期望输出 ""helloworld""",N/A,FAIL,是
+TC-UNIT-CONCAT-001-02,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat(25, ""male"") int32+string","期望输出 ""25male""",N/A,FAIL,是
+TC-UNIT-CONCAT-001-03,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat(""age"", 30) string+int32","期望输出 ""age30""",N/A,FAIL,是
+TC-UNIT-CONCAT-001-04,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat(3.14f, ""price"") float+string","记录实际 float 格式（如 ""3.14price"" 或 ""3.140000price""）",N/A,FAIL,是
+TC-UNIT-CONCAT-001-05,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat(100, 200) int32+int32","期望输出 ""100200""",N/A,FAIL,是
+TC-UNIT-CONCAT-001-06,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat(100LL, 200LL) int64+int64","期望输出 ""100200""",N/A,FAIL,是
+TC-UNIT-CONCAT-001-07,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat(3.14f, 2.71f) float+float",期望输出两数字字符串拼接,N/A,FAIL,是
+TC-UNIT-CONCAT-001-08,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat(100LL, ""str"") int64+string","期望输出 ""100str""",N/A,FAIL,是
+TC-UNIT-CONCAT-001-09,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat(3.14f, 42) float+int32",期望输出拼接字符串,N/A,FAIL,是
+TC-UNIT-CONCAT-001-10,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat(42, 3.14f) int32+float",期望输出拼接字符串,N/A,FAIL,是
+TC-UNIT-CONCAT-001-11,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat 剩余6种类型组合（int64+float, int64+int32, float+int64, string+int64, string+float, int32+int64）",每种组合均输出合法字符串,N/A,FAIL,是
+TC-UNIT-CONCAT-001-12,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat_ws(""@"", ""user123"", ""cn"")","期望输出 ""user123@cn""",N/A,FAIL,是
+TC-UNIT-CONCAT-001-13,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat_ws(""_"", 2024, ""01"") int32+string","期望输出 ""2024_01""",N/A,FAIL,是
+TC-UNIT-CONCAT-001-14,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat_ws(""-"", 3.14f, ""price"") float+string",记录实际 float 格式,N/A,FAIL,是
+TC-UNIT-CONCAT-001-15,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat_ws(""|"", 100LL, 200LL) int64+int64","期望输出 ""100|200""",N/A,FAIL,是
+TC-UNIT-CONCAT-001-16,TC-UNIT-CONCAT-001,单元测试,P0,concat / concat_ws,"concat_ws("""", ""a"", ""b"") 空分隔符","期望输出 ""ab""",N/A,FAIL,是
+TC-UNIT-CONCAT-002-01,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"lower_concat_ws(""@"", ""UserID"", ""CN"")","期望输出 ""userid@cn""",N/A,FAIL,是
+TC-UNIT-CONCAT-002-02,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"lower_concat_ws(""_"", ""Hello"", ""World"")","期望输出 ""hello_world""",N/A,FAIL,是
+TC-UNIT-CONCAT-002-03,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"lower_concat_ws(""@"", 25, ""Male"") int32+string","期望输出 ""25@male""（记录数字是否参与lower）",N/A,FAIL,是
+TC-UNIT-CONCAT-002-04,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"lower_concat_ws("""", ""UPPER"", ""CASE"") 空分隔符","期望输出 ""uppercase""",N/A,FAIL,是
+TC-UNIT-CONCAT-002-05,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"trim_concat(""hello"", ""world"", [""hello"",""world""])","期望输出 """"（两部分都被trim）",N/A,FAIL,是
+TC-UNIT-CONCAT-002-06,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"trim_concat(""prefix_data"", ""_suffix"", [""prefix_"",""_suffix""])","期望输出 ""data""",N/A,FAIL,是
+TC-UNIT-CONCAT-002-07,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"trim_concat(""abc"", ""def"", []) 空trim_list","期望输出 ""abcdef""（不做trim）",N/A,FAIL,是
+TC-UNIT-CONCAT-002-08,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"trim_concat(""hello"", ""world"", [""xyz""]) 无匹配","期望输出 ""helloworld""",N/A,FAIL,是
+TC-UNIT-CONCAT-002-09,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"trim_concat("""", """", [""""])",不崩溃,Expression 'stat_topk_k0_empty' length must be positive,PASS,是
+TC-UNIT-CONCAT-002-10,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"trim_concat_ws(""_"", ""prefix_price"", ""high_suffix"", [""prefix_"",""_suffix""])","期望输出 ""price_high""",N/A,FAIL,是
+TC-UNIT-CONCAT-002-11,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"trim_concat_ws(""@"", ""user123"", ""cn"", [""user""])","期望输出 ""123@cn""（去除 ""user"" 后拼接）",N/A,FAIL,是
+TC-UNIT-CONCAT-002-12,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"trim_concat_ws(""-"", ""abc"", ""def"", []) 空trim_list","期望输出 ""abc-def""",N/A,FAIL,是
+TC-UNIT-CONCAT-002-13,TC-UNIT-CONCAT-002,单元测试,P0,lower_concat_ws / trim_concat / trim_concat_ws,"trim_concat_ws(""_"", ""ABC"", ""DEF"", [""ABC""])","期望输出 ""_DEF"" 或 ""DEF""，记录实际分隔符处理方式",N/A,FAIL,是
+TC-UNIT-CONCAT-003-01,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,"cartesian_concat([""a"",""b""], [""x"",""y""])","期望输出 [""ax"",""ay"",""bx"",""by""]，长度=4",N/A,FAIL,是
+TC-UNIT-CONCAT-003-02,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,"cartesian_concat([""tag1"",""tag2""], [""sports"",""news""])",期望输出4项，含tag1sports/tag1news/tag2sports/tag2news,N/A,FAIL,是
+TC-UNIT-CONCAT-003-03,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,"cartesian_concat([""a"",""b"",""c""], [""1"",""2""])",期望输出 6 项,N/A,FAIL,是
+TC-UNIT-CONCAT-003-04,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,"cartesian_concat([""a""], [""x""]) 单元素","期望输出 [""ax""]，长度=1",N/A,FAIL,是
+TC-UNIT-CONCAT-003-05,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,"cartesian_concat([1,2], [10,20]) int32","期望输出 [""110"",""120"",""210"",""220""]",N/A,FAIL,是
+TC-UNIT-CONCAT-003-06,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,"cartesian_concat([1LL,2LL], [""a"",""b""]) int64+string","期望输出 [""1a"",""1b"",""2a"",""2b""]",N/A,FAIL,是
+TC-UNIT-CONCAT-003-07,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,"cartesian_concat([""a"",""b""], []) 右空",期望返回 []，不崩溃,Expression 'stat_topk_k0_empty' length must be positive,PASS,是
+TC-UNIT-CONCAT-003-08,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,"cartesian_concat([], [""x"",""y""]) 左空",期望返回 []，不崩溃,Expression 'stat_topk_k0_empty' length must be positive,PASS,是
+TC-UNIT-CONCAT-003-09,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,"cartesian_concat([], []) 均空",期望返回 []，不崩溃,Expression 'stat_topk_k0_empty' length must be positive,PASS,是
+TC-UNIT-CONCAT-003-10,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,"len(A)=5, len(B)=5 结果数量验证",期望结果长度=25,N/A,FAIL,是
+TC-UNIT-CONCAT-003-11,TC-UNIT-CONCAT-003,单元测试,P0,cartesian_concat,cartesian_concat 超出 export.len=10 截断,期望截断至长度10，不崩溃,N/A,FAIL,是
+TC-UNIT-DATE-001-01,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,year(1711123200) UTC 2024-03-22,"期望输出 ""2024""",N/A,FAIL,是
+TC-UNIT-DATE-001-02,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,year(0) Unix纪元,"期望输出 ""1970""",N/A,FAIL,是
+TC-UNIT-DATE-001-03,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,month(1711123200),"期望输出 ""03""",N/A,FAIL,是
+TC-UNIT-DATE-001-04,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,month(1672531200) 2023-01-01,"期望输出 ""01""",N/A,FAIL,是
+TC-UNIT-DATE-001-05,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,day(1711123200),"期望输出 ""22""",N/A,FAIL,是
+TC-UNIT-DATE-001-06,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,day(1672531200),"期望输出 ""01""",N/A,FAIL,是
+TC-UNIT-DATE-001-07,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,weekday(1711123200),"记录实际格式（""5"" 或 ""Friday""），验证格式一致性",N/A,FAIL,是
+TC-UNIT-DATE-001-08,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,weekday(1672531200) 2023-01-01 周日,记录实际值，验证为周日,N/A,FAIL,是
+TC-UNIT-DATE-001-09,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,curdate(1711123200) 格式 YYYYMMDD,"期望输出 ""20240322""",N/A,FAIL,是
+TC-UNIT-DATE-001-10,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,curdate(1672531200),"期望输出 ""20230101""",N/A,FAIL,是
+TC-UNIT-DATE-001-11,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,unix_timestamp(1711123200) 透传,期望输出 1711123200（原值不变）,N/A,FAIL,是
+TC-UNIT-DATE-001-12,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,unix_timestamp(0),期望输出 0,N/A,FAIL,是
+TC-UNIT-DATE-001-13,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,unix_timestamp 与 identity 对 int64 行为对比,两者结果一致,N/A,FAIL,是
+TC-UNIT-DATE-001-14,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,"from_unixtime(1711123200, ""%Y-%m-%d"")","期望输出 ""2024-03-22""",N/A,FAIL,是
+TC-UNIT-DATE-001-15,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,"from_unixtime(1711123200, ""%Y%m%d"")","期望输出 ""20240322""",N/A,FAIL,是
+TC-UNIT-DATE-001-16,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,"from_unixtime(1711123200, ""%H:%M:%S"")",期望输出时间部分，验证格式正确,N/A,FAIL,是
+TC-UNIT-DATE-001-17,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,"from_unixtime(0, ""%Y-%m-%d"")","期望输出 ""1970-01-01""",N/A,FAIL,是
+TC-UNIT-DATE-001-18,TC-UNIT-DATE-001,单元测试,P0,year / month / day / weekday / curdate / unix_timestamp / from_unixtime,同一时区下 year/month/day/curdate 与 from_unixtime 日期分量一致性,各函数日期分量完全一致,N/A,FAIL,是
+TC-UNIT-DATE-002-01,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_add(""20240322"", 7)","期望输出 ""20240329""",N/A,FAIL,是
+TC-UNIT-DATE-002-02,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_add(""20240322"", 0) 加0天","期望输出 ""20240322""（不变）",N/A,FAIL,是
+TC-UNIT-DATE-002-03,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_add(""20240228"", 1) 闰年2月","期望输出 ""20240229""（2024闰年）",N/A,FAIL,是
+TC-UNIT-DATE-002-04,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_add(""20240229"", 1) 闰年跨月","期望输出 ""20240301""",N/A,FAIL,是
+TC-UNIT-DATE-002-05,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_add(""20240131"", 1) 普通跨月","期望输出 ""20240201""",N/A,FAIL,是
+TC-UNIT-DATE-002-06,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_add(""20241231"", 1) 跨年","期望输出 ""20250101""",N/A,FAIL,是
+TC-UNIT-DATE-002-07,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_add(""20240101"", -1) 负数天","期望输出 ""20231231""（等价date_sub）",N/A,FAIL,是
+TC-UNIT-DATE-002-08,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_sub(""20240101"", 1) 跨年","期望输出 ""20231231""",N/A,FAIL,是
+TC-UNIT-DATE-002-09,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_sub(""20240301"", 1) 跨月至闰年2月","期望输出 ""20240229""",N/A,FAIL,是
+TC-UNIT-DATE-002-10,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_sub(""20240322"", 7)","期望输出 ""20240315""",N/A,FAIL,是
+TC-UNIT-DATE-002-11,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"date_sub(""20240322"", 0) 减0天","期望输出 ""20240322""（不变）",N/A,FAIL,是
+TC-UNIT-DATE-002-12,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"datediff(""20240322"", ""20240101"")",期望输出 81,N/A,FAIL,是
+TC-UNIT-DATE-002-13,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"datediff(""20240101"", ""20240322"") 负差",期望输出 -81,N/A,FAIL,是
+TC-UNIT-DATE-002-14,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"datediff(""20240322"", ""20240322"") 同一天",期望输出 0,N/A,FAIL,是
+TC-UNIT-DATE-002-15,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"datediff(""20250101"", ""20240101"") 2024闰年",期望输出 366,N/A,FAIL,是
+TC-UNIT-DATE-002-16,TC-UNIT-DATE-002,单元测试,P0,date_add / date_sub / datediff,"datediff(""20240229"", ""20240228"") 闰年2月",期望输出 1,N/A,FAIL,是
+TC-UNIT-DIST-001-01,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"edit_distance(""kitten"", ""kitten"", 10) 相同字符串",期望输出 0.0f,N/A,FAIL,是
+TC-UNIT-DIST-001-02,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"edit_distance(""kitten"", ""sitting"", 10)","期望输出 ∈ (0,1)，记录实际值",N/A,FAIL,是
+TC-UNIT-DIST-001-03,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"edit_distance(""abc"", ""xyz"", 3) 完全不同",期望输出较大值,N/A,FAIL,是
+TC-UNIT-DIST-001-04,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"edit_distance("""", """", 5) 空字符串",期望输出 0.0f，不崩溃,N/A,FAIL,是
+TC-UNIT-DIST-001-05,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"edit_distance(""abc"", """", 5) 一方为空",期望输出正数，不崩溃,N/A,FAIL,是
+TC-UNIT-DIST-001-06,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"edit_distance(""a"", ""b"", 0) length=0",不崩溃，返回 padding 或 0.0f,N/A,FAIL,是
+TC-UNIT-DIST-001-07,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"cosine_distance(""abc"", ""abc"", 3) 相同",期望输出 0.0f,N/A,FAIL,是
+TC-UNIT-DIST-001-08,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"cosine_distance(""hello"", ""world"", 2)","期望输出 ∈ (0,1]，记录实际值",N/A,FAIL,是
+TC-UNIT-DIST-001-09,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"cosine_distance("""", """", 2) 空字符串",不崩溃,N/A,FAIL,是
+TC-UNIT-DIST-001-10,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"cosine_distance(""abc"", ""abc"", 0) n_gram=0",不崩溃,N/A,FAIL,是
 TC-UNIT-DIST-001-11,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"jaccard_distance(""abc"", ""abc"", 3) 相同",期望输出 0.0f,N/A,NOT_RUN,是
-TC-UNIT-DIST-001-12,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"jaccard_distance(""abc"", ""def"", 1) 完全不同",期望输出 1.0f,N/A,NOT_RUN,是
-TC-UNIT-DIST-001-13,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"jaccard_distance(""abc"", ""abd"", 1)","期望输出 ∈ (0,1)，记录实际值",N/A,NOT_RUN,是
-TC-UNIT-DIST-001-14,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"jaccard_distance("""", """", 2) 空字符串",不崩溃,N/A,NOT_RUN,是
-TC-UNIT-DIST-001-15,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"jaro_winkler_distance(""MARTHA"", ""MARTHA"", 6) 相同",期望输出 0.0f,N/A,NOT_RUN,是
-TC-UNIT-DIST-001-16,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"jaro_winkler_distance(""MARTHA"", ""MARHTA"", 6) 高相似",期望输出较小正数,N/A,NOT_RUN,是
-TC-UNIT-DIST-001-17,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"jaro_winkler_distance(""abc"", ""xyz"", 3) 差异大",期望输出较大值,N/A,NOT_RUN,是
-TC-UNIT-DIST-001-18,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"jaro_winkler_distance("""", """", 3) 空字符串",不崩溃,N/A,NOT_RUN,是
-TC-UNIT-DIST-001-19,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"fuzzy(""hello"", ""hello"", 5) 完全匹配",期望输出 0.0f（距离=0）,N/A,NOT_RUN,是
-TC-UNIT-DIST-001-20,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"fuzzy(""hello"", ""helo"", 5) 一字之差",期望输出较小正数,N/A,NOT_RUN,是
-TC-UNIT-DIST-001-21,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"fuzzy(""hello"", ""xyz"", 5) 差异大",期望输出较大值,N/A,NOT_RUN,是
-TC-UNIT-DIST-001-22,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"fuzzy("""", """", 3) 空字符串",不崩溃,N/A,NOT_RUN,是
-TC-UNIT-DIST-001-23,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,所有5个距离函数返回值范围验证,"所有函数返回值 ∈ [0.0f, 1.0f]",N/A,NOT_RUN,是
-TC-UNIT-DIST-001-24,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,所有5个距离函数相同字符串验证,相同字符串输入距离 = 0.0f,N/A,NOT_RUN,是
+TC-UNIT-DIST-001-12,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"jaccard_distance(""abc"", ""def"", 1) 完全不同",期望输出 1.0f,N/A,FAIL,是
+TC-UNIT-DIST-001-13,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"jaccard_distance(""abc"", ""abd"", 1)","期望输出 ∈ (0,1)，记录实际值",N/A,FAIL,是
+TC-UNIT-DIST-001-14,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"jaccard_distance("""", """", 2) 空字符串",不崩溃,N/A,FAIL,是
+TC-UNIT-DIST-001-15,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"jaro_winkler_distance(""MARTHA"", ""MARTHA"", 6) 相同",期望输出 0.0f,N/A,FAIL,是
+TC-UNIT-DIST-001-16,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"jaro_winkler_distance(""MARTHA"", ""MARHTA"", 6) 高相似",期望输出较小正数,N/A,FAIL,是
+TC-UNIT-DIST-001-17,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"jaro_winkler_distance(""abc"", ""xyz"", 3) 差异大",期望输出较大值,N/A,FAIL,是
+TC-UNIT-DIST-001-18,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"jaro_winkler_distance("""", """", 3) 空字符串",不崩溃,N/A,FAIL,是
+TC-UNIT-DIST-001-19,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"fuzzy(""hello"", ""hello"", 5) 完全匹配",期望输出 0.0f（距离=0）,N/A,FAIL,是
+TC-UNIT-DIST-001-20,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"fuzzy(""hello"", ""helo"", 5) 一字之差",期望输出较小正数,N/A,FAIL,是
+TC-UNIT-DIST-001-21,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"fuzzy(""hello"", ""xyz"", 5) 差异大",期望输出较大值,N/A,FAIL,是
+TC-UNIT-DIST-001-22,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"fuzzy("""", """", 3) 空字符串",不崩溃,N/A,FAIL,是
+TC-UNIT-DIST-001-23,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,所有5个距离函数返回值范围验证,"所有函数返回值 ∈ [0.0f, 1.0f]",N/A,FAIL,是
+TC-UNIT-DIST-001-24,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,所有5个距离函数相同字符串验证,相同字符串输入距离 = 0.0f,N/A,FAIL,是
