@@ -233,6 +233,9 @@ user_features:
     op: ceil
     input:
       - !var_float user.ceil_a
+    hash:
+      prefix: "arith_003_05_"
+      mask: 1048575
     export:
       slot: 17
       len: 1
@@ -243,6 +246,9 @@ user_features:
     op: ceil
     input:
       - !var_float user.ceil_b
+    hash:
+      prefix: "arith_003_06_"
+      mask: 1048575
     export:
       slot: 18
       len: 1
@@ -253,6 +259,9 @@ user_features:
     op: floor
     input:
       - !var_float user.floor_a
+    hash:
+      prefix: "arith_003_07_"
+      mask: 1048575
     export:
       slot: 19
       len: 1
@@ -263,6 +272,9 @@ user_features:
     op: floor
     input:
       - !var_float user.floor_b
+    hash:
+      prefix: "arith_003_08_"
+      mask: 1048575
     export:
       slot: 20
       len: 1
@@ -273,6 +285,9 @@ user_features:
     op: round
     input:
       - !var_float user.round_a
+    hash:
+      prefix: "arith_003_09_"
+      mask: 1048575
     export:
       slot: 21
       len: 1
@@ -283,6 +298,9 @@ user_features:
     op: round
     input:
       - !var_float user.round_b
+    hash:
+      prefix: "arith_003_10_"
+      mask: 1048575
     export:
       slot: 22
       len: 1
@@ -293,6 +311,9 @@ user_features:
     op: round
     input:
       - !var_float user.round_c
+    hash:
+      prefix: "arith_003_11_"
+      mask: 1048575
     export:
       slot: 23
       len: 1
@@ -440,6 +461,9 @@ user_features:
     input:
       - !var_float user.scale_v
       - !var_float user.scale_s
+    hash:
+      prefix: "arith_004_01_"
+      mask: 1048575
     export:
       slot: 37
       len: 1
@@ -678,6 +702,9 @@ user_features:
     input:
       - !var_float user.bin_v_f
       - !var_float user.bin_t_f
+    hash:
+      prefix: "disc_001_01_"
+      mask: 1048575
     export:
       slot: 54
       len: 1
@@ -689,6 +716,9 @@ user_features:
     input:
       - !var_float user.bin_v2_f
       - !var_float user.bin_t2_f
+    hash:
+      prefix: "disc_001_02_"
+      mask: 1048575
     export:
       slot: 55
       len: 1
@@ -714,6 +744,9 @@ user_features:
     input:
       - !var_int64 user.bin_v_i64
       - !var_int64 user.bin_t_i64
+    hash:
+      prefix: "disc_001_09_"
+      mask: 1048575
     export:
       slot: 57
       len: 1
@@ -729,6 +762,9 @@ user_features:
     input:
       - !var_float user.bucket_v
       - !var_float_array user.bucket_bounds
+    hash:
+      prefix: "disc_002_01_"
+      mask: 1048575
     export:
       slot: 58
       len: 1
@@ -740,6 +776,9 @@ user_features:
     input:
       - !var_float user.bucket_low
       - !var_float_array user.bucket_bounds
+    hash:
+      prefix: "disc_002_04_"
+      mask: 1048575
     export:
       slot: 59
       len: 1
@@ -751,6 +790,9 @@ user_features:
     input:
       - !var_float user.bucket_high
       - !var_float_array user.bucket_bounds
+    hash:
+      prefix: "disc_002_06_"
+      mask: 1048575
     export:
       slot: 60
       len: 1
@@ -1121,6 +1163,9 @@ user_features:
     input:
       - !var_string user.dd_date1
       - !var_string user.dd_date2
+    hash:
+      prefix: "date_datediff_001_"
+      mask: 1048575
     export:
       slot: 66
       len: 1
@@ -1339,6 +1384,9 @@ user_features:
     input:
       - !var_string user.dd_date3
       - !var_string user.dd_date4
+    hash:
+      prefix: "date_datediff_leap_"
+      mask: 1048575
     export:
       slot: 75
       len: 1
@@ -1811,6 +1859,9 @@ user_features:
     input:
       - !var_int64 user.bucket_v_i64
       - !var_int64_array user.bucket_bounds_i64
+    hash:
+      prefix: "disc_002_11_"
+      mask: 1048575
     export:
       slot: 76
       len: 1
@@ -1844,6 +1895,9 @@ user_features:
     input:
       - !var_int32_array user.count_empty_arr
       - !const_int32 1
+    hash:
+      prefix: "stat_count_empty_"
+      mask: 1048575
     export:
       slot: 77
       len: 1
@@ -1866,6 +1920,9 @@ user_features:
     op: len
     input:
       - !var_string_array user.len_str_arr
+    hash:
+      prefix: "stat_len_str_arr_"
+      mask: 1048575
     export:
       slot: 78
       len: 1
