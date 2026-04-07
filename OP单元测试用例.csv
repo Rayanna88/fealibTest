@@ -1,5 +1,5 @@
-<<<<<<< HEAD
-﻿子用例编号,用例编号,测试类型,测试优先级,测试对象,验证描述（输入→操作）,期望结果,,实际结果,测试结果,是否在fealibTest覆盖
+﻿<<<<<<< HEAD
+﻿子用例编号,用例编号,测试类型,测试优先级,测试对象,验证描述（输入→操作）,期望结果,N/A,实际结果,测试结果,是否在fealibTest覆盖
 TC-UNIT-ARITH-001-01,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"add(3.5f, 2.0f)",期望输出 5.5f，误差 ≤ 1e-6,期望输出 5.5f，误差 ≤ 1e-6,N/A,FAIL,是
 TC-UNIT-ARITH-001-02,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"add(10, 3) int32","期望输出 hash(prefix='arith_001_02_', value=13, mask=1048575)",期望输出 13,N/A,FAIL,是
 TC-UNIT-ARITH-001-03,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"add(1000000000LL, 2000000000LL) int64",期望输出 3000000000LL,期望输出 3000000000LL,N/A,FAIL,是
@@ -275,7 +275,7 @@ TC-UNIT-DIST-001-21,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_dist
 TC-UNIT-DIST-001-22,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"fuzzy("""", """", 3) 空字符串",不崩溃,不崩溃,N/A,FAIL,是
 TC-UNIT-DIST-001-23,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,所有5个距离函数返回值范围验证,"所有函数返回值 ∈ [0.0f, 1.0f]","所有函数返回值 ∈ [0.0f, 1.0f]",N/A,FAIL,是
 TC-UNIT-DIST-001-24,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,所有5个距离函数相同字符串验证,相同字符串输入距离 = 0.0f,相同字符串输入距离 = 0.0f,N/A,FAIL,是
-=======
+=======,,,,,,,N/A,NOT_RUN
 ﻿子用例编号,用例编号,测试类型,测试优先级,测试对象,验证描述（输入→操作）,期望结果,实际结果,测试结果,是否在fealibTest覆盖
 TC-UNIT-ARITH-001-01,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"add(3.5f, 2.0f)",期望输出 5.5f，误差 ≤ 1e-6,5.5,PASS,是
 TC-UNIT-ARITH-001-02,TC-UNIT-ARITH-001,单元测试,P0,add / sub / mul / div,"add(10, 3) int32",期望输出 13,308070,FAIL,是
@@ -554,4 +554,4 @@ TC-UNIT-DIST-001-21,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_dist
 TC-UNIT-DIST-001-22,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,"fuzzy("""", """", 3) 空字符串",不崩溃,0.0,PASS,是
 TC-UNIT-DIST-001-23,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,所有5个距离函数返回值范围验证,"所有函数返回值 ∈ [0.0f, 1.0f]","edit=0.0, cosine=1.0, jaccard=1.0, jaro=1.0",PASS,是
 TC-UNIT-DIST-001-24,TC-UNIT-DIST-001,单元测试,P0,edit_distance / cosine_distance / jaccard_distance / jaro_winkler_distance / fuzzy,所有5个距离函数相同字符串验证,相同字符串输入距离 = 0.0f,"edit=0.0, cosine=0.0, jaro=0.0, fuzzy_score=0.0",FAIL,是
->>>>>>> d8d02d4 (updated)
+>>>>>>> d8d02d4 (updated),,,,,,,N/A,NOT_RUN
