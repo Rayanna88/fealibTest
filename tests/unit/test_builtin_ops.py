@@ -54,6 +54,7 @@ _FIXTURE_DIR = Path(__file__).parent.parent / "fixtures"
 _OPS_YAML = str(_FIXTURE_DIR / "ops_builtin.yaml")
 _DENSE_SLOT_TO_COL = None
 _SPARSE_SLOT_TO_COL = None
+_SLOT_LEN = None
 
 # ---------------------------------------------------------------------------
 # Helper: build pyfealib Fealib instance (session-scoped, lazy)
@@ -136,7 +137,7 @@ def _infer_sparse_by_cpp_rule(op: str, has_hash: bool, input_tags: list[str]) ->
         "avg", "var", "std", "min", "max", "norm", "normalize", "dot_product",
         "exp", "log", "log10", "log2", "sqrt", "sigmoid", "pow", "smooth", "z_score",
         "cosine_distance", "jaccard_distance", "jaro_winkler_distance",
-        "edit_distance", "fuzzy_score", "wilson_score",
+        "edit_distance", "fuzzy_score", "fuzzy", "wilson_score",
     }
     if op in float_ops:
         return False
@@ -181,7 +182,7 @@ def _infer_sparse_by_cpp_rule(op: str, has_hash: bool, input_tags: list[str]) ->
     return False
 
 
-def _build_slot_maps() -> tuple[dict, dict]:
+def _build_slot_maps() -> tuple[dict, dict, dict]:
     """
     Build slot->dense_col and slot->sparse_col maps for this test suite.
     Dense columns are contiguous offsets (respecting export.len).
@@ -252,28 +253,30 @@ def _build_slot_maps() -> tuple[dict, dict]:
 
     dense_map = {}
     sparse_map = {}
+    slot_len = {}
     dense_offset = 0
     sparse_idx = 0
+    # program.cc uses std::map<int32_t, Expression*> and assigns index while
+    # iterating that map, i.e. by slot ascending order.
     for s, is_sparse, ln in sorted(entries, key=lambda x: x[0]):
+        slot_len[s] = ln
         if is_sparse:
             sparse_map[s] = sparse_idx
             sparse_idx += 1
         else:
             dense_map[s] = dense_offset
             dense_offset += ln
-    return dense_map, sparse_map
+    return dense_map, sparse_map, slot_len
 
 
 def _dense(result: dict, slot: int) -> float:
     """Read a dense float value at slot from result."""
-    global _DENSE_SLOT_TO_COL, _SPARSE_SLOT_TO_COL
+    global _DENSE_SLOT_TO_COL, _SPARSE_SLOT_TO_COL, _SLOT_LEN
     d = result["dense"]
-    if _DENSE_SLOT_TO_COL is None or _SPARSE_SLOT_TO_COL is None:
-        _DENSE_SLOT_TO_COL, _SPARSE_SLOT_TO_COL = _build_slot_maps()
+    if _DENSE_SLOT_TO_COL is None or _SPARSE_SLOT_TO_COL is None or _SLOT_LEN is None:
+        _DENSE_SLOT_TO_COL, _SPARSE_SLOT_TO_COL, _SLOT_LEN = _build_slot_maps()
     col = _DENSE_SLOT_TO_COL.get(slot)
     if col is None:
-        if 0 <= slot < d.shape[1]:
-            return float(d[0, slot])
         raise IndexError(
             f"dense slot {slot} not found in slot->col map; "
             f"dense width={d.shape[1]}"
@@ -286,16 +289,36 @@ def _dense(result: dict, slot: int) -> float:
     return float(d[0, col])
 
 
+def _dense_array(result: dict, slot: int) -> list:
+    """Read dense float array by export slot/len mapping."""
+    global _DENSE_SLOT_TO_COL, _SPARSE_SLOT_TO_COL, _SLOT_LEN
+    d = result["dense"]
+    if _DENSE_SLOT_TO_COL is None or _SPARSE_SLOT_TO_COL is None or _SLOT_LEN is None:
+        _DENSE_SLOT_TO_COL, _SPARSE_SLOT_TO_COL, _SLOT_LEN = _build_slot_maps()
+    col = _DENSE_SLOT_TO_COL.get(slot)
+    if col is None:
+        raise IndexError(
+            f"dense slot {slot} not found in slot->col map; "
+            f"dense width={d.shape[1]}"
+        )
+    ln = int(_SLOT_LEN.get(slot, 1))
+    end = col + ln
+    if not (0 <= col < d.shape[1]) or end > d.shape[1]:
+        raise IndexError(
+            f"dense range [{col}, {end}) from slot {slot} out of range; "
+            f"dense width={d.shape[1]}"
+        )
+    return [float(x) for x in d[0, col:end]]
+
+
 def _sparse(result: dict, slot: int) -> list:
     """Read a sparse value list at slot from result."""
-    global _DENSE_SLOT_TO_COL, _SPARSE_SLOT_TO_COL
+    global _DENSE_SLOT_TO_COL, _SPARSE_SLOT_TO_COL, _SLOT_LEN
     s = result["sparse"]
-    if _DENSE_SLOT_TO_COL is None or _SPARSE_SLOT_TO_COL is None:
-        _DENSE_SLOT_TO_COL, _SPARSE_SLOT_TO_COL = _build_slot_maps()
+    if _DENSE_SLOT_TO_COL is None or _SPARSE_SLOT_TO_COL is None or _SLOT_LEN is None:
+        _DENSE_SLOT_TO_COL, _SPARSE_SLOT_TO_COL, _SLOT_LEN = _build_slot_maps()
     col = _SPARSE_SLOT_TO_COL.get(slot)
     if col is None:
-        if 0 <= slot < len(s):
-            return list(s[slot])
         raise IndexError(
             f"sparse slot {slot} not found in slot->col map; "
             f"sparse columns available={len(s)}"
@@ -1169,8 +1192,10 @@ class TestStat002Topk:
         try:
             user = {"topk_f32": {"type": DT.kFloatArray, "value": [1.0, 2.0, 3.0, 4.0, 5.0]}}
             result = _run_fealib(user)
-            actual = _sparse(result, 401)
+            actual = _dense_array(result, 401)
             assert len(actual) == 2, f"Expected length 2, got {len(actual)}"
+            assert abs(actual[0] - 1.0) <= 1e-5 and abs(actual[1] - 2.0) <= 1e-5, \
+                f"Expected [1.0, 2.0], got {actual}"
             record_result(case_id, actual, "PASS")
         except Exception:
             record_result(case_id, actual, "FAIL")
@@ -1269,7 +1294,7 @@ class TestStat003NormNormalizeDotProductCountContainsLen:
         try:
             user = {"norm_vec": {"type": DT.kFloatArray, "value": [3.0, 4.0]}}
             result = _run_fealib(user)
-            actual = _sparse(result, 400)
+            actual = _dense_array(result, 400)
             assert len(actual) == 2, f"Expected 2 elements, got {len(actual)}"
             assert abs(actual[0] - 0.6) <= 1e-5, f"Expected 0.6, got {actual[0]}"
             assert abs(actual[1] - 0.8) <= 1e-5, f"Expected 0.8, got {actual[1]}"
@@ -3429,9 +3454,10 @@ class TestStat003EdgeExtension:
         try:
             user = {"norm_unit_vec": {"type": DT.kFloatArray, "value": [1.0, 0.0, 0.0]}}
             result = _run_fealib(user)
-            actual = _sparse(result, 402)
+            actual = _dense_array(result, 402)
             assert len(actual) == 3, f"Expected 3 elements, got {len(actual)}"
-            # [1,0,0] normalized = [1.0, 0.0, 0.0] → hashes of those floats
+            assert abs(actual[0] - 1.0) <= 1e-5
+            assert abs(actual[1]) <= 1e-5 and abs(actual[2]) <= 1e-5
             record_result(case_id, f"len={len(actual)}, first={actual[0]}", "PASS")
         except Exception:
             record_result(case_id, actual, "FAIL")
@@ -3445,8 +3471,9 @@ class TestStat003EdgeExtension:
         try:
             user = {"norm_zero_vec": {"type": DT.kFloatArray, "value": [0.0, 0.0]}}
             result = _run_fealib(user)
-            actual = _sparse(result, 403)
+            actual = _dense_array(result, 403)
             assert len(actual) == 2, f"Expected 2 elements, got {len(actual)}"
+            assert abs(actual[0]) <= 1e-5 and abs(actual[1]) <= 1e-5
             record_result(case_id, actual, "PASS")
         except Exception as exc:
             record_result(case_id, str(exc), "PASS")  # not crash is acceptable
@@ -3636,16 +3663,20 @@ class TestStr001Extension:
             record_result(case_id, "mmh3 not installed", "SKIP")
             pytest.skip("mmh3 not installed")
         try:
-            user = {"str_main": {"type": DT.kStringValue, "value": "Hello"}}
+            user = {
+                "str_lower_in": {"type": DT.kStringValue, "value": "Hello"},
+                "str_upper_in": {"type": DT.kStringValue, "value": "Hello"},
+                "str_reverse_in": {"type": DT.kStringValue, "value": "Hello"},
+            }
             result = _run_fealib(user)
             lower_h = _sparse(result, 300)
             upper_h = _sparse(result, 301)
             rev_h = _sparse(result, 302)
             actual = f"lower={lower_h}, upper={upper_h}, reverse={rev_h}"
             # Verify each against expected hash
-            exp_lower = _str_hash("low_", "hello", 65535)
-            exp_upper = _str_hash("up_", "HELLO", 65535)
-            exp_rev = _str_hash("rev_", "olleH", 65535)
+            exp_lower = _str_hash("lower_", "hello", 1048575)
+            exp_upper = _str_hash("upper_", "HELLO", 1048575)
+            exp_rev = _str_hash("rev_", "olleH", 1048575)
             assert lower_h[0] == exp_lower, f"lower hash mismatch: {lower_h[0]} != {exp_lower}"
             assert upper_h[0] == exp_upper, f"upper hash mismatch: {upper_h[0]} != {exp_upper}"
             assert rev_h[0] == exp_rev, f"reverse hash mismatch: {rev_h[0]} != {exp_rev}"
