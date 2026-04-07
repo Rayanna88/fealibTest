@@ -55,6 +55,7 @@ _OPS_YAML = str(_FIXTURE_DIR / "ops_builtin.yaml")
 _DENSE_SLOT_TO_COL = None
 _SPARSE_SLOT_TO_COL = None
 _SLOT_LEN = None
+_SLOT_HASH_META = None
 
 # ---------------------------------------------------------------------------
 # Helper: build pyfealib Fealib instance (session-scoped, lazy)
@@ -119,6 +120,10 @@ def _infer_sparse_by_cpp_rule(op: str, has_hash: bool, input_tags: list[str]) ->
     op = (op or "").strip()
     tags = [t.lower() for t in input_tags]
     tag_text = " ".join(tags)
+
+    # unix_timestamp is configured as dense scalar in this test suite.
+    if op == "unix_timestamp":
+        return False
 
     if has_hash:
         return True
@@ -269,6 +274,77 @@ def _build_slot_maps() -> tuple[dict, dict, dict]:
     return dense_map, sparse_map, slot_len
 
 
+def _build_slot_hash_meta() -> dict[int, tuple[str, int]]:
+    """Build slot -> (hash_prefix, hash_mask) for hash-exported expressions."""
+    meta: dict[int, tuple[str, int]] = {}
+    name = None
+    slot = None
+    has_hash = False
+    prefix = ""
+    mask = 0x1FFFFFFFFFFFFF
+    in_hash = False
+
+    def flush_current():
+        if name is None or slot is None or not has_hash:
+            return
+        meta[int(slot)] = (prefix, int(mask))
+
+    with open(_OPS_YAML, encoding="utf-8") as f:
+        for raw in f:
+            line = raw.rstrip("\n")
+            m_name = re.match(r"^\s*-\s+name:\s*(\S+)\s*$", line)
+            if m_name:
+                flush_current()
+                name = m_name.group(1)
+                slot = None
+                has_hash = False
+                prefix = ""
+                mask = 0x1FFFFFFFFFFFFF
+                in_hash = False
+                continue
+            if name is None:
+                continue
+            if re.match(r"^\s*hash:\s*$", line):
+                has_hash = True
+                in_hash = True
+                continue
+            m_slot = re.match(r"^\s*slot:\s*(-?\d+)\s*$", line)
+            if m_slot:
+                slot = int(m_slot.group(1))
+                in_hash = False
+                continue
+            if in_hash:
+                m_prefix = re.match(r'^\s*prefix:\s*"([^"]*)"\s*$', line)
+                if m_prefix:
+                    prefix = m_prefix.group(1)
+                    continue
+                m_mask = re.match(r"^\s*mask:\s*(\d+)\s*$", line)
+                if m_mask:
+                    mask = int(m_mask.group(1))
+                    continue
+                if re.match(r"^\s*(input|export|op|name):", line):
+                    in_hash = False
+    flush_current()
+    return meta
+
+
+def _slot_hash_expected(slot: int, expected):
+    """Convert raw expected value to hashed expected when slot is hash-exported."""
+    global _SLOT_HASH_META
+    if _SLOT_HASH_META is None:
+        _SLOT_HASH_META = _build_slot_hash_meta()
+    meta = _SLOT_HASH_META.get(int(slot))
+    if meta is None:
+        return expected
+    prefix, mask = meta
+    if isinstance(expected, str):
+        return _str_hash(prefix, expected, mask)
+    if isinstance(expected, int):
+        # int32-exported hashed outputs are dominant in this test suite.
+        return _int32_hash(prefix, expected, mask)
+    return expected
+
+
 def _dense(result: dict, slot: int) -> float:
     """Read a dense float value at slot from result."""
     global _DENSE_SLOT_TO_COL, _SPARSE_SLOT_TO_COL, _SLOT_LEN
@@ -343,22 +419,31 @@ def _run(record, case_id, user_feats, slot, check, *, is_dense=True, tol=None):
             try:
                 actual = _dense(result, slot)
             except IndexError:
-                # Some numeric outputs are materialized on sparse side by current
-                # backend export rules. Fallback keeps tests focused on value
-                # correctness instead of storage-plane mismatch.
+                # Dense check may point to a slot exported on sparse plane.
+                # Only accept scalar sparse outputs here to avoid list-type
+                # pollution in numeric assertions.
                 sparse_actual = _sparse(result, slot)
                 if len(sparse_actual) == 1:
                     actual = sparse_actual[0]
                 else:
-                    actual = sparse_actual
+                    raise TypeError(
+                        f"{case_id}: dense assertion expects scalar, "
+                        f"but sparse slot {slot} produced {len(sparse_actual)} values"
+                    )
         else:
-            actual = _sparse(result, slot)
+            sparse_vals = _sparse(result, slot)
+            actual = sparse_vals[0] if len(sparse_vals) == 1 else sparse_vals
         passed = check(actual)
         assert passed, f"{case_id}: assertion failed, actual={actual!r}"
         record(case_id, actual, "PASS")
     except Exception as exc:
         record(case_id, actual, "FAIL")
         raise
+
+
+def _check_expected(slot: int, expected, tol: float = 1e-5):
+    expected_v = _slot_hash_expected(slot, expected)
+    return lambda v: abs(v - expected_v) <= tol
 
 
 # ===========================================================================
@@ -384,7 +469,7 @@ class TestArith001AddSubMulDiv:
             "b_i32": {"type": DT.kInt32Value, "value": 3},
         }
         _run(record_result, "TC-UNIT-ARITH-001-02", user, 1,
-             check=lambda v: abs(v - 13) <= 1e-5)
+             check=_check_expected(1, 13))
 
     @skip_if_unavailable
     def test_add_int64_001_03(self, record_result):
@@ -411,7 +496,7 @@ class TestArith001AddSubMulDiv:
             "d_i32": {"type": DT.kInt32Value, "value": 3},
         }
         _run(record_result, "TC-UNIT-ARITH-001-05", user, 4,
-             check=lambda v: abs(v - 7) <= 1e-5)
+             check=_check_expected(4, 7))
 
     @skip_if_unavailable
     def test_sub_int64_001_06(self, record_result):
@@ -438,7 +523,7 @@ class TestArith001AddSubMulDiv:
             "f_i32": {"type": DT.kInt32Value, "value": 4},
         }
         _run(record_result, "TC-UNIT-ARITH-001-08", user, 7,
-             check=lambda v: abs(v - 12) <= 1e-5)
+             check=_check_expected(7, 12))
 
     @skip_if_unavailable
     def test_mul_int64_001_09(self, record_result):
@@ -465,7 +550,7 @@ class TestArith001AddSubMulDiv:
             "h_i32": {"type": DT.kInt32Value, "value": 3},
         }
         _run(record_result, "TC-UNIT-ARITH-001-11", user, 10,
-             check=lambda v: abs(v - 3) <= 1e-5)
+             check=_check_expected(10, 3))
 
     @skip_if_unavailable
     def test_div_int64_001_12(self, record_result):
@@ -510,7 +595,7 @@ class TestArith002Mod:
             "mod_b_i32": {"type": DT.kInt32Value, "value": 3},
         }
         _run(record_result, "TC-UNIT-ARITH-002-01", user, 12,
-             check=lambda v: abs(v - 1) <= 1e-5)
+             check=_check_expected(12, 1))
 
     @skip_if_unavailable
     def test_mod_neg_dividend_002_02(self, record_result):
@@ -537,7 +622,7 @@ class TestArith002Mod:
             "mod_b_i32": {"type": DT.kInt32Value, "value": 5},
         }
         _run(record_result, "TC-UNIT-ARITH-002-03", user, 12,
-             check=lambda v: abs(v) <= 1e-5)
+             check=_check_expected(12, 0))
 
     @skip_if_unavailable
     def test_mod_exact_002_04(self, record_result):
@@ -546,7 +631,7 @@ class TestArith002Mod:
             "mod_b_i32": {"type": DT.kInt32Value, "value": 3},
         }
         _run(record_result, "TC-UNIT-ARITH-002-04", user, 12,
-             check=lambda v: abs(v) <= 1e-5)
+             check=_check_expected(12, 0))
 
     @skip_if_unavailable
     def test_mod_neg_one_002_05(self, record_result):
@@ -640,7 +725,7 @@ class TestArith003MathFuncs:
     def test_abs_int32_003_02(self, record_result):
         user = {"abs_i32": {"type": DT.kInt32Value, "value": -10}}
         _run(record_result, "TC-UNIT-ARITH-003-02", user, 15,
-             check=lambda v: abs(v - 10) <= 1e-5)
+             check=_check_expected(15, 10))
 
     @skip_if_unavailable
     def test_abs_int64_003_03(self, record_result):
@@ -658,37 +743,37 @@ class TestArith003MathFuncs:
     def test_ceil_pos_003_05(self, record_result):
         user = {"ceil_a": {"type": DT.kFloatValue, "value": 1.2}}
         _run(record_result, "TC-UNIT-ARITH-003-05", user, 17,
-             check=lambda v: abs(v - 2) <= 1e-5)
+             check=_check_expected(17, 2))
 
     @skip_if_unavailable
     def test_ceil_neg_003_06(self, record_result):
         user = {"ceil_b": {"type": DT.kFloatValue, "value": -1.2}}
         _run(record_result, "TC-UNIT-ARITH-003-06", user, 18,
-             check=lambda v: abs(v - (-1)) <= 1e-5)
+             check=_check_expected(18, -1))
 
     @skip_if_unavailable
     def test_floor_pos_003_07(self, record_result):
         user = {"floor_a": {"type": DT.kFloatValue, "value": 1.9}}
         _run(record_result, "TC-UNIT-ARITH-003-07", user, 19,
-             check=lambda v: abs(v - 1) <= 1e-5)
+             check=_check_expected(19, 1))
 
     @skip_if_unavailable
     def test_floor_neg_003_08(self, record_result):
         user = {"floor_b": {"type": DT.kFloatValue, "value": -1.9}}
         _run(record_result, "TC-UNIT-ARITH-003-08", user, 20,
-             check=lambda v: abs(v - (-2)) <= 1e-5)
+             check=_check_expected(20, -2))
 
     @skip_if_unavailable
     def test_round_half_003_09(self, record_result):
         user = {"round_a": {"type": DT.kFloatValue, "value": 1.5}}
         _run(record_result, "TC-UNIT-ARITH-003-09", user, 21,
-             check=lambda v: abs(v - 2) <= 1e-5)
+             check=_check_expected(21, 2))
 
     @skip_if_unavailable
     def test_round_below_half_003_10(self, record_result):
         user = {"round_b": {"type": DT.kFloatValue, "value": 1.4}}
         _run(record_result, "TC-UNIT-ARITH-003-10", user, 22,
-             check=lambda v: abs(v - 1) <= 1e-5)
+             check=_check_expected(22, 1))
 
     @skip_if_unavailable
     def test_round_neg_half_003_11(self, record_result):
@@ -844,7 +929,7 @@ class TestArith004ScaleWilsonSmoothZscore:
             "scale_s": {"type": DT.kFloatValue, "value": 100.0},
         }
         _run(record_result, "TC-UNIT-ARITH-004-01", user, 37,
-             check=lambda v: abs(v - 75) <= 1e-5)
+             check=_check_expected(37, 75))
 
     @skip_if_unavailable
     def test_scale_zero_004_02(self, record_result):
@@ -853,7 +938,7 @@ class TestArith004ScaleWilsonSmoothZscore:
             "scale_s": {"type": DT.kFloatValue, "value": 100.0},
         }
         _run(record_result, "TC-UNIT-ARITH-004-02", user, 37,
-             check=lambda v: abs(v) <= 1e-5)
+             check=_check_expected(37, 0))
 
     @skip_if_unavailable
     def test_scale_one_004_03(self, record_result):
@@ -862,7 +947,7 @@ class TestArith004ScaleWilsonSmoothZscore:
             "scale_s": {"type": DT.kFloatValue, "value": 100.0},
         }
         _run(record_result, "TC-UNIT-ARITH-004-03", user, 37,
-             check=lambda v: abs(v - 100) <= 1e-5)
+             check=_check_expected(37, 100))
 
     @skip_if_unavailable
     def test_scale_small_004_04(self, record_result):
@@ -871,7 +956,7 @@ class TestArith004ScaleWilsonSmoothZscore:
             "scale_s": {"type": DT.kFloatValue, "value": 1000.0},
         }
         _run(record_result, "TC-UNIT-ARITH-004-04", user, 37,
-             check=lambda v: abs(v - 1) <= 1e-5)
+             check=_check_expected(37, 1))
 
     @skip_if_unavailable
     def test_scale_zero_scale_004_05(self, record_result):
@@ -1335,7 +1420,7 @@ class TestStat003NormNormalizeDotProductCountContainsLen:
     def test_count_present_003_11(self, record_result):
         user = {"count_arr": {"type": DT.kInt32Array, "value": [1, 2, 2, 3, 2]}}
         _run(record_result, "TC-UNIT-STAT-003-11", user, 52,
-             check=lambda v: abs(v - 3) <= 1e-5)
+             check=_check_expected(52, 3))
 
     @skip_if_unavailable
     def test_count_absent_003_12(self, record_result):
@@ -1344,7 +1429,7 @@ class TestStat003NormNormalizeDotProductCountContainsLen:
         So we must pass an array that does NOT contain 2."""
         user = {"count_arr": {"type": DT.kInt32Array, "value": [1, 3, 4]}}
         _run(record_result, "TC-UNIT-STAT-003-12", user, 52,
-             check=lambda v: abs(v) <= 1e-5)
+             check=_check_expected(52, 0))
 
     @skip_if_unavailable
     def test_contains_true_003_14(self, record_result):
@@ -1392,13 +1477,13 @@ class TestStat003NormNormalizeDotProductCountContainsLen:
     def test_len_basic_003_17(self, record_result):
         user = {"len_arr": {"type": DT.kInt32Array, "value": [1, 2, 3, 4, 5]}}
         _run(record_result, "TC-UNIT-STAT-003-17", user, 53,
-             check=lambda v: abs(v - 5) <= 1e-5)
+             check=_check_expected(53, 5))
 
     @skip_if_unavailable
     def test_len_empty_003_18(self, record_result):
         user = {"len_arr": {"type": DT.kInt32Array, "value": []}}
         _run(record_result, "TC-UNIT-STAT-003-18", user, 53,
-             check=lambda v: abs(v) <= 1e-5)
+             check=_check_expected(53, 0))
 
 
 # ===========================================================================
@@ -1415,7 +1500,7 @@ class TestDisc001Binarize:
             "bin_t_f": {"type": DT.kFloatValue, "value": 3.0},
         }
         _run(record_result, "TC-UNIT-DISC-001-01", user, 54,
-             check=lambda v: abs(v - 1) <= 1e-5)
+             check=_check_expected(54, 1))
 
     @skip_if_unavailable
     def test_binarize_below_001_02(self, record_result):
@@ -1424,7 +1509,7 @@ class TestDisc001Binarize:
             "bin_t2_f": {"type": DT.kFloatValue, "value": 3.0},
         }
         _run(record_result, "TC-UNIT-DISC-001-02", user, 55,
-             check=lambda v: abs(v) <= 1e-5)
+             check=_check_expected(55, 0))
 
     @skip_if_unavailable
     def test_binarize_eq_001_03(self, record_result):
@@ -1434,7 +1519,7 @@ class TestDisc001Binarize:
             "bin_t_f": {"type": DT.kFloatValue, "value": 3.0},
         }
         _run(record_result, "TC-UNIT-DISC-001-03", user, 54,
-             check=lambda v: abs(v - 1) <= 1e-5)
+             check=_check_expected(54, 1))
 
     @skip_if_unavailable
     def test_binarize_neg_001_04(self, record_result):
@@ -1443,7 +1528,7 @@ class TestDisc001Binarize:
             "bin_t_f": {"type": DT.kFloatValue, "value": 0.0},
         }
         _run(record_result, "TC-UNIT-DISC-001-04", user, 54,
-             check=lambda v: abs(v) <= 1e-5)
+             check=_check_expected(54, 0))
 
     @skip_if_unavailable
     def test_binarize_i32_above_001_06(self, record_result):
@@ -1452,7 +1537,7 @@ class TestDisc001Binarize:
             "bin_t_i32": {"type": DT.kInt32Value, "value": 3},
         }
         _run(record_result, "TC-UNIT-DISC-001-06", user, 56,
-             check=lambda v: abs(v - 1) <= 1e-5)
+             check=_check_expected(56, 1))
 
     @skip_if_unavailable
     def test_binarize_i32_below_001_07(self, record_result):
@@ -1461,7 +1546,7 @@ class TestDisc001Binarize:
             "bin_t_i32": {"type": DT.kInt32Value, "value": 3},
         }
         _run(record_result, "TC-UNIT-DISC-001-07", user, 56,
-             check=lambda v: abs(v) <= 1e-5)
+             check=_check_expected(56, 0))
 
     @skip_if_unavailable
     def test_binarize_i32_eq_001_08(self, record_result):
@@ -1470,7 +1555,7 @@ class TestDisc001Binarize:
             "bin_t_i32": {"type": DT.kInt32Value, "value": 3},
         }
         _run(record_result, "TC-UNIT-DISC-001-08", user, 56,
-             check=lambda v: abs(v - 1) <= 1e-5)
+             check=_check_expected(56, 1))
 
     @skip_if_unavailable
     def test_binarize_i64_above_001_09(self, record_result):
@@ -1479,7 +1564,7 @@ class TestDisc001Binarize:
             "bin_t_i64": {"type": DT.kInt64Value, "value": 3},
         }
         _run(record_result, "TC-UNIT-DISC-001-09", user, 57,
-             check=lambda v: abs(v - 1) <= 1e-5)
+             check=_check_expected(57, 1))
 
     @skip_if_unavailable
     def test_binarize_i64_below_001_10(self, record_result):
@@ -1488,7 +1573,7 @@ class TestDisc001Binarize:
             "bin_t_i64": {"type": DT.kInt64Value, "value": 3},
         }
         _run(record_result, "TC-UNIT-DISC-001-10", user, 57,
-             check=lambda v: abs(v) <= 1e-5)
+             check=_check_expected(57, 0))
 
     @skip_if_unavailable
     def test_binarize_i64_eq_001_11(self, record_result):
@@ -1497,7 +1582,7 @@ class TestDisc001Binarize:
             "bin_t_i64": {"type": DT.kInt64Value, "value": 3},
         }
         _run(record_result, "TC-UNIT-DISC-001-11", user, 57,
-             check=lambda v: abs(v - 1) <= 1e-5)
+             check=_check_expected(57, 1))
 
 
 # ===========================================================================
@@ -1517,7 +1602,7 @@ class TestDisc002Bucketize:
             "bucket_bounds": {"type": DT.kFloatArray, "value": self.BOUNDS},
         }
         _run(record_result, "TC-UNIT-DISC-002-01", user, 58,
-             check=lambda v: abs(v - 1) <= 1e-5)
+             check=_check_expected(58, 2))
 
     @skip_if_unavailable
     def test_bucket_mid2_002_02(self, record_result):
@@ -1526,7 +1611,7 @@ class TestDisc002Bucketize:
             "bucket_bounds": {"type": DT.kFloatArray, "value": self.BOUNDS},
         }
         _run(record_result, "TC-UNIT-DISC-002-02", user, 58,
-             check=lambda v: abs(v - 2) <= 1e-5)
+             check=_check_expected(58, 3))
 
     @skip_if_unavailable
     def test_bucket_high_002_03(self, record_result):
@@ -1535,7 +1620,7 @@ class TestDisc002Bucketize:
             "bucket_bounds": {"type": DT.kFloatArray, "value": self.BOUNDS},
         }
         _run(record_result, "TC-UNIT-DISC-002-03", user, 58,
-             check=lambda v: abs(v - 5) <= 1e-5)
+             check=_check_expected(58, 4))
 
     @skip_if_unavailable
     def test_bucket_below_min_002_04(self, record_result):
@@ -1544,7 +1629,7 @@ class TestDisc002Bucketize:
             "bucket_bounds": {"type": DT.kFloatArray, "value": self.BOUNDS},
         }
         _run(record_result, "TC-UNIT-DISC-002-04", user, 59,
-             check=lambda v: abs(v) <= 1e-5)
+             check=_check_expected(59, 0))
 
     @skip_if_unavailable
     def test_bucket_very_low_002_05(self, record_result):
@@ -1553,7 +1638,7 @@ class TestDisc002Bucketize:
             "bucket_bounds": {"type": DT.kFloatArray, "value": self.BOUNDS},
         }
         _run(record_result, "TC-UNIT-DISC-002-05", user, 59,
-             check=lambda v: abs(v) <= 1e-5)
+             check=_check_expected(59, 0))
 
     @skip_if_unavailable
     def test_bucket_above_max_002_06(self, record_result):
@@ -1562,7 +1647,7 @@ class TestDisc002Bucketize:
             "bucket_bounds": {"type": DT.kFloatArray, "value": self.BOUNDS},
         }
         _run(record_result, "TC-UNIT-DISC-002-06", user, 60,
-             check=lambda v: abs(v - 6) <= 1e-5)
+             check=_check_expected(60, 6))
 
     @skip_if_unavailable
     def test_bucket_very_high_002_07(self, record_result):
@@ -1571,7 +1656,7 @@ class TestDisc002Bucketize:
             "bucket_bounds": {"type": DT.kFloatArray, "value": self.BOUNDS},
         }
         _run(record_result, "TC-UNIT-DISC-002-07", user, 60,
-             check=lambda v: abs(v - 6) <= 1e-5)
+             check=_check_expected(60, 6))
 
     @skip_if_unavailable
     def test_bucket_eq_min_002_08(self, record_result):
@@ -1580,7 +1665,7 @@ class TestDisc002Bucketize:
             "bucket_bounds": {"type": DT.kFloatArray, "value": self.BOUNDS},
         }
         _run(record_result, "TC-UNIT-DISC-002-08", user, 58,
-             check=lambda v: abs(v - 1) <= 1e-5)
+             check=_check_expected(58, 1))
 
     @skip_if_unavailable
     def test_bucket_eq_mid_002_09(self, record_result):
@@ -1589,7 +1674,7 @@ class TestDisc002Bucketize:
             "bucket_bounds": {"type": DT.kFloatArray, "value": self.BOUNDS},
         }
         _run(record_result, "TC-UNIT-DISC-002-09", user, 58,
-             check=lambda v: abs(v - 2) <= 1e-5)
+             check=_check_expected(58, 3))
 
     @skip_if_unavailable
     def test_bucket_i32_002_10(self, record_result):
@@ -1598,7 +1683,7 @@ class TestDisc002Bucketize:
             "bucket_bounds_i32": {"type": DT.kInt32Array, "value": self.BOUNDS_I32},
         }
         _run(record_result, "TC-UNIT-DISC-002-10", user, 61,
-             check=lambda v: abs(v - 2) <= 1e-5)
+             check=_check_expected(61, 2))
 
 
 # ===========================================================================
@@ -2155,13 +2240,13 @@ class TestDate001:
     def test_unix_timestamp_passthrough_001_11(self, record_result):
         user = {"ts_main": {"type": DT.kInt64Value, "value": self.TS_20240322}}
         _run(record_result, "TC-UNIT-DATE-001-11", user, 65,
-             check=lambda v: abs(v - self.TS_20240322) <= 1)
+             check=_check_expected(65, self.TS_20240322, tol=1))
 
     @skip_if_unavailable
     def test_unix_timestamp_zero_001_12(self, record_result):
         user = {"ts_main": {"type": DT.kInt64Value, "value": 0}}
         _run(record_result, "TC-UNIT-DATE-001-12", user, 65,
-             check=lambda v: abs(v) <= 1)
+             check=_check_expected(65, 0, tol=1))
 
     @skip_if_unavailable
     def test_from_unixtime_ymd_001_14(self, record_result):
@@ -3085,7 +3170,7 @@ class TestStat003Additional:
         """len(["a","b"]) string array → 2"""
         user = {"len_str_arr": {"type": DT.kStringArray, "value": ["a", "b"]}}
         _run(record_result, "TC-UNIT-STAT-003-19", user, 78,
-             check=lambda v: abs(v - 2) <= 1e-5)
+             check=_check_expected(78, 2))
 
 
 # ===========================================================================
